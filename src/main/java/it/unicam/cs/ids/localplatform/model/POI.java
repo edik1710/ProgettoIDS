@@ -1,19 +1,35 @@
 package it.unicam.cs.ids.localplatform.model;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 public class POI implements Info {
-    private InfoData infoData;
-    private Coordinates coordinates;
+    private String title;
+    private Date publicationDate;
+    private User author;
+    private List<Content> contents;
 
-    public POI(Coordinates coordinates) {
-        this.infoData = null; // Da completare
-        this.coordinates = coordinates;
+    public POI(String title, Date publicationDate, User author) {
+        this.title = title;
+        this.publicationDate = publicationDate;
+        this.author = author;
+        this.contents = new ArrayList<>();
     }
 
-    public InfoData getInfoData() {
-        return infoData;
+    public String getTitle() {
+        return title;
     }
 
-    public Coordinates getCoordinates() {
-        return coordinates;
+    public Date getPublicationDate() {
+        return publicationDate;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public List<Content> getContents() {
+        return contents;
     }
 }

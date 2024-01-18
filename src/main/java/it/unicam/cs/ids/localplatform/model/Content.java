@@ -1,13 +1,21 @@
 package it.unicam.cs.ids.localplatform.model;
 
-public abstract class Content implements Info {
-    private InfoData infoData;
+import java.util.Date;
 
-    public Content() {
-        this.infoData = null; // Da completare
+public abstract class Content implements Info {
+    private Date publicationDate;
+    private User author;
+
+    public Content(Date publicationDate, User author) {
+        this.publicationDate = publicationDate;
+        this.author = author;
     }
 
-    public InfoData getInfoData() {
-        return infoData;
+    public Date getPublicationDate() {
+        return publicationDate;
+    }
+
+    public User getAuthor() {
+        return author;
     }
 }

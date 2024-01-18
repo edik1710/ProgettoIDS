@@ -1,22 +1,31 @@
 package it.unicam.cs.ids.localplatform.model;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Itinerary implements Info {
-    private InfoData infoData;
+    private String title;
+    private Date publicationDate;
+    private User author;
     private List<POI> POIs;
 
-    public Itinerary(POI POI1, POI POI2) {
-        this.infoData = null; // Da completare
-        this.POIs = new ArrayList<>();
-        // La creazione di un itinerario richiede almeno due POI
-        this.POIs.add(POI1);
-        this.POIs.add(POI2);
+    public Itinerary(String title, Date publicationDate, User author, List<POI> POIs) {
+        this.title = title;
+        this.publicationDate = publicationDate;
+        this.author = author;
+        this.POIs = POIs;
     }
 
-    public InfoData getInfoData() {
-        return infoData;
+    public String getTitle() {
+        return title;
+    }
+
+    public Date getPublicationDate() {
+        return publicationDate;
+    }
+
+    public User getAuthor() {
+        return author;
     }
 
     public List<POI> getPOIs() {
