@@ -2,6 +2,9 @@ package it.unicam.cs.ids.localplatform.command;
 
 import it.unicam.cs.ids.localplatform.model.Itinerary;
 
+/**
+ * This class implements the command pattern and it is used to delete an itinerary.
+ */
 public class DeleteItineraryCommand implements Command {
     private Itinerary itinerary;
 
