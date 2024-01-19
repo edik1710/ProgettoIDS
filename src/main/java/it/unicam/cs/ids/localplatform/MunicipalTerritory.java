@@ -1,15 +1,12 @@
 package it.unicam.cs.ids.localplatform;
 
-import it.unicam.cs.ids.localplatform.model.Content;
-import it.unicam.cs.ids.localplatform.model.Coordinates;
-import it.unicam.cs.ids.localplatform.model.Itinerary;
-import it.unicam.cs.ids.localplatform.model.POI;
+import it.unicam.cs.ids.localplatform.model.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+/**
+ * This class represents a municipal territory.
+ */
 public class MunicipalTerritory {
     private Map<Coordinates, POI> POIs;
     private List<Content> generalContents;
@@ -31,5 +28,40 @@ public class MunicipalTerritory {
 
     public List<Itinerary> getItineraries() {
         return itineraries;
+    }
+
+    /**
+     * This method adds a POI to the municipal territory.
+     *
+     * @param title           The title of the POI.
+     * @param publicationDate The publication date of the POI.
+     * @param author          The author of the POI.
+     * @param coordinates     The coordinates of the POI.
+     */
+    public void addPOI(String title, Date publicationDate, User author, Coordinates coordinates) {
+        POI poi = new POI(title, publicationDate, author, coordinates);
+        this.POIs.put(coordinates, poi);
+    }
+
+    /**
+     * This method adds an itinerary to the municipal territory.
+     *
+     * @param title           The title of the itinerary.
+     * @param publicationDate The publication date of the itinerary.
+     * @param author          The author of the itinerary.
+     * @param POIs            The POIs that make up the itinerary.
+     */
+    public void addItinerary(String title, Date publicationDate, User author, List<POI> POIs) {
+        Itinerary itinerary = new Itinerary(title, publicationDate, author, POIs);
+        this.itineraries.add(itinerary);
+    }
+
+    /**
+     * This method adds a general content to the municipal territory.
+     *
+     * @param content The content to add.
+     */
+    public void addGeneralContent(Content content) {
+        this.generalContents.add(content);
     }
 }

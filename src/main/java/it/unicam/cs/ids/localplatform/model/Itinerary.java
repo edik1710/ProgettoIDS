@@ -3,6 +3,9 @@ package it.unicam.cs.ids.localplatform.model;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * This class represents an Itinerary.
+ */
 public class Itinerary implements Info {
     private String title;
     private Date publicationDate;
@@ -30,5 +33,13 @@ public class Itinerary implements Info {
 
     public List<POI> getPOIs() {
         return POIs;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Itinerary that = (Itinerary) o;
+        return this.POIs.equals(that.POIs);
     }
 }
