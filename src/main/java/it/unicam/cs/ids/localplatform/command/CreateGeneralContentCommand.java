@@ -11,6 +11,9 @@ public class CreateGeneralContentCommand implements Command {
     private MunicipalTerritory municipality;
 
     public CreateGeneralContentCommand(Content content, MunicipalTerritory municipality) {
+        if (content == null || municipality == null)
+            throw new NullPointerException("Null parameters are not allowed.");
+
         this.content = content;
         this.municipality = municipality;
     }

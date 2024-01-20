@@ -18,6 +18,9 @@ public class CreateItineraryCommand implements Command {
     private MunicipalTerritory municipality;
 
     public CreateItineraryCommand(String title, Date publicationDate, User author, List<POI> POIs, MunicipalTerritory municipality) {
+        if (title == null || publicationDate == null || author == null || POIs == null || municipality == null)
+            throw new NullPointerException("Null parameters are not allowed.");
+
         this.title = title;
         this.publicationDate = publicationDate;
         this.author = author;

@@ -8,8 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * This class tests the commands of the application.
@@ -27,6 +26,13 @@ public class CommandsTest {
         Coordinates coord = new Coordinates(1, 1);
         Command c = new CreatePOICommand("POI", new Date(), u, coord, mt);
         POI poi = new POI("POI", new Date(), u, coord);
+
+        // Check NullPointerException
+        assertThrows(NullPointerException.class, () -> new CreatePOICommand(null, new Date(), u, coord, mt));
+        assertThrows(NullPointerException.class, () -> new CreatePOICommand("POI", null, u, coord, mt));
+        assertThrows(NullPointerException.class, () -> new CreatePOICommand("POI", new Date(), null, coord, mt));
+        assertThrows(NullPointerException.class, () -> new CreatePOICommand("POI", new Date(), u, null, mt));
+        assertThrows(NullPointerException.class, () -> new CreatePOICommand("POI", new Date(), u, coord, null));
 
         // Execute the command
         c.execute();
@@ -55,6 +61,10 @@ public class CommandsTest {
         Content expectedContent = new TextualContent(new Date(), u, "Content");
         Command c = new CreateGeneralContentCommand(expectedContent, mt);
 
+        // Check NullPointerException
+        assertThrows(NullPointerException.class, () -> new CreateGeneralContentCommand(null, mt));
+        assertThrows(NullPointerException.class, () -> new CreateGeneralContentCommand(expectedContent, null));
+
         // Execute the command
         c.execute();
 
@@ -75,6 +85,13 @@ public class CommandsTest {
         POIs.add(new POI("POI1", new Date(), u, new Coordinates(1, 1)));
         POIs.add(new POI("POI2", new Date(), u, new Coordinates(2, 2)));
         Command c = new CreateItineraryCommand("Itinerary", new Date(), u, POIs, mt);
+
+        // Check NullPointerException
+        assertThrows(NullPointerException.class, () -> new CreateItineraryCommand(null, new Date(), u, POIs, mt));
+        assertThrows(NullPointerException.class, () -> new CreateItineraryCommand("Itinerary", null, u, POIs, mt));
+        assertThrows(NullPointerException.class, () -> new CreateItineraryCommand("Itinerary", new Date(), null, POIs, mt));
+        assertThrows(NullPointerException.class, () -> new CreateItineraryCommand("Itinerary", new Date(), u, null, mt));
+        assertThrows(NullPointerException.class, () -> new CreateItineraryCommand("Itinerary", new Date(), u, POIs, null));
 
         // Execute the command
         c.execute();

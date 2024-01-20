@@ -17,6 +17,9 @@ public class CreatePOICommand implements Command {
     private MunicipalTerritory municipality;
 
     public CreatePOICommand(String title, Date publicationDate, User author, Coordinates coordinates, MunicipalTerritory municipality) {
+        if (title == null || publicationDate == null || author == null || coordinates == null || municipality == null)
+            throw new NullPointerException("Null parameters are not allowed.");
+
         this.title = title;
         this.publicationDate = publicationDate;
         this.author = author;
