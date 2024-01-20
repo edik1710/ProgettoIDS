@@ -1,9 +1,7 @@
 package it.unicam.cs.ids.localplatform.model;
 
 import it.unicam.cs.ids.localplatform.MunicipalTerritory;
-import it.unicam.cs.ids.localplatform.command.CreateGeneralContentCommand;
-import it.unicam.cs.ids.localplatform.command.CreateItineraryCommand;
-import it.unicam.cs.ids.localplatform.command.CreatePOICommand;
+import it.unicam.cs.ids.localplatform.command.*;
 import it.unicam.cs.ids.localplatform.singleton.CommandVerificationQueue;
 
 import java.util.Date;
@@ -47,5 +45,65 @@ public class Contributor extends User {
      */
     public void submitItinerary(String title, List<POI> POIs) {
         CommandVerificationQueue.getInstance().getToBeVerified().add(new CreateItineraryCommand(title, new Date(), this, POIs, this.getResidence()));
+    }
+
+    /**
+     * This method allows a contributor to submit a new content to a point of interest.
+     *
+     * @param poi     The point of interest to which the content is to be associated.
+     * @param content The content to be submitted.
+     */
+    public void submitPOIContent(POI poi, Content content) {
+        CommandVerificationQueue.getInstance().getToBeVerified().add(new CreatePOIContentCommand(poi, content));
+    }
+
+    /**
+     * This method allows a contributor to submit a change to a point of interest.
+     *
+     * @param poi   The point of interest to be changed.
+     * @param title The new title of the point of interest.
+     */
+    public void submitChangesToPOI(POI poi, String title) {
+        CommandVerificationQueue.getInstance().getToBeVerified().add(new ChangePOICommand(poi, title));
+    }
+
+    // Il metodo submitChangesToGeneralContent() non è stato implementato in quanto non è stato definito un modo per identificare univocamente un contenuto generico.
+    // Dopo l'implementazione inserire i parametri nel file vpp
+    public void submitChangesToExistingContent() {
+        // TODO
+    }
+
+    /**
+     * This method allows a contributor to submit a change to an itinerary.
+     *
+     * @param itinerary The itinerary to be changed.
+     * @param title     The new title of the itinerary.
+     */
+    public void submitChangesToItinerary(Itinerary itinerary, String title) {
+        CommandVerificationQueue.getInstance().getToBeVerified().add(new ChangeItineraryCommand(itinerary, title));
+    }
+
+    /**
+     * This method allows a contributor to submit a deletion request for a point of interest.
+     *
+     * @param poi The point of interest to be deleted.
+     */
+    public void submitPOIDeletion(POI poi) {
+        CommandVerificationQueue.getInstance().getToBeVerified().add(new DeletePOICommand(this.getResidence(), poi.getCoordinates()));
+    }
+
+    // Il metodo submitChangesToGeneralContent() non è stato implementato in quanto non è stato definito un modo per identificare univocamente un contenuto generico.
+    // Dopo l'implementazione inserire i parametri nel file vpp
+    public void submitContentDeletion() {
+        // TODO
+    }
+
+    /**
+     * This method allows a contributor to submit a deletion request for an itinerary.
+     *
+     * @param itinerary The itinerary to be deleted.
+     */
+    public void submitItineraryDeletion(Itinerary itinerary) {
+        CommandVerificationQueue.getInstance().getToBeVerified().add(new DeleteItineraryCommand(this.getResidence(), itinerary));
     }
 }

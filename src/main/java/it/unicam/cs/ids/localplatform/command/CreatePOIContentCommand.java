@@ -11,12 +11,14 @@ public class CreatePOIContentCommand implements Command {
     private Content content;
 
     public CreatePOIContentCommand(POI poi, Content content) {
+        if (poi == null || content == null) throw new NullPointerException("Null parameters are not allowed.");
+
         this.poi = poi;
         this.content = content;
     }
 
     @Override
     public void execute() {
-
+        this.poi.addContent(content);
     }
 }

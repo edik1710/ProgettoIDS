@@ -64,4 +64,29 @@ public class MunicipalTerritory {
     public void addGeneralContent(Content content) {
         this.generalContents.add(content);
     }
+
+    /**
+     * This method deletes a POI from the municipal territory.
+     *
+     * @param coordinates The coordinates of the POI to be deleted.
+     */
+    public void deletePOI(Coordinates coordinates) {
+        this.POIs.remove(coordinates);
+    }
+
+    // Il metodo deleteGeneralContent è già presente nel file vpp
+    /*
+    public void deleteGeneralContent(Content content) {
+
+    }
+*/
+
+    /**
+     * This method deletes an itinerary from the municipal territory.
+     *
+     * @param itinerary The itinerary to be deleted.
+     */
+    public void deleteItinerary(Itinerary itinerary) {
+        this.itineraries.remove(itinerary);
+    }
 }

@@ -2,6 +2,7 @@ package it.unicam.cs.ids.localplatform;
 
 import it.unicam.cs.ids.localplatform.command.*;
 import it.unicam.cs.ids.localplatform.model.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -14,6 +15,14 @@ import static org.junit.jupiter.api.Assertions.*;
  * This class tests the commands of the application.
  */
 public class CommandsTest {
+    private MunicipalTerritory mt;
+    private User u;
+
+    @BeforeEach
+    public void setup() {
+        this.mt = new MunicipalTerritory();
+        this.u = new Contributor("Elia", "Toma", "elia.toma@studenti.unicam.it", "password", mt, "1234567890");
+    }
 
     /**
      * Tests the {@link CreatePOICommand} class.
@@ -21,8 +30,6 @@ public class CommandsTest {
     @Test
     public void CreatePOICommandTest() {
         // Create necessary instances for the test
-        MunicipalTerritory mt = new MunicipalTerritory();
-        User u = new Contributor("Elia", "Toma", "elia.toma@studenti.unicam.it", "password", mt, "1234567890");
         Coordinates coord = new Coordinates(1, 1);
         Command c = new CreatePOICommand("POI", new Date(), u, coord, mt);
         POI poi = new POI("POI", new Date(), u, coord);
@@ -47,7 +54,22 @@ public class CommandsTest {
      */
     @Test
     public void CreatePOIContentCommandTest() {
+        // Create necessary instances for the test
+        Coordinates coord = new Coordinates(1, 1);
+        POI poi = new POI("POI", new Date(), u, coord);
+        Content expectedContent = new TextualContent(new Date(), u, "Content");
+        Command c = new CreatePOIContentCommand(poi, expectedContent);
 
+        // Check NullPointerException
+        assertThrows(NullPointerException.class, () -> new CreatePOIContentCommand(null, expectedContent));
+        assertThrows(NullPointerException.class, () -> new CreatePOIContentCommand(poi, null));
+
+        // Execute the command
+        c.execute();
+
+        // Verify that the content has been created
+        assertFalse(poi.getContents().isEmpty());
+        assertEquals(expectedContent, poi.getContents().getFirst());
     }
 
     /**
@@ -56,8 +78,6 @@ public class CommandsTest {
     @Test
     public void CreateGeneralContentCommandTest() {
         // Create necessary instances for the test
-        MunicipalTerritory mt = new MunicipalTerritory();
-        User u = new Contributor("Elia", "Toma", "elia.toma@studenti.unicam.it", "password", mt, "1234567890");
         Content expectedContent = new TextualContent(new Date(), u, "Content");
         Command c = new CreateGeneralContentCommand(expectedContent, mt);
 
@@ -79,8 +99,6 @@ public class CommandsTest {
     @Test
     public void CreateItineraryCommandTest() {
         // Create necessary instances for the test
-        MunicipalTerritory mt = new MunicipalTerritory();
-        User u = new Contributor("Elia", "Toma", "elia.toma@studenti.unicam.it", "password", mt, "1234567890");
         List<POI> POIs = new ArrayList<>();
         POIs.add(new POI("POI1", new Date(), u, new Coordinates(1, 1)));
         POIs.add(new POI("POI2", new Date(), u, new Coordinates(2, 2)));
@@ -107,7 +125,20 @@ public class CommandsTest {
      */
     @Test
     public void ChangePOICommandTest() {
+        // Create necessary instances for the test
+        Coordinates coord = new Coordinates(1, 1);
+        POI poi = new POI("POI", new Date(), u, coord);
+        Command c = new ChangePOICommand(poi, "New POI");
 
+        // Check NullPointerException
+        assertThrows(NullPointerException.class, () -> new ChangePOICommand(null, "New POI"));
+        assertThrows(NullPointerException.class, () -> new ChangePOICommand(poi, null));
+
+        // Execute the command
+        c.execute();
+
+        // Verify that the POI has been changed
+        assertEquals("New POI", poi.getTitle());
     }
 
     /**
@@ -115,7 +146,7 @@ public class CommandsTest {
      */
     @Test
     public void ChangeExistingContentTest() {
-
+        // TODO
     }
 
     /**
@@ -123,7 +154,22 @@ public class CommandsTest {
      */
     @Test
     public void ChangeItineraryCommandTest() {
+        // Create necessary instances for the test
+        List<POI> POIs = new ArrayList<>();
+        POIs.add(new POI("POI1", new Date(), u, new Coordinates(1, 1)));
+        POIs.add(new POI("POI2", new Date(), u, new Coordinates(2, 2)));
+        Itinerary itinerary = new Itinerary("Itinerary", new Date(), u, POIs);
+        Command c = new ChangeItineraryCommand(itinerary, "New Itinerary");
 
+        // Check NullPointerException
+        assertThrows(NullPointerException.class, () -> new ChangeItineraryCommand(null, "New Itinerary"));
+        assertThrows(NullPointerException.class, () -> new ChangeItineraryCommand(itinerary, null));
+
+        // Execute the command
+        c.execute();
+
+        // Verify that the itinerary has been changed
+        assertEquals("New Itinerary", itinerary.getTitle());
     }
 
     /**
@@ -131,7 +177,20 @@ public class CommandsTest {
      */
     @Test
     public void DeletePOICommandTest() {
+        // Create necessary instances for the test
+        Coordinates coord = new Coordinates(1, 1);
+        mt.addPOI("POI", new Date(), u, coord);
+        Command c = new DeletePOICommand(mt, coord);
 
+        // Check NullPointerException
+        assertThrows(NullPointerException.class, () -> new DeletePOICommand(null, coord));
+        assertThrows(NullPointerException.class, () -> new DeletePOICommand(mt, null));
+
+        // Execute the command
+        c.execute();
+
+        // Verify that the POI has been deleted
+        assertTrue(mt.getPOIs().isEmpty());
     }
 
     /**
@@ -139,7 +198,7 @@ public class CommandsTest {
      */
     @Test
     public void DeleteContentCommandTest() {
-
+        // TODO
     }
 
     /**
@@ -147,6 +206,22 @@ public class CommandsTest {
      */
     @Test
     public void DeleteItineraryCommandTest() {
+        // Create necessary instances for the test
+        List<POI> POIs = new ArrayList<>();
+        POIs.add(new POI("POI1", new Date(), u, new Coordinates(1, 1)));
+        POIs.add(new POI("POI2", new Date(), u, new Coordinates(2, 2)));
+        Itinerary itinerary = new Itinerary("Itinerary", new Date(), u, POIs);
+        mt.addItinerary("Itinerary", new Date(), u, POIs);
+        Command c = new DeleteItineraryCommand(mt, itinerary);
 
+        // Check NullPointerException
+        assertThrows(NullPointerException.class, () -> new DeleteItineraryCommand(null, itinerary));
+        assertThrows(NullPointerException.class, () -> new DeleteItineraryCommand(mt, null));
+
+        // Execute the command
+        c.execute();
+
+        // Verify that the itinerary has been deleted
+        assertTrue(mt.getItineraries().isEmpty());
     }
 }

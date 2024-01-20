@@ -42,4 +42,8 @@ public class Itinerary implements Info {
         Itinerary that = (Itinerary) o;
         return this.POIs.equals(that.POIs);
     }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }

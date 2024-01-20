@@ -6,6 +6,9 @@ import it.unicam.cs.ids.localplatform.model.Content;
  * This class implements the command pattern and it is used to delete a content.
  */
 public class DeleteContentCommand implements Command {
+
+    // TODO: implement this class
+
     private Content content;
 
     @Override

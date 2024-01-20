@@ -38,11 +38,28 @@ public class POI implements Info {
         return contents;
     }
 
+    public Coordinates getCoordinates() {
+        return coordinates;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         POI that = (POI) o;
         return this.coordinates.equals(that.coordinates);
+    }
+
+    /**
+     * This method allows to add a content to the POI.
+     *
+     * @param content The content to be added.
+     */
+    public void addContent(Content content) {
+        this.contents.add(content);
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }
