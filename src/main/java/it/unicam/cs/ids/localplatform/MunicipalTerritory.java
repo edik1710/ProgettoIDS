@@ -40,6 +40,11 @@ public class MunicipalTerritory {
      */
     public void addPOI(String title, Date publicationDate, User author, Coordinates coordinates) {
         POI poi = new POI(title, publicationDate, author, coordinates);
+
+        // Check if a POI with the same coordinates already exists
+        if (this.POIs.containsKey(coordinates))
+            throw new IllegalArgumentException("A POI with the same coordinates already exists.");
+
         this.POIs.put(coordinates, poi);
     }
 
@@ -53,6 +58,10 @@ public class MunicipalTerritory {
      */
     public void addItinerary(String title, Date publicationDate, User author, List<POI> POIs) {
         Itinerary itinerary = new Itinerary(title, publicationDate, author, POIs);
+
+        // Check if the itinerary already exists
+        if (this.itineraries.contains(itinerary)) throw new IllegalArgumentException("This itinerary already exists.");
+
         this.itineraries.add(itinerary);
     }
 
@@ -62,6 +71,9 @@ public class MunicipalTerritory {
      * @param content The content to add.
      */
     public void addGeneralContent(Content content) {
+        // Check if the content already exists
+        if (this.generalContents.contains(content)) throw new IllegalArgumentException("This content already exists.");
+
         this.generalContents.add(content);
     }
 
@@ -71,6 +83,9 @@ public class MunicipalTerritory {
      * @param coordinates The coordinates of the POI to be deleted.
      */
     public void deletePOI(Coordinates coordinates) {
+        // Check if the POI exists
+        if (!this.POIs.containsKey(coordinates)) throw new IllegalArgumentException("The POI does not exist.");
+
         this.POIs.remove(coordinates);
     }
 
@@ -87,6 +102,9 @@ public class MunicipalTerritory {
      * @param itinerary The itinerary to be deleted.
      */
     public void deleteItinerary(Itinerary itinerary) {
+        // Check if the itinerary exists
+        if (!this.itineraries.contains(itinerary)) throw new IllegalArgumentException("The itinerary does not exist.");
+
         this.itineraries.remove(itinerary);
     }
 }

@@ -17,8 +17,6 @@ public class AuthorizedContributor extends User {
         super(name, surname, email, password, residence, cf);
     }
 
-    // TODO: aggiungere un controllo per oggetti già presenti nel sistema
-
     /**
      * This method allows an authorized contributor to publish a new point of interest to the platform.
      *

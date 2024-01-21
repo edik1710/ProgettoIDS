@@ -56,6 +56,10 @@ public class POI implements Info {
      * @param content The content to be added.
      */
     public void addContent(Content content) {
+        // Check if the content is already associated with the POI
+        if (this.contents.contains(content))
+            throw new IllegalArgumentException("The content is already associated with the POI.");
+
         this.contents.add(content);
     }
 
