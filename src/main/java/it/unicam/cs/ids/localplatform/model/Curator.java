@@ -20,7 +20,8 @@ public class Curator extends AuthorizedContributor {
      * This method allows the curator to view the next command to be verified.
      */
     public void viewNextCommand() {
-        // La lista può essere vuota, aggiungere un controllo
+        if (CommandVerificationQueue.getInstance().getToBeVerified().isEmpty()) return;
+
         validatingCommand = CommandVerificationQueue.getInstance().getToBeVerified().peek();
     }
 
@@ -39,5 +40,9 @@ public class Curator extends AuthorizedContributor {
     public void rejectCommandExecution() {
         validatingCommand = null;
         CommandVerificationQueue.getInstance().getToBeVerified().remove();
+    }
+
+    public static Command getValidatingCommand() {
+        return validatingCommand;
     }
 }
