@@ -11,11 +11,11 @@ import java.util.List;
  */
 public class AuthorizedTourist extends Tourist {
     private List<Info> savedInfo;
-    private List<MultimediaContent> uploadedPhotos;
+    //private List<MultimediaContent> uploadedPhotos;
 
     public AuthorizedTourist(String name, String surname, String email, String password, MunicipalTerritory residence, String cf) {
         super(name, surname, email, password, residence, cf);
         this.savedInfo = new ArrayList<>();
-        this.uploadedPhotos = new ArrayList<>();
+        //this.uploadedPhotos = new ArrayList<>();
     }
 }

@@ -11,8 +11,7 @@ public class DeleteGeneralContentCommand implements Command {
     private Content content;
 
     public DeleteGeneralContentCommand(MunicipalTerritory residence, Content content) {
-        if (residence == null || content == null)
-            throw new NullPointerException("Null parameters are not allowed.");
+        if (residence == null || content == null) throw new NullPointerException("Null parameters are not allowed.");
 
         this.municipality = residence;
         this.content = content;

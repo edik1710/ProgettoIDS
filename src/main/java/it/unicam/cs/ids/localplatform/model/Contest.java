@@ -1,24 +1,20 @@
 package it.unicam.cs.ids.localplatform.model;
 
-import it.unicam.cs.ids.localplatform.command.Command;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class Contest {
     private String objective;
     private String title;
     private Date startDate;
     private Date endDate;
-
-    /**
-     * Contenuti proposti per il contest
-     */
     private List<Content> contents;
 
     public Contest(String objective, String title, Date startDate, Date endDate) {
-        if(startDate.after(endDate))
+        if (startDate.after(endDate))
             throw new IllegalArgumentException("The start date cannot be future relative to the end date.");
-        if(startDate.before(new Date()) || endDate.before(new Date()))
+        if (startDate.before(new Date()) || endDate.before(new Date()))
             throw new IllegalArgumentException("The start and end date cannot be in the past.");
 
         this.objective = objective;

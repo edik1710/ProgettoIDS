@@ -45,7 +45,7 @@ public class AuthorizedContributorTest {
     @Test
     public void publishGeneralContentTest() {
         // Create necessary instances for the test
-        Content content = new TextualContent(new Date(), ac, "Content");
+        Content content = new Content(new Date(), ac, "Content");
 
         // Execute the method
         ac.publishGeneralContent(content);
@@ -80,7 +80,7 @@ public class AuthorizedContributorTest {
         // Create necessary instances for the test
         Coordinates coord = new Coordinates(1, 1);
         POI poi = new POI("POI", new Date(), ac, coord);
-        Content content = new TextualContent(new Date(), ac, "Content");
+        Content content = new Content(new Date(), ac, "Content");
 
         // Execute the method
         ac.publishPOIContent(poi, content);
@@ -105,10 +105,19 @@ public class AuthorizedContributorTest {
         assertEquals("New POI Title", poi.getTitle());
     }
 
-    // Inserire il commento javaDoc dopo l'implementazione del metodo
+    /**
+     * Tests the {@link AuthorizedContributor#publishChangesToExistingContent(Content, String)} method.
+     */
     @Test
     public void publishChangesToExistingContentTest() {
-        // TODO
+        // Create necessary instances for the test
+        Content content = new Content(new Date(), ac, "Content");
+
+        // Execute the method
+        ac.publishChangesToExistingContent(content, "New Content Text");
+
+        // Verify that the content has been created
+        assertEquals("New Content Text", content.getText());
     }
 
     /**
@@ -150,10 +159,46 @@ public class AuthorizedContributorTest {
         assertTrue(mt.getPOIs().isEmpty());
     }
 
-    // Inserire il commento javaDoc dopo l'implementazione del metodo
+    /**
+     * Tests the {@link AuthorizedContributor#deleteGeneralContent(Content)} method.
+     */
     @Test
-    public void deleteContentTest() {
-        // TODO
+    public void deleteGeneralContentTest() {
+        // Create necessary instances for the test
+        Content content = new Content(new Date(), ac, "Content");
+
+        ac.publishGeneralContent(content);
+        assertFalse(mt.getGeneralContents().isEmpty());
+        assertEquals(content, mt.getGeneralContents().getFirst());
+
+        // Execute the method
+        ac.deleteGeneralContent(content);
+
+        // Verify that the content has been created
+        assertFalse(mt.getGeneralContents().contains(content));
+        assertTrue(mt.getGeneralContents().isEmpty());
+    }
+
+    /**
+     * Tests the {@link AuthorizedContributor#deletePOIContent(POI, Content)} method.
+     */
+    @Test
+    public void deletePOIContentTest() {
+        // Create necessary instances for the test
+        Coordinates coord = new Coordinates(1, 1);
+        POI poi = new POI("POI", new Date(), ac, coord);
+        Content content = new Content(new Date(), ac, "Content");
+
+        ac.publishPOIContent(poi, content);
+        assertFalse(poi.getContents().isEmpty());
+        assertEquals(content, poi.getContents().getFirst());
+
+        // Execute the method
+        ac.deletePOIContent(poi, content);
+
+        // Verify that the content has been created
+        assertFalse(poi.getContents().contains(content));
+        assertTrue(poi.getContents().isEmpty());
     }
 
     /**

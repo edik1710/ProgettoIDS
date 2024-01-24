@@ -71,9 +71,9 @@ public class AuthorizedContributor extends User {
      *
      * @param content The content to be changed.
      * @param text    The new text of the content.
-     * */
+     */
     public void publishChangesToExistingContent(Content content, String text) {
-         new ChangeContentCommand(content, text).execute();
+        new ChangeContentCommand(content, text).execute();
     }
 
     /**
@@ -97,7 +97,7 @@ public class AuthorizedContributor extends User {
 
     /**
      * This method allows an authorized contributor to delete a content from the platform.
-     * */
+     */
     public void deleteGeneralContent(Content content) {
         new DeleteGeneralContentCommand(this.getResidence(), content).execute();
     }
@@ -107,7 +107,7 @@ public class AuthorizedContributor extends User {
      *
      * @param poi     The point of interest to which the content is associated.
      * @param content The content to be deleted.
-     * */
+     */
     public void deletePOIContent(POI poi, Content content) {
         new DeletePOIContentCommand(poi, content).execute();
     }

@@ -57,7 +57,7 @@ public class CommandsTest {
         // Create necessary instances for the test
         Coordinates coord = new Coordinates(1, 1);
         POI poi = new POI("POI", new Date(), u, coord);
-        Content expectedContent = new TextualContent(new Date(), u, "Content");
+        Content expectedContent = new Content(new Date(), u, "Content");
         Command c = new CreatePOIContentCommand(poi, expectedContent);
 
         // Check NullPointerException
@@ -78,7 +78,7 @@ public class CommandsTest {
     @Test
     public void CreateGeneralContentCommandTest() {
         // Create necessary instances for the test
-        Content expectedContent = new TextualContent(new Date(), u, "Content");
+        Content expectedContent = new Content(new Date(), u, "Content");
         Command c = new CreateGeneralContentCommand(expectedContent, mt);
 
         // Check NullPointerException
@@ -142,11 +142,23 @@ public class CommandsTest {
     }
 
     /**
-     * Tests the {@link ChangeExistingContentCommand} class.
+     * Tests the {@link ChangeContentCommand} class.
      */
     @Test
-    public void ChangeExistingContentTest() {
-        // TODO
+    public void ChangeContentTest() {
+        // Create necessary instances for the test
+        Content content = new Content(new Date(), u, "Content");
+        Command c = new ChangeContentCommand(content, "New Content");
+
+        // Check NullPointerException
+        assertThrows(NullPointerException.class, () -> new ChangeContentCommand(null, "New Content"));
+        assertThrows(NullPointerException.class, () -> new ChangeContentCommand(content, null));
+
+        // Execute the command
+        c.execute();
+
+        // Verify that the content has been changed
+        assertEquals("New Content", content.getText());
     }
 
     /**
@@ -194,11 +206,47 @@ public class CommandsTest {
     }
 
     /**
-     * Tests the {@link DeleteContentCommand} class.
+     * Tests the {@link DeleteGeneralContentCommand} class.
      */
     @Test
     public void DeleteContentCommandTest() {
-        // TODO
+        // Create necessary instances for the test
+        Content content = new Content(new Date(), u, "Content");
+        mt.addGeneralContent(content);
+        Command c = new DeleteGeneralContentCommand(mt, content);
+
+        // Check NullPointerException
+        assertThrows(NullPointerException.class, () -> new DeleteGeneralContentCommand(null, content));
+        assertThrows(NullPointerException.class, () -> new DeleteGeneralContentCommand(mt, null));
+
+        // Execute the command
+        c.execute();
+
+        // Verify that the content has been deleted
+        assertTrue(mt.getGeneralContents().isEmpty());
+    }
+
+    /**
+     * Tests the {@link DeletePOIContentCommand} class.
+     */
+    @Test
+    public void DeletePOIContentCommandTest() {
+        // Create necessary instances for the test
+        Coordinates coord = new Coordinates(1, 1);
+        POI poi = new POI("POI", new Date(), u, coord);
+        Content content = new Content(new Date(), u, "Content");
+        poi.addContent(content);
+        Command c = new DeletePOIContentCommand(poi, content);
+
+        // Check NullPointerException
+        assertThrows(NullPointerException.class, () -> new DeletePOIContentCommand(null, content));
+        assertThrows(NullPointerException.class, () -> new DeletePOIContentCommand(poi, null));
+
+        // Execute the command
+        c.execute();
+
+        // Verify that the content has been deleted
+        assertTrue(poi.getContents().isEmpty());
     }
 
     /**

@@ -15,6 +15,14 @@ public class Animator extends User {
         super(name, surname, email, password, residence, cf);
     }
 
+    /**
+     * This method allows the animator to propose a contest.
+     *
+     * @param objective The objective of the contest.
+     * @param title     The title of the contest.
+     * @param startDate The start date of the contest.
+     * @param endDate   The end date of the contest.
+     */
     public void proposeContest(String objective, String title, Date startDate, Date endDate) {
         this.getResidence().addContest(new Contest(objective, title, startDate, endDate));
     }

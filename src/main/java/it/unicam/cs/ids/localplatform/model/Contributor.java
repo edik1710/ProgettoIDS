@@ -108,12 +108,13 @@ public class Contributor extends User {
     /**
      * This method submits a deletion request for a content associated with a point of interest.
      *
-     * @param poi The point of interest to which the content is associated.
+     * @param poi     The point of interest to which the content is associated.
      * @param content The content to be deleted.
-     * */
-    public void submitPoiContentDeletion(POI poi, Content content) {
+     */
+    public void submitPOIContentDeletion(POI poi, Content content) {
         CommandVerificationQueue.getInstance().getToBeVerified().add(new DeletePOIContentCommand(poi, content));
     }
+
     /**
      * This method allows a contributor to submit a deletion request for an itinerary.
      *

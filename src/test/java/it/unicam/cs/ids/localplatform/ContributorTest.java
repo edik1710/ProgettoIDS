@@ -46,7 +46,7 @@ public class ContributorTest {
     @Test
     public void submitGeneralContentTest() {
         // Create necessary instances for the test
-        Content content = new TextualContent(new Date(), c, "Content");
+        Content content = new Content(new Date(), c, "Content");
 
         // Execute the method
         c.submitGeneralContent(content);
@@ -79,7 +79,7 @@ public class ContributorTest {
     public void submitPOIContentTest() {
         // Create necessary instances for the test
         POI poi = new POI("POI", new Date(), c, new Coordinates(1, 1));
-        Content content = new TextualContent(new Date(), c, "Content");
+        Content content = new Content(new Date(), c, "Content");
 
         // Execute the method
         c.submitPOIContent(poi, content);
@@ -104,10 +104,20 @@ public class ContributorTest {
         assertFalse(CommandVerificationQueue.getInstance().getToBeVerified().isEmpty());
     }
 
-    // Inserire il commento javaDoc dopo l'implementazione del metodo
+    /**
+     * Tests the {@link Contributor#submitChangesToExistingContent(Content, String)} method.
+     */
     @Test
     public void submitChangesToExistingContentTest() {
-        // TODO: implement
+        // Create necessary instances for the test
+        Content content = new Content(new Date(), c, "Content");
+        String newText = "New Content";
+
+        // Execute the method
+        c.submitChangesToExistingContent(content, newText);
+
+        // Verify that the command has been added to the queue
+        assertFalse(CommandVerificationQueue.getInstance().getToBeVerified().isEmpty());
     }
 
     /**
@@ -144,10 +154,35 @@ public class ContributorTest {
         assertFalse(CommandVerificationQueue.getInstance().getToBeVerified().isEmpty());
     }
 
-    // Inserire il commento javaDoc dopo l'implementazione del metodo
+    /**
+     * Tests the {@link Contributor#submitGeneralContentDeletion(Content)} method.
+     */
     @Test
-    public void submitContentDeletionTest() {
-        // TODO: implement
+    public void submitGeneralContentDeletionTest() {
+        // Create necessary instances for the test
+        Content content = new Content(new Date(), c, "Content");
+
+        // Execute the method
+        c.submitGeneralContentDeletion(content);
+
+        // Verify that the command has been added to the queue
+        assertFalse(CommandVerificationQueue.getInstance().getToBeVerified().isEmpty());
+    }
+
+    /**
+     * Tests the {@link Contributor#submitPOIContentDeletion(POI, Content)} method.
+     */
+    @Test
+    public void submitPOIContentDeletionTest() {
+        // Create necessary instances for the test
+        POI poi = new POI("POI", new Date(), c, new Coordinates(1, 1));
+        Content content = new Content(new Date(), c, "Content");
+
+        // Execute the method
+        c.submitPOIContentDeletion(poi, content);
+
+        // Verify that the command has been added to the queue
+        assertFalse(CommandVerificationQueue.getInstance().getToBeVerified().isEmpty());
     }
 
     /**

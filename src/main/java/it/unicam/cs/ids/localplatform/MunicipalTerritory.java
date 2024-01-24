@@ -94,10 +94,10 @@ public class MunicipalTerritory {
      * this method deletes a general content from the municipal territory.
      *
      * @param content The content to be deleted.
-     * */
+     */
     public void deleteGeneralContent(Content content) {
         // Check if the content exists
-        if(!this.generalContents.contains(content)) throw new IllegalArgumentException("The Content does not exist.");
+        if (!this.generalContents.contains(content)) throw new IllegalArgumentException("The Content does not exist.");
 
         this.generalContents.remove(content);
     }
@@ -120,21 +120,16 @@ public class MunicipalTerritory {
      * @param contest The contest to be added.
      */
     public void addContest(Contest contest) {
-        removeExpiredContest();
+        removeExpiredContests();
 
         // Check if the contest already exists
-        if (this.contests.contains(contest))
-            throw new IllegalArgumentException("This contest already exists.");
+        if (this.contests.contains(contest)) throw new IllegalArgumentException("This contest already exists.");
 
         this.contests.add(contest);
     }
 
-    private void removeExpiredContest() {
+    private void removeExpiredContests() {
         Date now = new Date();
-        for (Contest contest : this.contests) {
-            if (contest.getEndDate().before(now)) {
-                this.contests.remove(contest);
-            }
-        }
+        this.contests.removeIf(contest -> contest.getEndDate().before(now));
     }
 }
