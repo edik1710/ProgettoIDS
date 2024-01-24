@@ -66,10 +66,14 @@ public class AuthorizedContributor extends User {
         new ChangePOICommand(poi, title).execute();
     }
 
-    // Il metodo submitChangesToGeneralContent() non è stato implementato in quanto non è stato definito un modo per identificare univocamente un contenuto generico.
-    // Dopo l'implementazione inserire i parametri nel file vpp
-    public void publishChangesToExistingContent() {
-        // TODO
+    /**
+     * This method allows an authorized contributor to publish a change to a content.
+     *
+     * @param content The content to be changed.
+     * @param text    The new text of the content.
+     * */
+    public void publishChangesToExistingContent(Content content, String text) {
+         new ChangeContentCommand(content, text).execute();
     }
 
     /**
@@ -91,10 +95,21 @@ public class AuthorizedContributor extends User {
         new DeletePOICommand(this.getResidence(), poi.getCoordinates()).execute();
     }
 
-    // Il metodo submitChangesToGeneralContent() non è stato implementato in quanto non è stato definito un modo per identificare univocamente un contenuto generico.
-    // Dopo l'implementazione inserire i parametri nel file vpp
-    public void deleteContent() {
-        // TODO
+    /**
+     * This method allows an authorized contributor to delete a content from the platform.
+     * */
+    public void deleteGeneralContent(Content content) {
+        new DeleteGeneralContentCommand(this.getResidence(), content).execute();
+    }
+
+    /**
+     * This method allows an authorized contributor to delete a content from a point of interest.
+     *
+     * @param poi     The point of interest to which the content is associated.
+     * @param content The content to be deleted.
+     * */
+    public void deletePOIContent(POI poi, Content content) {
+        new DeletePOIContentCommand(poi, content).execute();
     }
 
     /**

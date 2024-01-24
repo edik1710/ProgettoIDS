@@ -65,6 +65,19 @@ public class POI implements Info {
         this.contents.add(content);
     }
 
+
+    /**
+     * This method allows to remove a content from the POI.
+     *
+     * @param content The content to be removed.
+     */
+    public void deleteContent(Content content){
+        if(!this.contents.contains(content))
+            throw new IllegalArgumentException("The content does not exist.");
+
+        this.contents.remove(content);
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }

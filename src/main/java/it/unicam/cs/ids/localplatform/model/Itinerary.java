@@ -11,6 +11,7 @@ public class Itinerary implements Info {
     private Date publicationDate;
     private User author;
     private List<POI> POIs;
+    private String description;
 
     public Itinerary(String title, Date publicationDate, User author, List<POI> POIs) {
         this.title = title;

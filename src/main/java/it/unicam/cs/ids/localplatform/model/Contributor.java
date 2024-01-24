@@ -67,10 +67,14 @@ public class Contributor extends User {
         CommandVerificationQueue.getInstance().getToBeVerified().add(new ChangePOICommand(poi, title));
     }
 
-    // Il metodo submitChangesToGeneralContent() non è stato implementato in quanto non è stato definito un modo per identificare univocamente un contenuto generico.
-    // Dopo l'implementazione inserire i parametri nel file vpp
-    public void submitChangesToExistingContent() {
-        // TODO
+    /**
+     * This method allows a contributor to submit a change to a content.
+     *
+     * @param content The content to be changed.
+     * @param text    The new text of the content.
+     */
+    public void submitChangesToExistingContent(Content content, String text) {
+        CommandVerificationQueue.getInstance().getToBeVerified().add(new ChangeContentCommand(content, text));
     }
 
     /**
@@ -92,12 +96,24 @@ public class Contributor extends User {
         CommandVerificationQueue.getInstance().getToBeVerified().add(new DeletePOICommand(this.getResidence(), poi.getCoordinates()));
     }
 
-    // Il metodo submitChangesToGeneralContent() non è stato implementato in quanto non è stato definito un modo per identificare univocamente un contenuto generico.
-    // Dopo l'implementazione inserire i parametri nel file vpp
-    public void submitContentDeletion() {
-        // TODO
+    /**
+     * This method allows a contributor to submit a deletion request for a content.
+     *
+     * @param content The content to be deleted.
+     */
+    public void submitGeneralContentDeletion(Content content) {
+        CommandVerificationQueue.getInstance().getToBeVerified().add(new DeleteGeneralContentCommand(this.getResidence(), content));
     }
 
+    /**
+     * This method submits a deletion request for a content associated with a point of interest.
+     *
+     * @param poi The point of interest to which the content is associated.
+     * @param content The content to be deleted.
+     * */
+    public void submitPoiContentDeletion(POI poi, Content content) {
+        CommandVerificationQueue.getInstance().getToBeVerified().add(new DeletePOIContentCommand(poi, content));
+    }
     /**
      * This method allows a contributor to submit a deletion request for an itinerary.
      *

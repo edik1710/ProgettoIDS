@@ -89,12 +89,17 @@ public class MunicipalTerritory {
         this.POIs.remove(coordinates);
     }
 
-    // Il metodo deleteGeneralContent è già presente nel file vpp
-    /*
+    /**
+     * this method deletes a general content from the municipal territory.
+     *
+     * @param content The content to be deleted.
+     * */
     public void deleteGeneralContent(Content content) {
+        // Check if the content exists
+        if(!this.generalContents.contains(content)) throw new IllegalArgumentException("The Content does not exist.");
 
+        this.generalContents.remove(content);
     }
-*/
 
     /**
      * This method deletes an itinerary from the municipal territory.
