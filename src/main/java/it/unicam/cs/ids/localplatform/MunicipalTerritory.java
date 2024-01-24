@@ -11,6 +11,7 @@ public class MunicipalTerritory {
     private Map<Coordinates, POI> POIs;
     private List<Content> generalContents;
     private List<Itinerary> itineraries;
+    private List<Contest> contests;
 
     public MunicipalTerritory() {
         this.POIs = new HashMap<>();
@@ -111,5 +112,29 @@ public class MunicipalTerritory {
         if (!this.itineraries.contains(itinerary)) throw new IllegalArgumentException("The itinerary does not exist.");
 
         this.itineraries.remove(itinerary);
+    }
+
+    /**
+     * This method adds a contest to the municipal territory.
+     *
+     * @param contest The contest to be added.
+     */
+    public void addContest(Contest contest) {
+        removeExpiredContest();
+
+        // Check if the contest already exists
+        if (this.contests.contains(contest))
+            throw new IllegalArgumentException("This contest already exists.");
+
+        this.contests.add(contest);
+    }
+
+    private void removeExpiredContest() {
+        Date now = new Date();
+        for (Contest contest : this.contests) {
+            if (contest.getEndDate().before(now)) {
+                this.contests.remove(contest);
+            }
+        }
     }
 }
