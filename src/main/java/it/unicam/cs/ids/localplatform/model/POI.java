@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.localplatform.model;
 
+import java.sql.Struct;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,6 +14,7 @@ public class POI implements Info {
     private User author;
     private List<Content> contents;
     private Coordinates coordinates;
+    private String description;
 
     public POI(String title, Date publicationDate, User author, Coordinates coordinates) {
         this.title = title;
