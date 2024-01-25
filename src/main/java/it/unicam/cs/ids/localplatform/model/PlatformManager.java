@@ -10,4 +10,6 @@ public class PlatformManager extends User {
     public PlatformManager(String name, String surname, String email, String password, MunicipalTerritory residence, String cf) {
         super(name, surname, email, password, residence, cf);
     }
+
+
 }
