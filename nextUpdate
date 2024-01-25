@@ -1,1 +1,1 @@
-implement the PlatformManager 
+Ragionare sull'inserimento di un controllo: attualmente le Info possono essere create da tutti gli attori (quindi anche i turisti) invece che solo da quelli che possono crearle.
