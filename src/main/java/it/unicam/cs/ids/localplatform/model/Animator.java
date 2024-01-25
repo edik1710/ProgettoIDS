@@ -65,5 +65,11 @@ public class Animator extends User {
         validatingContent = null;
     }
 
+    public static Contest getValidatingContest() {
+        return validatingContest;
+    }
 
+    public static Content getValidatingContent() {
+        return validatingContent;
+    }
 }

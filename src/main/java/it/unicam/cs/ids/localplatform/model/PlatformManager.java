@@ -54,7 +54,7 @@ public class PlatformManager extends User {
      *
      * @param user The name of the animator.
      */
-    public void createTourist(User user) {
+    private void createTourist(User user) {
         Tourist tourist = new Tourist(user.getName(), user.getSurname(), user.getEmail(), user.getPassword(), user.getResidence(), user.getCf());
         this.getResidence().getUsers().add(tourist);
     }
@@ -83,5 +83,9 @@ public class PlatformManager extends User {
             this.getResidence().getUsers().remove(contributor);
             this.getResidence().getUsers().add(authorizedContributor);
         }
+    }
+
+    public Map<User, Roles> getPendingUsers() {
+        return pendingUsers;
     }
 }

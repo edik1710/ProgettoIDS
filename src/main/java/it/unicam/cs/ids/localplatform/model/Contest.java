@@ -9,9 +9,6 @@ public class Contest {
     private String title;
     private Date startDate;
     private Date endDate;
-
-
-
     private List<Content> contents;
 
     public Contest(String objective, String title, Date startDate, Date endDate) {
@@ -41,7 +38,7 @@ public class Contest {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Contest that = (Contest) o;
-        return this.title.equals(that.title) && this.objective.equals(that.title);
+        return this.title.equals(that.title) && this.objective.equals(that.objective);
     }
 
     public Date getEndDate() {

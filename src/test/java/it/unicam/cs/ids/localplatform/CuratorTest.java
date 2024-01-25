@@ -1,6 +1,7 @@
 package it.unicam.cs.ids.localplatform;
 
 import it.unicam.cs.ids.localplatform.command.CreatePOICommand;
+import it.unicam.cs.ids.localplatform.model.Content;
 import it.unicam.cs.ids.localplatform.model.Coordinates;
 import it.unicam.cs.ids.localplatform.model.Curator;
 import it.unicam.cs.ids.localplatform.model.POI;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * This class tests the {@link Curator} class.
@@ -80,5 +82,24 @@ public class CuratorTest {
 
         // Verify that the command has been rejected
         assertEquals(0, mt.getPOIs().size());
+    }
+
+    /**
+     * Tests the {@link Curator#removeReportedContents()} method.
+     */
+    @Test
+    public void removeReportedContentsTest() {
+        // Create necessary instances for the test
+        Content content = new Content(new Date(), curator, "Description");
+        for (int i = 0; i < 10; i++) {
+            content.reportContent();
+        }
+        mt.getGeneralContents().add(content);
+
+        // Execute the method
+        curator.removeReportedContents();
+
+        // Verify that the content has been removed
+        assertFalse(mt.getGeneralContents().contains(content));
     }
 }
