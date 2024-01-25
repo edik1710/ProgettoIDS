@@ -8,16 +8,20 @@ import java.util.*;
  * This class represents a municipal territory.
  */
 public class MunicipalTerritory {
+    private String municipalName;
     private Map<Coordinates, POI> POIs;
     private List<Content> generalContents;
     private List<Itinerary> itineraries;
     private List<Contest> contests;
+    private List<User> users;
 
     public MunicipalTerritory() {
+        this.municipalName = "Camerino";
         this.POIs = new HashMap<>();
         this.generalContents = new ArrayList<>();
         this.itineraries = new ArrayList<>();
         this.contests = new ArrayList<>();
+        this.users = new ArrayList<>();
     }
 
     public Map<Coordinates, POI> getPOIs() {
@@ -134,7 +138,20 @@ public class MunicipalTerritory {
         // contest.contents --> municipality.contents
         this.contests.removeIf(contest -> contest.getEndDate().before(now));
     }
+
     public List<Contest> getContests() {
         return contests;
+    }
+
+    public List<User> getUsers() {
+        return this.users;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MunicipalTerritory that = (MunicipalTerritory) o;
+        return this.municipalName.equals(that.municipalName);
     }
 }
