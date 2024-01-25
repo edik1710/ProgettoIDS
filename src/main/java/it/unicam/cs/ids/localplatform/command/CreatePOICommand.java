@@ -15,9 +15,10 @@ public class CreatePOICommand implements Command {
     private User author;
     private Coordinates coordinates;
     private MunicipalTerritory municipality;
+    private String description;
 
-    public CreatePOICommand(String title, Date publicationDate, User author, Coordinates coordinates, MunicipalTerritory municipality) {
-        if (title == null || publicationDate == null || author == null || coordinates == null || municipality == null)
+    public CreatePOICommand(String title, Date publicationDate, User author, Coordinates coordinates, MunicipalTerritory municipality, String description) {
+        if (title == null || publicationDate == null || author == null || coordinates == null || municipality == null || description == null)
             throw new NullPointerException("Null parameters are not allowed.");
 
         this.title = title;
@@ -25,10 +26,11 @@ public class CreatePOICommand implements Command {
         this.author = author;
         this.coordinates = coordinates;
         this.municipality = municipality;
+        this.description = description;
     }
 
     @Override
     public void execute() {
-        this.municipality.addPOI(this.title, this.publicationDate, this.author, this.coordinates);
+        this.municipality.addPOI(this.title, this.publicationDate, this.author, this.coordinates, this.description);
     }
 }

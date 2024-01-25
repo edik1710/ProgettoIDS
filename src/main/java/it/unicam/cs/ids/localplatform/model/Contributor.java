@@ -25,7 +25,7 @@ public class Contributor extends User {
      * @param coordinates The coordinates of the point of interest.
      */
     public void submitPOI(String title, Coordinates coordinates) {
-        CommandVerificationQueue.getInstance().getToBeVerified().add(new CreatePOICommand(title, new Date(), this, coordinates, this.getResidence()));
+        CommandVerificationQueue.getInstance().getToBeVerified().add(new CreatePOICommand(title, new Date(), this, coordinates, this.getResidence(), "description of Submitted POI"));
     }
 
     /**
@@ -43,8 +43,8 @@ public class Contributor extends User {
      * @param title The title of the itinerary.
      * @param POIs  The list of points of interest that make up the itinerary.
      */
-    public void submitItinerary(String title, List<POI> POIs) {
-        CommandVerificationQueue.getInstance().getToBeVerified().add(new CreateItineraryCommand(title, new Date(), this, POIs, this.getResidence()));
+    public void submitItinerary(String title, List<POI> POIs, String description) {
+        CommandVerificationQueue.getInstance().getToBeVerified().add(new CreateItineraryCommand(title, new Date(), this, POIs, this.getResidence(), description));
     }
 
     /**

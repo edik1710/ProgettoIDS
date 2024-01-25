@@ -16,12 +16,13 @@ public class POI implements Info {
     private Coordinates coordinates;
     private String description;
 
-    public POI(String title, Date publicationDate, User author, Coordinates coordinates) {
+    public POI(String title, Date publicationDate, User author, Coordinates coordinates, String description) {
         this.title = title;
         this.publicationDate = publicationDate;
         this.author = author;
         this.contents = new ArrayList<>();
         this.coordinates = coordinates;
+        this.description = description;
     }
 
     public String getTitle() {

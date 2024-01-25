@@ -10,6 +10,8 @@ import java.util.Date;
  * Animators will be responsible for defining the objective and then validating the proposed contents.
  */
 public class Animator extends User {
+    private static Contest validatingContest;
+    private static Content validatingContent;
 
     public Animator(String name, String surname, String email, String password, MunicipalTerritory residence, String cf) {
         super(name, surname, email, password, residence, cf);
@@ -28,37 +30,40 @@ public class Animator extends User {
     }
 
     /**
-     * This method allows the curator to view the next command to be verified.
+     * This method allows the animator to view a contest.
+     *
+     * @param contest The contest to be viewed.
      */
-    /*
-    public void viewNextContestCommand() {
-        if (CommandVerificationQueue.getInstance().getToBeVerified().isEmpty()) return;
+    public void viewContest(Contest contest) {
+        if (!this.getResidence().getContests().contains(contest)) return;
 
-        validatingCommand = CommandVerificationQueue.getInstance().getToBeVerified().peek();
+        validatingContest = this.getResidence().getContests().get(this.getResidence().getContests().indexOf(contest));
     }
-
-     */
 
     /**
-     * This method allows the curator to authorize the execution of the command.
+     * This method allows the animator to view the next content to be validated.
      */
-    /*
-    public void authorizeCommandExecution() {
-        validatingCommand.execute();
-        validatingCommand = null;
-        CommandVerificationQueue.getInstance().getToBeVerified().remove();
-    }
+    public void viewNextContestContent() {
+        if (validatingContest.getContents().isEmpty()) return;
 
-     */
+        validatingContent = validatingContest.getContents().getFirst();
+    }
 
     /**
-     * This method allows the curator to reject the execution of the command.
+     * This method allows the animator to authorize the content.
      */
-    /*
-    public void rejectCommandExecution() {
-        validatingCommand = null;
-        CommandVerificationQueue.getInstance().getToBeVerified().remove();
+    public void authorizeContent() {
+        this.getResidence().addGeneralContent(validatingContent);
+        validatingContent = null;
     }
 
+    /**
+     * This method allows the animator to reject the content.
      */
+    public void rejectContent() {
+        validatingContest.getContents().remove(validatingContent);
+        validatingContent = null;
+    }
+
+
 }

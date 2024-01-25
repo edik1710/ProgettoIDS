@@ -33,7 +33,7 @@ public class CuratorTest {
     public void viewNextCommandTest() {
         // Create necessary instances for the test
         Coordinates coord = new Coordinates(1, 1);
-        CreatePOICommand command = new CreatePOICommand("POI", new Date(), curator, coord, mt);
+        CreatePOICommand command = new CreatePOICommand("POI", new Date(), curator, coord, mt, "Description");
         CommandVerificationQueue.getInstance().getToBeVerified().add(command);
 
         // Execute the method
@@ -50,8 +50,8 @@ public class CuratorTest {
     public void authorizeCommandExecutionTest() {
         // Create necessary instances for the test
         Coordinates coord = new Coordinates(1, 1);
-        POI poi = new POI("POI", new Date(), curator, coord);
-        CreatePOICommand command = new CreatePOICommand("POI", new Date(), curator, coord, mt);
+        POI poi = new POI("POI", new Date(), curator, coord, "Description");
+        CreatePOICommand command = new CreatePOICommand("POI", new Date(), curator, coord, mt, "Description");
         CommandVerificationQueue.getInstance().getToBeVerified().add(command);
 
         // Execute the method
@@ -69,7 +69,7 @@ public class CuratorTest {
     public void rejectCommandExecutionTest() {
         // Create necessary instances for the test
         Coordinates coord = new Coordinates(1, 1);
-        CreatePOICommand command = new CreatePOICommand("POI", new Date(), curator, coord, mt);
+        CreatePOICommand command = new CreatePOICommand("POI", new Date(), curator, coord, mt, "Description");
         CommandVerificationQueue.getInstance().getToBeVerified().add(command);
 
         // Execute the method

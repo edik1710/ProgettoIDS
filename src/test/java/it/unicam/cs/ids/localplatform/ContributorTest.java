@@ -56,17 +56,17 @@ public class ContributorTest {
     }
 
     /**
-     * Tests the {@link Contributor#submitItinerary(String, List)} method.
+     * Tests the {@link Contributor#submitItinerary(String, List, String)} method.
      */
     @Test
     public void submitItineraryTest() {
         // Create necessary instances for the test
         List<POI> POIs = new ArrayList<>();
-        POIs.add(new POI("POI1", new Date(), c, new Coordinates(1, 1)));
-        POIs.add(new POI("POI2", new Date(), c, new Coordinates(2, 2)));
+        POIs.add(new POI("POI1", new Date(), c, new Coordinates(1, 1), "Description"));
+        POIs.add(new POI("POI2", new Date(), c, new Coordinates(2, 2), "Description"));
 
         // Execute the method
-        c.submitItinerary("Itinerary", POIs);
+        c.submitItinerary("Itinerary", POIs, "Description");
 
         // Verify that the command has been added to the queue
         assertFalse(CommandVerificationQueue.getInstance().getToBeVerified().isEmpty());
@@ -78,7 +78,7 @@ public class ContributorTest {
     @Test
     public void submitPOIContentTest() {
         // Create necessary instances for the test
-        POI poi = new POI("POI", new Date(), c, new Coordinates(1, 1));
+        POI poi = new POI("POI", new Date(), c, new Coordinates(1, 1), "Description");
         Content content = new Content(new Date(), c, "Content");
 
         // Execute the method
@@ -94,7 +94,7 @@ public class ContributorTest {
     @Test
     public void submitChangesToPOITest() {
         // Create necessary instances for the test
-        POI poi = new POI("POI", new Date(), c, new Coordinates(1, 1));
+        POI poi = new POI("POI", new Date(), c, new Coordinates(1, 1), "Description");
         String newTitle = "New POI";
 
         // Execute the method
@@ -127,9 +127,9 @@ public class ContributorTest {
     public void submitChangesToItineraryTest() {
         // Create necessary instances for the test
         List<POI> POIs = new ArrayList<>();
-        POIs.add(new POI("POI1", new Date(), c, new Coordinates(1, 1)));
-        POIs.add(new POI("POI2", new Date(), c, new Coordinates(2, 2)));
-        Itinerary itinerary = new Itinerary("Itinerary", new Date(), c, POIs);
+        POIs.add(new POI("POI1", new Date(), c, new Coordinates(1, 1), "Description"));
+        POIs.add(new POI("POI2", new Date(), c, new Coordinates(2, 2), "Description"));
+        Itinerary itinerary = new Itinerary("Itinerary", new Date(), c, POIs, "Description");
         String newTitle = "New Itinerary";
 
         // Execute the method
@@ -145,7 +145,7 @@ public class ContributorTest {
     @Test
     public void submitPOIDeletionTest() {
         // Create necessary instances for the test
-        POI poi = new POI("POI", new Date(), c, new Coordinates(1, 1));
+        POI poi = new POI("POI", new Date(), c, new Coordinates(1, 1), "Description");
 
         // Execute the method
         c.submitPOIDeletion(poi);
@@ -175,7 +175,7 @@ public class ContributorTest {
     @Test
     public void submitPOIContentDeletionTest() {
         // Create necessary instances for the test
-        POI poi = new POI("POI", new Date(), c, new Coordinates(1, 1));
+        POI poi = new POI("POI", new Date(), c, new Coordinates(1, 1), "Description");
         Content content = new Content(new Date(), c, "Content");
 
         // Execute the method
@@ -192,9 +192,9 @@ public class ContributorTest {
     public void submitItineraryDeletionTest() {
         // Create necessary instances for the test
         List<POI> POIs = new ArrayList<>();
-        POIs.add(new POI("POI1", new Date(), c, new Coordinates(1, 1)));
-        POIs.add(new POI("POI2", new Date(), c, new Coordinates(2, 2)));
-        Itinerary itinerary = new Itinerary("Itinerary", new Date(), c, POIs);
+        POIs.add(new POI("POI1", new Date(), c, new Coordinates(1, 1), "Description"));
+        POIs.add(new POI("POI2", new Date(), c, new Coordinates(2, 2), "Description"));
+        Itinerary itinerary = new Itinerary("Itinerary", new Date(), c, POIs, "Description");
 
         // Execute the method
         c.submitItineraryDeletion(itinerary);

@@ -55,18 +55,18 @@ public class AuthorizedContributorTest {
     }
 
     /**
-     * Tests the {@link AuthorizedContributor#publishItinerary(String, List)} method.
+     * Tests the {@link AuthorizedContributor#publishItinerary(String, List, String)} method.
      */
     @Test
     public void publishItineraryTest() {
         // Create necessary instances for the test
         List<POI> POIs = new ArrayList<>();
-        POIs.add(new POI("POI1", new Date(), ac, new Coordinates(1, 1)));
-        POIs.add(new POI("POI2", new Date(), ac, new Coordinates(2, 2)));
+        POIs.add(new POI("POI1", new Date(), ac, new Coordinates(1, 1), "Descrizione POI"));
+        POIs.add(new POI("POI2", new Date(), ac, new Coordinates(2, 2), "Seconda descrizione"));
         String itineraryTitle = "Itinerary";
 
         // Execute the method
-        ac.publishItinerary(itineraryTitle, POIs);
+        ac.publishItinerary(itineraryTitle, POIs, "Description");
 
         // Verify that the itinerary has been created
         assertFalse(mt.getItineraries().isEmpty());
@@ -79,7 +79,7 @@ public class AuthorizedContributorTest {
     public void publishPOIContentTest() {
         // Create necessary instances for the test
         Coordinates coord = new Coordinates(1, 1);
-        POI poi = new POI("POI", new Date(), ac, coord);
+        POI poi = new POI("POI", new Date(), ac, coord, "Descrizionesus");
         Content content = new Content(new Date(), ac, "Content");
 
         // Execute the method
@@ -96,7 +96,7 @@ public class AuthorizedContributorTest {
     public void publishChangesToPOITest() {
         // Create necessary instances for the test
         Coordinates coord = new Coordinates(1, 1);
-        POI poi = new POI("POI", new Date(), ac, coord);
+        POI poi = new POI("POI", new Date(), ac, coord, "descrizione lat.1 lon.1");
 
         // Execute the method
         ac.publishChangesToPOI(poi, "New POI Title");
@@ -127,9 +127,9 @@ public class AuthorizedContributorTest {
     public void publishChangesToItineraryTest() {
         // Create necessary instances for the test
         List<POI> POIs = new ArrayList<>();
-        POIs.add(new POI("POI1", new Date(), ac, new Coordinates(1, 1)));
-        POIs.add(new POI("POI2", new Date(), ac, new Coordinates(2, 2)));
-        Itinerary itinerary = new Itinerary("Itinerary", new Date(), ac, POIs);
+        POIs.add(new POI("POI1", new Date(), ac, new Coordinates(1, 1), "Descrioione Itinerario 1"));
+        POIs.add(new POI("POI2", new Date(), ac, new Coordinates(2, 2), "Descrione Itinerario 2"));
+        Itinerary itinerary = new Itinerary("Itinerary", new Date(), ac, POIs, "Description");
 
         // Execute the method
         ac.publishChangesToItinerary(itinerary, "New Itinerary Title");
@@ -145,7 +145,7 @@ public class AuthorizedContributorTest {
     public void deletePOITest() {
         // Create necessary instances for the test
         Coordinates coord = new Coordinates(1, 1);
-        POI poi = new POI("POI", new Date(), ac, coord);
+        POI poi = new POI("POI", new Date(), ac, coord, "Description");
 
         ac.publishPOI("POI", coord);
         assertFalse(mt.getPOIs().isEmpty());
@@ -186,7 +186,7 @@ public class AuthorizedContributorTest {
     public void deletePOIContentTest() {
         // Create necessary instances for the test
         Coordinates coord = new Coordinates(1, 1);
-        POI poi = new POI("POI", new Date(), ac, coord);
+        POI poi = new POI("POI", new Date(), ac, coord, "Description");
         Content content = new Content(new Date(), ac, "Content");
 
         ac.publishPOIContent(poi, content);
@@ -208,11 +208,11 @@ public class AuthorizedContributorTest {
     public void deleteItineraryTest() {
         // Create necessary instances for the test
         List<POI> POIs = new ArrayList<>();
-        POIs.add(new POI("POI1", new Date(), ac, new Coordinates(1, 1)));
-        POIs.add(new POI("POI2", new Date(), ac, new Coordinates(2, 2)));
-        Itinerary itinerary = new Itinerary("Itinerary", new Date(), ac, POIs);
+        POIs.add(new POI("POI1", new Date(), ac, new Coordinates(1, 1), "Description"));
+        POIs.add(new POI("POI2", new Date(), ac, new Coordinates(2, 2), "Description"));
+        Itinerary itinerary = new Itinerary("Itinerary", new Date(), ac, POIs, "Description");
 
-        ac.publishItinerary("Itinerary", POIs);
+        ac.publishItinerary("Itinerary", POIs, "Description");
         assertFalse(mt.getItineraries().isEmpty());
         assertEquals(itinerary, mt.getItineraries().getFirst());
 

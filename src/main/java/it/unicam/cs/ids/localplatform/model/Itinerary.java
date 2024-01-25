@@ -12,13 +12,22 @@ public class Itinerary implements Info {
     private User author;
     private List<POI> POIs;
     private String description;
+    // private List<Photo> photos
 
-    public Itinerary(String title, Date publicationDate, User author, List<POI> POIs) {
+    public Itinerary(String title, Date publicationDate, User author, List<POI> POIs, String description) {
         this.title = title;
         this.publicationDate = publicationDate;
         this.author = author;
         this.POIs = POIs;
+        this.description = description;
+        // this.photos = new ArrayList<>();
     }
+
+    /*
+    public void addPhoto(Photo photo) {
+        this.photos.add(photo);
+    }
+     */
 
     public String getTitle() {
         return title;

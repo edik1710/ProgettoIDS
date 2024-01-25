@@ -9,6 +9,9 @@ public class Contest {
     private String title;
     private Date startDate;
     private Date endDate;
+
+
+
     private List<Content> contents;
 
     public Contest(String objective, String title, Date startDate, Date endDate) {
@@ -43,6 +46,10 @@ public class Contest {
 
     public Date getEndDate() {
         return endDate;
+    }
+
+    public List<Content> getContents() {
+        return contents;
     }
 
 }

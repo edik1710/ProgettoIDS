@@ -31,15 +31,16 @@ public class CommandsTest {
     public void CreatePOICommandTest() {
         // Create necessary instances for the test
         Coordinates coord = new Coordinates(1, 1);
-        Command c = new CreatePOICommand("POI", new Date(), u, coord, mt);
-        POI poi = new POI("POI", new Date(), u, coord);
+        Command c = new CreatePOICommand("POI", new Date(), u, coord, mt, "Description");
+        POI poi = new POI("POI", new Date(), u, coord, "Description");
 
         // Check NullPointerException
-        assertThrows(NullPointerException.class, () -> new CreatePOICommand(null, new Date(), u, coord, mt));
-        assertThrows(NullPointerException.class, () -> new CreatePOICommand("POI", null, u, coord, mt));
-        assertThrows(NullPointerException.class, () -> new CreatePOICommand("POI", new Date(), null, coord, mt));
-        assertThrows(NullPointerException.class, () -> new CreatePOICommand("POI", new Date(), u, null, mt));
-        assertThrows(NullPointerException.class, () -> new CreatePOICommand("POI", new Date(), u, coord, null));
+        assertThrows(NullPointerException.class, () -> new CreatePOICommand(null, new Date(), u, coord, mt, "Description"));
+        assertThrows(NullPointerException.class, () -> new CreatePOICommand("POI", null, u, coord, mt, "Description"));
+        assertThrows(NullPointerException.class, () -> new CreatePOICommand("POI", new Date(), null, coord, mt, "Description"));
+        assertThrows(NullPointerException.class, () -> new CreatePOICommand("POI", new Date(), u, null, mt, "Description"));
+        assertThrows(NullPointerException.class, () -> new CreatePOICommand("POI", new Date(), u, coord, null, "Description"));
+        assertThrows(NullPointerException.class, () -> new CreatePOICommand("POI", new Date(), u, coord, mt, null));
 
         // Execute the command
         c.execute();
@@ -56,7 +57,7 @@ public class CommandsTest {
     public void CreatePOIContentCommandTest() {
         // Create necessary instances for the test
         Coordinates coord = new Coordinates(1, 1);
-        POI poi = new POI("POI", new Date(), u, coord);
+        POI poi = new POI("POI", new Date(), u, coord, "another description");
         Content expectedContent = new Content(new Date(), u, "Content");
         Command c = new CreatePOIContentCommand(poi, expectedContent);
 
@@ -100,23 +101,24 @@ public class CommandsTest {
     public void CreateItineraryCommandTest() {
         // Create necessary instances for the test
         List<POI> POIs = new ArrayList<>();
-        POIs.add(new POI("POI1", new Date(), u, new Coordinates(1, 1)));
-        POIs.add(new POI("POI2", new Date(), u, new Coordinates(2, 2)));
-        Command c = new CreateItineraryCommand("Itinerary", new Date(), u, POIs, mt);
+        POIs.add(new POI("POI1", new Date(), u, new Coordinates(1, 1), "Itinerary Description 1"));
+        POIs.add(new POI("POI2", new Date(), u, new Coordinates(2, 2), "Itinerary Description 2"));
+        Command c = new CreateItineraryCommand("Itinerary", new Date(), u, POIs, mt, "Description");
 
         // Check NullPointerException
-        assertThrows(NullPointerException.class, () -> new CreateItineraryCommand(null, new Date(), u, POIs, mt));
-        assertThrows(NullPointerException.class, () -> new CreateItineraryCommand("Itinerary", null, u, POIs, mt));
-        assertThrows(NullPointerException.class, () -> new CreateItineraryCommand("Itinerary", new Date(), null, POIs, mt));
-        assertThrows(NullPointerException.class, () -> new CreateItineraryCommand("Itinerary", new Date(), u, null, mt));
-        assertThrows(NullPointerException.class, () -> new CreateItineraryCommand("Itinerary", new Date(), u, POIs, null));
+        assertThrows(NullPointerException.class, () -> new CreateItineraryCommand(null, new Date(), u, POIs, mt, "Description"));
+        assertThrows(NullPointerException.class, () -> new CreateItineraryCommand("Itinerary", null, u, POIs, mt, "Description"));
+        assertThrows(NullPointerException.class, () -> new CreateItineraryCommand("Itinerary", new Date(), null, POIs, mt, "Description"));
+        assertThrows(NullPointerException.class, () -> new CreateItineraryCommand("Itinerary", new Date(), u, null, mt, "Description"));
+        assertThrows(NullPointerException.class, () -> new CreateItineraryCommand("Itinerary", new Date(), u, POIs, null, "Description"));
+        assertThrows(NullPointerException.class, () -> new CreateItineraryCommand("Itinerary", new Date(), u, POIs, mt, null));
 
         // Execute the command
         c.execute();
 
         // Verify that the itinerary has been created
         assertFalse(mt.getItineraries().isEmpty());
-        Itinerary expectedItinerary = new Itinerary("Itinerary", new Date(), u, POIs);
+        Itinerary expectedItinerary = new Itinerary("Itinerary", new Date(), u, POIs, "Description");
         assertEquals(expectedItinerary, mt.getItineraries().getFirst());
     }
 
@@ -127,7 +129,7 @@ public class CommandsTest {
     public void ChangePOICommandTest() {
         // Create necessary instances for the test
         Coordinates coord = new Coordinates(1, 1);
-        POI poi = new POI("POI", new Date(), u, coord);
+        POI poi = new POI("POI", new Date(), u, coord, "Description");
         Command c = new ChangePOICommand(poi, "New POI");
 
         // Check NullPointerException
@@ -168,9 +170,9 @@ public class CommandsTest {
     public void ChangeItineraryCommandTest() {
         // Create necessary instances for the test
         List<POI> POIs = new ArrayList<>();
-        POIs.add(new POI("POI1", new Date(), u, new Coordinates(1, 1)));
-        POIs.add(new POI("POI2", new Date(), u, new Coordinates(2, 2)));
-        Itinerary itinerary = new Itinerary("Itinerary", new Date(), u, POIs);
+        POIs.add(new POI("POI1", new Date(), u, new Coordinates(1, 1), "Description"));
+        POIs.add(new POI("POI2", new Date(), u, new Coordinates(2, 2), "Description"));
+        Itinerary itinerary = new Itinerary("Itinerary", new Date(), u, POIs, "Description");
         Command c = new ChangeItineraryCommand(itinerary, "New Itinerary");
 
         // Check NullPointerException
@@ -191,7 +193,7 @@ public class CommandsTest {
     public void DeletePOICommandTest() {
         // Create necessary instances for the test
         Coordinates coord = new Coordinates(1, 1);
-        mt.addPOI("POI", new Date(), u, coord);
+        mt.addPOI("POI", new Date(), u, coord, "Description");
         Command c = new DeletePOICommand(mt, coord);
 
         // Check NullPointerException
@@ -233,7 +235,7 @@ public class CommandsTest {
     public void DeletePOIContentCommandTest() {
         // Create necessary instances for the test
         Coordinates coord = new Coordinates(1, 1);
-        POI poi = new POI("POI", new Date(), u, coord);
+        POI poi = new POI("POI", new Date(), u, coord, "Description");
         Content content = new Content(new Date(), u, "Content");
         poi.addContent(content);
         Command c = new DeletePOIContentCommand(poi, content);
@@ -256,10 +258,10 @@ public class CommandsTest {
     public void DeleteItineraryCommandTest() {
         // Create necessary instances for the test
         List<POI> POIs = new ArrayList<>();
-        POIs.add(new POI("POI1", new Date(), u, new Coordinates(1, 1)));
-        POIs.add(new POI("POI2", new Date(), u, new Coordinates(2, 2)));
-        Itinerary itinerary = new Itinerary("Itinerary", new Date(), u, POIs);
-        mt.addItinerary("Itinerary", new Date(), u, POIs);
+        POIs.add(new POI("POI1", new Date(), u, new Coordinates(1, 1), "Description"));
+        POIs.add(new POI("POI2", new Date(), u, new Coordinates(2, 2), "Description"));
+        Itinerary itinerary = new Itinerary("Itinerary", new Date(), u, POIs, "Description");
+        mt.addItinerary("Itinerary", new Date(), u, POIs, "Description");
         Command c = new DeleteItineraryCommand(mt, itinerary);
 
         // Check NullPointerException

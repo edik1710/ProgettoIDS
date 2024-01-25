@@ -42,6 +42,13 @@ public class Curator extends AuthorizedContributor {
         CommandVerificationQueue.getInstance().getToBeVerified().remove();
     }
 
+    /**
+     * This method allows the curator to remove the reported contents.
+     */
+    private void removeReportedContents() {
+        this.getResidence().getGeneralContents().removeIf(content -> content.getReports() >= 10);
+    }
+
     public static Command getValidatingCommand() {
         return validatingCommand;
     }

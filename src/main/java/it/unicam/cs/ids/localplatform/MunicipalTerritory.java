@@ -17,6 +17,7 @@ public class MunicipalTerritory {
         this.POIs = new HashMap<>();
         this.generalContents = new ArrayList<>();
         this.itineraries = new ArrayList<>();
+        this.contests = new ArrayList<>();
     }
 
     public Map<Coordinates, POI> getPOIs() {
@@ -39,8 +40,8 @@ public class MunicipalTerritory {
      * @param author          The author of the POI.
      * @param coordinates     The coordinates of the POI.
      */
-    public void addPOI(String title, Date publicationDate, User author, Coordinates coordinates) {
-        POI poi = new POI(title, publicationDate, author, coordinates);
+    public void addPOI(String title, Date publicationDate, User author, Coordinates coordinates, String description) {
+        POI poi = new POI(title, publicationDate, author, coordinates, description);
 
         // Check if a POI with the same coordinates already exists
         if (this.POIs.containsKey(coordinates))
@@ -57,8 +58,8 @@ public class MunicipalTerritory {
      * @param author          The author of the itinerary.
      * @param POIs            The POIs that make up the itinerary.
      */
-    public void addItinerary(String title, Date publicationDate, User author, List<POI> POIs) {
-        Itinerary itinerary = new Itinerary(title, publicationDate, author, POIs);
+    public void addItinerary(String title, Date publicationDate, User author, List<POI> POIs, String description) {
+        Itinerary itinerary = new Itinerary(title, publicationDate, author, POIs, description);
 
         // Check if the itinerary already exists
         if (this.itineraries.contains(itinerary)) throw new IllegalArgumentException("This itinerary already exists.");
@@ -130,6 +131,10 @@ public class MunicipalTerritory {
 
     private void removeExpiredContests() {
         Date now = new Date();
+        // contest.contents --> municipality.contents
         this.contests.removeIf(contest -> contest.getEndDate().before(now));
+    }
+    public List<Contest> getContests() {
+        return contests;
     }
 }

@@ -11,11 +11,33 @@ import java.util.List;
  */
 public class AuthorizedTourist extends Tourist {
     private List<Info> savedInfo;
-    //private List<MultimediaContent> uploadedPhotos;
 
     public AuthorizedTourist(String name, String surname, String email, String password, MunicipalTerritory residence, String cf) {
         super(name, surname, email, password, residence, cf);
         this.savedInfo = new ArrayList<>();
-        //this.uploadedPhotos = new ArrayList<>();
     }
+
+    /**
+     * This method allows the authorized tourist to save an information for future visits.
+     *
+     * @param info The information to be saved.
+     */
+    public void saveInfo(Info info) {
+        this.savedInfo.add(info);
+    }
+
+    /**
+     * This method allows the authorized tourist to remove an information from the saved ones.
+     *
+     * @param info The information to be removed.
+     */
+    public void removeInfo(Info info) {
+        this.savedInfo.remove(info);
+    }
+
+    /*
+    public void addPhotoToItinerary(Itinerary itinerary, Photo photo) {
+        itinerary.addPhoto(photo);
+    }
+     */
 }
