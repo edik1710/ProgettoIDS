@@ -9,6 +9,7 @@ import it.unicam.cs.ids.localplatform.MunicipalTerritory;
  */
 public class Tourist extends User {
     private int numReports;
+
     public Tourist(String name, String surname, String email, String password, MunicipalTerritory residence, String cf) {
         super(name, surname, email, password, residence, cf);
         this.numReports = 0;
@@ -23,6 +24,7 @@ public class Tourist extends User {
         this.numReports++;
         content.reportContent();
     }
+
     public int getNumReports() {
         return numReports;
     }

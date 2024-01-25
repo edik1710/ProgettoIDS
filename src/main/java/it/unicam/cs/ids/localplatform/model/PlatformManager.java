@@ -2,9 +2,7 @@ package it.unicam.cs.ids.localplatform.model;
 
 import it.unicam.cs.ids.localplatform.MunicipalTerritory;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,23 +18,19 @@ public class PlatformManager extends User {
 
     /**
      * This method allows the platform manager to assign roles to users.
-     * */
+     */
     public void assignRoles() {
         for (Map.Entry<User, Roles> entry : pendingUsers.entrySet()) {
             User user = entry.getKey();
             Roles role = entry.getValue();
 
-            if(!user.getResidence().equals(this.getResidence())) {
+            if (!user.getResidence().equals(this.getResidence())) {
                 createTourist(user);
             } else {
                 switch (role) {
                     case ANIMATOR:
                         Animator animator = new Animator(user.getName(), user.getSurname(), user.getEmail(), user.getPassword(), user.getResidence(), user.getCf());
                         this.getResidence().getUsers().add(animator);
-                        break;
-                    case AUTHORIZED_CONTRIBUTORS:
-                        AuthorizedContributor authorizedContributor = new AuthorizedContributor(user.getName(), user.getSurname(), user.getEmail(), user.getPassword(), user.getResidence(), user.getCf());
-                        this.getResidence().getUsers().add(authorizedContributor);
                         break;
                     case CURATOR:
                         Curator curator = new Curator(user.getName(), user.getSurname(), user.getEmail(), user.getPassword(), user.getResidence(), user.getCf());
@@ -46,7 +40,7 @@ public class PlatformManager extends User {
                         PlatformManager platformManager = new PlatformManager(user.getName(), user.getSurname(), user.getEmail(), user.getPassword(), user.getResidence(), user.getCf());
                         this.getResidence().getUsers().add(platformManager);
                         break;
-                    case CONTRIBUTORS:
+                    case CONTRIBUTOR:
                         Contributor contributor = new Contributor(user.getName(), user.getSurname(), user.getEmail(), user.getPassword(), user.getResidence(), user.getCf());
                         this.getResidence().getUsers().add(contributor);
                         break;
@@ -59,8 +53,8 @@ public class PlatformManager extends User {
      * This method allows the platform manager to create a new animator.
      *
      * @param user The name of the animator.
-     * */
-    private void createTourist(User user) {
+     */
+    public void createTourist(User user) {
         Tourist tourist = new Tourist(user.getName(), user.getSurname(), user.getEmail(), user.getPassword(), user.getResidence(), user.getCf());
         this.getResidence().getUsers().add(tourist);
     }
@@ -69,9 +63,9 @@ public class PlatformManager extends User {
      * This method allows the platform manager to authorize a tourist after 10 correct reports.
      *
      * @param tourist The tourist to be authorized.
-     * */
+     */
     public void authorizeTourist(Tourist tourist) {
-        if(tourist.getNumReports() >= 10) {
+        if (tourist.getNumReports() >= 10) {
             AuthorizedTourist authorizedTourist = new AuthorizedTourist(tourist.getName(), tourist.getSurname(), tourist.getEmail(), tourist.getPassword(), tourist.getResidence(), tourist.getCf());
             this.getResidence().getUsers().remove(tourist);
             this.getResidence().getUsers().add(authorizedTourist);
@@ -82,9 +76,9 @@ public class PlatformManager extends User {
      * This method allows the platform manager to authorize a contributor.
      *
      * @param contributor The contributor to be authorized.
-     * */
+     */
     public void authorizeContributor(Contributor contributor) {
-        if(contributor.getSubmittedContents() >= 10) {
+        if (contributor.getSubmittedInfo() >= 10) {
             AuthorizedContributor authorizedContributor = new AuthorizedContributor(contributor.getName(), contributor.getSurname(), contributor.getEmail(), contributor.getPassword(), contributor.getResidence(), contributor.getCf());
             this.getResidence().getUsers().remove(contributor);
             this.getResidence().getUsers().add(authorizedContributor);

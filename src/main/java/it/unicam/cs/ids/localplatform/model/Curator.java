@@ -45,7 +45,7 @@ public class Curator extends AuthorizedContributor {
     /**
      * This method allows the curator to remove the reported contents.
      */
-    private void removeReportedContents() {
+    public void removeReportedContents() {
         this.getResidence().getGeneralContents().removeIf(content -> content.getReports() >= 10);
     }
 

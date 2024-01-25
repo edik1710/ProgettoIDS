@@ -13,11 +13,11 @@ import java.util.List;
  * with such points. The uploaded contents are placed in "pending" status until the platform {@link Curator} accepts them.
  */
 public class Contributor extends User {
-    private int submittedContents;
+    private int submittedInfo;
 
     public Contributor(String name, String surname, String email, String password, MunicipalTerritory residence, String cf) {
         super(name, surname, email, password, residence, cf);
-        this.submittedContents = 0;
+        this.submittedInfo = 0;
     }
 
     /**
@@ -27,7 +27,7 @@ public class Contributor extends User {
      * @param coordinates The coordinates of the point of interest.
      */
     public void submitPOI(String title, Coordinates coordinates) {
-        this.submittedContents++;
+        this.submittedInfo++;
         CommandVerificationQueue.getInstance().getToBeVerified().add(new CreatePOICommand(title, new Date(), this, coordinates, this.getResidence(), "description of Submitted POI"));
     }
 
@@ -37,7 +37,7 @@ public class Contributor extends User {
      * @param content The content to be submitted.
      */
     public void submitGeneralContent(Content content) {
-        this.submittedContents++;
+        this.submittedInfo++;
         CommandVerificationQueue.getInstance().getToBeVerified().add(new CreateGeneralContentCommand(content, this.getResidence()));
     }
 
@@ -48,7 +48,7 @@ public class Contributor extends User {
      * @param POIs  The list of points of interest that make up the itinerary.
      */
     public void submitItinerary(String title, List<POI> POIs, String description) {
-        this.submittedContents++;
+        this.submittedInfo++;
         CommandVerificationQueue.getInstance().getToBeVerified().add(new CreateItineraryCommand(title, new Date(), this, POIs, this.getResidence(), description));
     }
 
@@ -128,7 +128,8 @@ public class Contributor extends User {
     public void submitItineraryDeletion(Itinerary itinerary) {
         CommandVerificationQueue.getInstance().getToBeVerified().add(new DeleteItineraryCommand(this.getResidence(), itinerary));
     }
-    public int getSubmittedContents() {
-        return submittedContents;
+
+    public int getSubmittedInfo() {
+        return submittedInfo;
     }
 }
