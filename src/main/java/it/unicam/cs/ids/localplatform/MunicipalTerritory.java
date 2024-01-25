@@ -39,32 +39,22 @@ public class MunicipalTerritory {
     /**
      * This method adds a POI to the municipal territory.
      *
-     * @param title           The title of the POI.
-     * @param publicationDate The publication date of the POI.
-     * @param author          The author of the POI.
-     * @param coordinates     The coordinates of the POI.
+     * @param poi The POI to be added.
      */
-    public void addPOI(String title, Date publicationDate, User author, Coordinates coordinates, String description) {
-        POI poi = new POI(title, publicationDate, author, coordinates, description);
-
+    public void addPOI(POI poi) {
         // Check if a POI with the same coordinates already exists
-        if (this.POIs.containsKey(coordinates))
+        if (this.POIs.containsKey(poi.getCoordinates()))
             throw new IllegalArgumentException("A POI with the same coordinates already exists.");
 
-        this.POIs.put(coordinates, poi);
+        this.POIs.put(poi.getCoordinates(), poi);
     }
 
     /**
      * This method adds an itinerary to the municipal territory.
      *
-     * @param title           The title of the itinerary.
-     * @param publicationDate The publication date of the itinerary.
-     * @param author          The author of the itinerary.
-     * @param POIs            The POIs that make up the itinerary.
+     * @param itinerary The itinerary to be added.
      */
-    public void addItinerary(String title, Date publicationDate, User author, List<POI> POIs, String description) {
-        Itinerary itinerary = new Itinerary(title, publicationDate, author, POIs, description);
-
+    public void addItinerary(Itinerary itinerary) {
         // Check if the itinerary already exists
         if (this.itineraries.contains(itinerary)) throw new IllegalArgumentException("This itinerary already exists.");
 

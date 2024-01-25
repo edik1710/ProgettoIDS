@@ -24,7 +24,7 @@ public class AuthorizedContributorTest {
     }
 
     /**
-     * Tests the {@link AuthorizedContributor#publishPOI(String, Coordinates)} method.
+     * Tests the {@link AuthorizedContributor#publishPOI(String, Coordinates, String)} method.
      */
     @Test
     public void publishPOITest() {
@@ -33,7 +33,7 @@ public class AuthorizedContributorTest {
         String poiTitle = "POI";
 
         // Execute the method
-        ac.publishPOI(poiTitle, coord);
+        ac.publishPOI(poiTitle, coord, "Description");
 
         // Verify that the POI has been created
         assertFalse(mt.getPOIs().isEmpty());
@@ -147,7 +147,7 @@ public class AuthorizedContributorTest {
         Coordinates coord = new Coordinates(1, 1);
         POI poi = new POI("POI", new Date(), ac, coord, "Description");
 
-        ac.publishPOI("POI", coord);
+        ac.publishPOI("POI", coord, "Description");
         assertFalse(mt.getPOIs().isEmpty());
         assertEquals(poi, mt.getPOIs().get(coord));
 

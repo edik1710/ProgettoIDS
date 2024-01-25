@@ -25,7 +25,7 @@ public class ContributorTest {
     }
 
     /**
-     * Tests the {@link Contributor#submitPOI(String, Coordinates)} method.
+     * Tests the {@link Contributor#submitPOI(String, Coordinates, String)} method.
      */
     @Test
     public void submitPOITest() {
@@ -34,7 +34,7 @@ public class ContributorTest {
         String poiTitle = "POI";
 
         // Execute the method
-        c.submitPOI(poiTitle, coord);
+        c.submitPOI(poiTitle, coord, "Description");
 
         // Verify that the command has been added to the queue
         assertFalse(CommandVerificationQueue.getInstance().getToBeVerified().isEmpty());

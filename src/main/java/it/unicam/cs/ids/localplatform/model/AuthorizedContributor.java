@@ -23,8 +23,10 @@ public class AuthorizedContributor extends User {
      * @param title       The title of the point of interest.
      * @param coordinates The coordinates of the point of interest.
      */
-    public void publishPOI(String title, Coordinates coordinates) {
-        new CreatePOICommand(title, new Date(), this, coordinates, this.getResidence(), "description of POI").execute();
+    public void publishPOI(String title, Coordinates coordinates, String description) {
+        POI poi = new POI(title, new Date(), this, coordinates, description);
+
+        new CreatePOICommand(poi, this.getResidence()).execute();
     }
 
     /**
@@ -43,7 +45,9 @@ public class AuthorizedContributor extends User {
      * @param POIs  The list of points of interest that make up the itinerary.
      */
     public void publishItinerary(String title, List<POI> POIs, String description) {
-        new CreateItineraryCommand(title, new Date(), this, POIs, this.getResidence(), description).execute();
+        Itinerary itinerary = new Itinerary(title, new Date(), this, POIs, description);
+
+        new CreateItineraryCommand(itinerary, this.getResidence()).execute();
     }
 
     /**
