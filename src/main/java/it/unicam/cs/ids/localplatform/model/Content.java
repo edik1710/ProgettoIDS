@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.localplatform.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Content implements Info {
@@ -51,5 +52,11 @@ public class Content implements Info {
 
     public int getReports() {
         return reports;
+    }
+
+    @Override
+    public String toString() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return "Contenuto pubblicato il " + sdf.format(publicationDate) + " da " + author.getName() + " " + author.getSurname() + ".\nTesto: " + text + "\nNumero di segnalazioni: " + reports + "\n";
     }
 }

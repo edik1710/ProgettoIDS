@@ -1,6 +1,6 @@
 package it.unicam.cs.ids.localplatform.model;
 
-import java.sql.Struct;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -72,14 +72,19 @@ public class POI implements Info {
      *
      * @param content The content to be removed.
      */
-    public void deleteContent(Content content){
-        if(!this.contents.contains(content))
-            throw new IllegalArgumentException("The content does not exist.");
+    public void deleteContent(Content content) {
+        if (!this.contents.contains(content)) throw new IllegalArgumentException("The content does not exist.");
 
         this.contents.remove(content);
     }
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    @Override
+    public String toString() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return "Punto di Interesse pubblicato il " + sdf.format(publicationDate) + " da " + author.getName() + " " + author.getSurname() + ".\nTitolo: " + title + "\nCoordinate: " + coordinates + "\nDescrizione: " + description + "\nNumero di contenuti: " + contents.size() + "\n";
     }
 }

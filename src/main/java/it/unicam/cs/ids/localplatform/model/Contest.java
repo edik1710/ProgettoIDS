@@ -1,5 +1,6 @@
 package it.unicam.cs.ids.localplatform.model;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -47,6 +48,12 @@ public class Contest {
 
     public List<Content> getContents() {
         return contents;
+    }
+
+    @Override
+    public String toString() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return "Concorso creato il " + sdf.format(startDate) + ".\nTitolo: " + title + "\nObiettivo: " + objective + "\nData di fine: " + sdf.format(endDate) + "\n";
     }
 
 }

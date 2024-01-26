@@ -22,7 +22,7 @@ public class Controller {
     private PlatformManager platformManager;
     private Scanner scanner = new Scanner(System.in);
     private User currentUser;
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     /**
      * The default constructor.
@@ -58,7 +58,7 @@ public class Controller {
         }
     }
 
-    public void newUser() {
+    private void newUser() {
         System.out.print("Inserisci i tuoi dati:\n" + "Nome: ");
         String name = scanner.nextLine();
         System.out.print("Cognome: ");
@@ -91,22 +91,20 @@ public class Controller {
                 return Roles.CONTRIBUTOR;
             case "3":
                 return Roles.CURATOR;
-            case "4":
-                return Roles.PLATFORM_MANAGER;
             default:
-                System.out.println("Hai inserito un valore non valido devi inserire o 1 o 2 o 3 o 4, hai inserito: " + role + " riprova");
+                System.out.println("Hai inserito un valore non valido devi inserire o 1 o 2 o 3, hai inserito: " + role + " riprova");
                 askForRole();
         }
         return null;
     }
 
-    public void retrieveInfo() {
+    private void retrieveInfo() {
         System.out.println("Numero di contenuti generali: " + this.municipalTerritory.getGeneralContents().size());
         System.out.println("Numero di punti di interesse: " + this.municipalTerritory.getPOIs().size());
         System.out.println("Numero di itinerari: " + this.municipalTerritory.getItineraries().size());
         System.out.println("Numero di concorsi: " + this.municipalTerritory.getContests().size());
 
-        System.out.println("Seleziona l'informazione che vuoi vedere " + "\n" + "1. Contenuti Generali" + "\n" + "2. Punti d'Interesse" + "\n" + "3. Itinerari" + "\n" + "4. Concorsi" + "\n\n" + "Digita il numero corrispondente e premi invio per selezionare l'azione da eseguire --> ");
+        System.out.print("\nSeleziona l'informazione che vuoi vedere " + "\n" + "1. Contenuti Generali" + "\n" + "2. Punti d'Interesse" + "\n" + "3. Itinerari" + "\n" + "4. Concorsi" + "\n\n" + "Digita il numero corrispondente e premi invio per selezionare l'azione da eseguire --> ");
         String info = scanner.nextLine();
         switch (info) {
             case "1":
@@ -128,22 +126,46 @@ public class Controller {
     }
 
     private void displayGeneralContents() {
-        this.municipalTerritory.getGeneralContents().toString();
+        if (this.municipalTerritory.getGeneralContents().isEmpty()) {
+            System.out.println("Non ci sono contenuti generali da visualizzare.");
+            initialize();
+        } else {
+            for (Content content : this.municipalTerritory.getGeneralContents())
+                System.out.println(content);
+        }
     }
 
     private void displayPOIs() {
-        this.municipalTerritory.getPOIs().toString();
+        if (this.municipalTerritory.getPOIs().isEmpty()) {
+            System.out.println("Non ci sono punti di interesse da visualizzare.");
+            initialize();
+        } else {
+            for (POI poi : this.municipalTerritory.getPOIs().values())
+                System.out.println(poi);
+        }
     }
 
     private void displayItineraries() {
-        this.municipalTerritory.getItineraries().toString();
+        if (this.municipalTerritory.getItineraries().isEmpty()) {
+            System.out.println("Non ci sono itinerari da visualizzare.");
+            initialize();
+        } else {
+            for (Itinerary itinerary : this.municipalTerritory.getItineraries())
+                System.out.println(itinerary);
+        }
     }
 
     private void displayContests() {
-        this.municipalTerritory.getContests().toString();
+        if (this.municipalTerritory.getContests().isEmpty()) {
+            System.out.println("Non ci sono concorsi da visualizzare.");
+            initialize();
+        } else {
+            for (Contest contest : this.municipalTerritory.getContests())
+                System.out.println(contest);
+        }
     }
 
-    public void login() {
+    private void login() {
         System.out.print("Inserisci i tuoi dati:\n" + "Email: ");
         String loginEmail = scanner.nextLine();
         System.out.print("Password: ");
@@ -159,7 +181,7 @@ public class Controller {
         }
     }
 
-    public boolean isUserInList(User userToFind) {
+    private boolean isUserInList(User userToFind) {
         return this.municipalTerritory.getUsers().stream().anyMatch(user -> user.getEmail().equals(userToFind.getEmail()) && user.getPassword().equals(userToFind.getPassword()));
     }
 
@@ -179,21 +201,6 @@ public class Controller {
         showRoleOptions(role);
     }
 
-    /*
-    private String showCurrentUserRole() {
-        return switch (this.currentUser.getClass().getSimpleName()) {
-            case "Animator" -> "Animator";
-            case "Contributor" -> "Contributor";
-            case "Curator" -> "Curator";
-            case "PlatformManager" -> "Platform Manager";
-            case "AuthorizedContributor" -> "Authorized Contributor";
-            case "AuthorizedTourist" -> "Authorized Tourist";
-            case "Tourist" -> "Tourist";
-            default -> null;
-        };
-    }
-    */
-
     private void showRoleOptions(String role) {
         switch (role) {
             case "Animator":
@@ -204,9 +211,6 @@ public class Controller {
                 break;
             case "Curator":
                 showCuratorOptions();
-                break;
-            case "PlatformManager":
-                showPlatformManagerOptions();
                 break;
             case "AuthorizedContributor":
                 showAuthorizedContributorOptions();
@@ -222,15 +226,16 @@ public class Controller {
 
     private void showAnimatorOptions() {
         Animator animator = (Animator) this.currentUser;
+        AnimatorHandler animatorHandler = new AnimatorHandler(animator);
 
         System.out.println("Seleziona l'azione da eseguire: " + "\n" + "1. Proporre un concorso" + "\n" + "2. Visualizzare il prossimo contenuto da validare" + "\n" + "Digita il numero corrispondente e premi invio per selezionare l'azione da eseguire --> ");
         String action = scanner.nextLine();
         switch (action) {
             case "1":
-                animator.proposeContest("objective", "title", null, null);
+                animatorHandler.createContest();
                 break;
             case "2":
-                animator.viewNextContestContent();
+                animatorHandler.retrieveNextContestContent();
                 break;
             default:
                 System.out.println("Hai inserito un valore non valido devi inserire o 1 o 2, hai inserito: " + action + " riprova");
@@ -240,18 +245,19 @@ public class Controller {
 
     private void showContributorOptions() {
         Contributor contributor = (Contributor) this.currentUser;
+        ContributorHandler contributorHandler = new ContributorHandler(contributor);
 
         System.out.println("Seleziona l'azione da eseguire: " + "\n" + "1. Proporre un contenuto generale" + "\n" + "2. Proporre un punto di interesse" + "\n" + "3. Proporre un itinerario" + "\n" + "Digita il numero corrispondente e premi invio per selezionare l'azione da eseguire --> ");
         String action = scanner.nextLine();
         switch (action) {
             case "1":
-                //contributor.submitGeneralContent("title", "description", null, null);
+                contributorHandler.sendGeneralContent();
                 break;
             case "2":
-                //contributor.submitPOI("title", "description", null, null);
+                contributorHandler.sendPOI();
                 break;
             case "3":
-                //contributor.submitItinerary("title", "description", null, null);
+                //contributorHandler.sendItinerary();
                 break;
             default:
                 System.out.println("Hai inserito un valore non valido devi inserire o 1 o 2 o 3, hai inserito: " + action + " riprova");
@@ -260,22 +266,76 @@ public class Controller {
     }
 
     private void showCuratorOptions() {
+        Curator curator = (Curator) this.currentUser;
+        CuratorHandler curatorHandler = new CuratorHandler(curator);
 
-    }
-
-    private void showPlatformManagerOptions() {
-
+        System.out.println("Seleziona l'azione da eseguire: " + "\n" + "1. Visualizzare il prossimo comando da validare" + "\n" + "2. Rimuovere i contenuti segnalati" + "\n" + "Digita il numero corrispondente e premi invio per selezionare l'azione da eseguire --> ");
+        String action = scanner.nextLine();
+        switch (action) {
+            case "1":
+                curatorHandler.retrieveNextCommandToValidate();
+                break;
+            case "2":
+                curatorHandler.removeReportedContents();
+                break;
+            default:
+                System.out.println("Hai inserito un valore non valido devi inserire o 1 o 2, hai inserito: " + action + " riprova");
+                showCuratorOptions();
+        }
     }
 
     private void showAuthorizedContributorOptions() {
+        AuthorizedContributor authorizedContributor = (AuthorizedContributor) this.currentUser;
+        AuthorizedContributorHandler authorizedContributorHandler = new AuthorizedContributorHandler(authorizedContributor);
 
+        System.out.println("Seleziona l'azione da eseguire: " + "\n" + "1. Carica un contenuto generale" + "\n" + "2. Carica un punto di interesse" + "\n" + "3. Carica un itinerario" + "\n" + "Digita il numero corrispondente e premi invio per selezionare l'azione da eseguire --> ");
+        String action = scanner.nextLine();
+        switch (action) {
+            case "1":
+                authorizedContributorHandler.uploadGeneralContent();
+                break;
+            case "2":
+                authorizedContributorHandler.uploadPOI();
+                break;
+            case "3":
+                //authorizedContributorHandler.uploadItinerary();
+                break;
+            default:
+                System.out.println("Hai inserito un valore non valido devi inserire o 1 o 2 o 3, hai inserito: " + action + " riprova");
+                showAuthorizedContributorOptions();
+        }
     }
 
     private void showAuthorizedTouristOptions() {
+        AuthorizedTourist authorizedTourist = (AuthorizedTourist) this.currentUser;
+        AuthorizedTouristHandler authorizedTouristHandler = new AuthorizedTouristHandler(authorizedTourist);
 
+        System.out.println("Seleziona l'azione da eseguire: " + "\n" + "1. Salva un contenuto" + "\n" + "2. Rimuovi un contenuto" + "\n" + "Digita il numero corrispondente e premi invio per selezionare l'azione da eseguire --> ");
+        String action = scanner.nextLine();
+        switch (action) {
+            case "1":
+                authorizedTouristHandler.saveInfo();
+                break;
+            case "2":
+                authorizedTouristHandler.removeInfo();
+                break;
+            default:
+                System.out.println("Hai inserito un valore non valido devi inserire o 1 o 2, hai inserito: " + action + " riprova");
+                showAuthorizedTouristOptions();
+        }
     }
 
-    private void showTouristOptions() {
+    private void showTouristOptions() { // Sistemare
+        Tourist tourist = (Tourist) this.currentUser;
+        TouristHandler touristHandler = new TouristHandler(tourist);
 
+        System.out.println("Seleziona l'azione da eseguire: " + "\n" + "1. Segnala un contenuto" + "\n" + "Digita il numero corrispondente e premi invio per selezionare l'azione da eseguire --> ");
+        String action = scanner.nextLine();
+        if (action.equals("1")) {
+            //touristHandler.reportContent();
+        } else {
+            System.out.println("Hai inserito un valore non valido devi inserire 1, hai inserito: " + action + " riprova");
+            showTouristOptions();
+        }
     }
 }
