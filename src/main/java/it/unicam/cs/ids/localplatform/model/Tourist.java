@@ -29,4 +29,10 @@ public class Tourist extends User {
         return numReports;
     }
 
+    /*
+    Methods used for testing purposes only.
+     */
+    public void setNumReports(int numReports) {
+        this.numReports = numReports;
+    }
 }

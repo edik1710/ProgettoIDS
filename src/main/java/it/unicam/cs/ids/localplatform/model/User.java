@@ -5,7 +5,7 @@ import it.unicam.cs.ids.localplatform.MunicipalTerritory;
 /**
  * This class is a model of a generic user.
  */
-public abstract class User {
+public class User {
     private String name;
     private String surname;
     private String email;

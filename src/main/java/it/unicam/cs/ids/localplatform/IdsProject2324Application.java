@@ -1,13 +1,14 @@
 package it.unicam.cs.ids.localplatform;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import it.unicam.cs.ids.localplatform.util.Controller;
 
-//@SpringBootApplication
 public class IdsProject2324Application {
 
-	public static void main(String[] args) {
-		//SpringApplication.run(IdsProject2324Application.class, args);
-	}
+    public static void main(String[] args) {
+        /*
+        Controller controller = new Controller();
+        controller.initialize();
+        */
+    }
 
 }
