@@ -1,7 +1,8 @@
 package it.unicam.cs.ids.localplatform.model;
 
 import it.unicam.cs.ids.localplatform.MunicipalTerritory;
-import org.apache.tomcat.util.digester.Rules;
+
+import java.util.Objects;
 
 /**
  * This class is a model of a generic user.
@@ -13,7 +14,7 @@ public class User {
     private String password;
     private MunicipalTerritory residence;
     private String cf;
-    private Rules role;
+    //private Roles role;
 
     public User(String name, String surname, String email, String password, MunicipalTerritory residence, String cf) {
         this.name = name;
@@ -48,15 +49,23 @@ public class User {
         return cf;
     }
 
-    public Rules getRole() {
+    /*
+    public Roles getRole() {
         return role;
     }
+
+     */
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User that = (User) o;
-        return this.email.equals(that.email) && this.password.equals(that.password);
+        User user = (User) o;
+        return email.equals(user.email) && password.equals(user.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email, password);
     }
 }
