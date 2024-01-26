@@ -20,7 +20,7 @@ public class CommandsTest {
 
     @BeforeEach
     public void setup() {
-        this.mt = new MunicipalTerritory();
+        this.mt = new MunicipalTerritory("Camerino");
         this.u = new Contributor("Elia", "Toma", "elia.toma@studenti.unicam.it", "password", mt, "1234567890");
     }
 

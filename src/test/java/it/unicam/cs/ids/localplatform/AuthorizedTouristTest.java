@@ -20,7 +20,7 @@ public class AuthorizedTouristTest {
 
     @BeforeEach
     public void setup() {
-        MunicipalTerritory mt = new MunicipalTerritory();
+        MunicipalTerritory mt = new MunicipalTerritory("Camerino");
         tourist = new AuthorizedTourist("Name", "Surname", "Email", "Password", mt, "CF");
         contributor = new Contributor("Name", "Surname", "Email", "Password", mt, "CF");
     }

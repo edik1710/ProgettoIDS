@@ -23,7 +23,7 @@ public class AnimatorTest {
 
     @BeforeEach
     public void setup() {
-        mt = new MunicipalTerritory();
+        mt = new MunicipalTerritory("Camerino");
         animator = new Animator("Name", "Surname", "Email", "Password", mt, "CF");
         startDate = new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24); // 1 day from now
         endDate = new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 48); // 2 days from now

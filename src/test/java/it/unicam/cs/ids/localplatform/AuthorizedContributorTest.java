@@ -19,7 +19,7 @@ public class AuthorizedContributorTest {
 
     @BeforeEach
     public void setup() {
-        mt = new MunicipalTerritory();
+        mt = new MunicipalTerritory("Camerino");
         ac = new AuthorizedContributor("Elia", "Toma", "elia.toma@studenti.unicam.it", "password", mt, "1234567890");
     }
 

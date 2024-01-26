@@ -18,7 +18,7 @@ public class PlatformManagerTest {
 
     @BeforeEach
     public void setup() {
-        mt = new MunicipalTerritory();
+        mt = new MunicipalTerritory("Camerino");
         platformManager = new PlatformManager("Name", "Surname", "Email", "Password", mt, "CF");
     }
 

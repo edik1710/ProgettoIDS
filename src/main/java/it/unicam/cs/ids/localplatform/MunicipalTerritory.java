@@ -15,8 +15,8 @@ public class MunicipalTerritory {
     private List<Contest> contests;
     private List<User> users;
 
-    public MunicipalTerritory() {
-        this.municipalName = "Camerino";
+    public MunicipalTerritory(String municipalName) {
+        this.municipalName = municipalName;
         this.POIs = new HashMap<>();
         this.generalContents = new ArrayList<>();
         this.itineraries = new ArrayList<>();
@@ -34,6 +34,10 @@ public class MunicipalTerritory {
 
     public List<Itinerary> getItineraries() {
         return itineraries;
+    }
+
+    public String getMunicipalName() {
+        return municipalName;
     }
 
     /**
@@ -144,4 +148,5 @@ public class MunicipalTerritory {
         MunicipalTerritory that = (MunicipalTerritory) o;
         return this.municipalName.equals(that.municipalName);
     }
+
 }

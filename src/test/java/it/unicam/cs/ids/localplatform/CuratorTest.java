@@ -23,7 +23,7 @@ public class CuratorTest {
 
     @BeforeEach
     public void setup() {
-        mt = new MunicipalTerritory();
+        mt = new MunicipalTerritory("Camerino");
         curator = new Curator("Elia", "Toma", "elia.toma@studenti.unicam.it", "password", mt, "1234567890");
         CommandVerificationQueue.getInstance().getToBeVerified().clear();
     }

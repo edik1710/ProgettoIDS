@@ -20,7 +20,7 @@ public class TouristTest {
     @Test
     public void reportContentTest() {
         // Create necessary instances for the test
-        MunicipalTerritory mt = new MunicipalTerritory();
+        MunicipalTerritory mt = new MunicipalTerritory("Camerino");
         Tourist tourist = new Tourist("Name", "Surname", "Email", "Password", mt, "CF");
         Contributor contributor = new Contributor("Name", "Surname", "Email", "Password", mt, "CF");
         Content content = new Content(new Date(), contributor, "Description");

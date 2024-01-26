@@ -19,7 +19,7 @@ public class ContributorTest {
 
     @BeforeEach
     public void setup() {
-        MunicipalTerritory mt = new MunicipalTerritory();
+        MunicipalTerritory mt = new MunicipalTerritory("Camerino");
         c = new Contributor("Elia", "Toma", "elia.toma@studenti.unicam.it", "password", mt, "1234567890");
         CommandVerificationQueue.getInstance().getToBeVerified().clear();
     }
