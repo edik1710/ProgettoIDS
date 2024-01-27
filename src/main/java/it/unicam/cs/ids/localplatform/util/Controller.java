@@ -303,7 +303,7 @@ public class Controller {
                 authorizedContributorHandler.uploadPOI();
                 break;
             case "3":
-                //authorizedContributorHandler.uploadItinerary();
+                authorizedContributorHandler.uploadItinerary();
                 break;
             default:
                 System.out.println("Hai inserito un valore non valido devi inserire o 1 o 2 o 3, hai inserito: " + action + " riprova");
@@ -315,7 +315,10 @@ public class Controller {
         AuthorizedTourist authorizedTourist = (AuthorizedTourist) this.currentUser;
         AuthorizedTouristHandler authorizedTouristHandler = new AuthorizedTouristHandler(authorizedTourist);
 
-        System.out.println("Seleziona l'azione da eseguire: " + "\n" + "1. Salva un contenuto" + "\n" + "2. Rimuovi un contenuto" + "\n" + "Digita il numero corrispondente e premi invio per selezionare l'azione da eseguire --> ");
+        System.out.println("Seleziona l'azione da eseguire: " + "\n" +
+                "1. Salva un contenuto" + "\n" +
+                "2. Rimuovi un contenuto" + "\n" +
+                "Digita il numero corrispondente e premi invio per selezionare l'azione da eseguire --> ");
         String action = scanner.nextLine();
         switch (action) {
             case "1":
@@ -330,18 +333,25 @@ public class Controller {
         }
     }
 
-    private void showTouristOptions() { // Sistemare -> ci ho provato
+    private void showTouristOptions() { // Sistemare -> ci ho provato -> sistemato
         Tourist tourist = (Tourist) this.currentUser;
         TouristHandler touristHandler = new TouristHandler(tourist);
 
-        System.out.print("Seleziona l'azione da eseguire: " + "\n" + "1. Segnala un contenuto" + "\n" +
+        System.out.print("Seleziona l'azione da eseguire: " + "\n" +
+                "1. Segnala un contenuto" + "\n" +
+                "2. Recupera informazioni sul territorio" + "\n" +
                 "Digita il numero corrispondente e premi invio per selezionare l'azione da eseguire --> ");
         String action = scanner.nextLine();
-        if (action.equals("1")) {
-            touristHandler.reportContent();
-        } else {
-            System.out.println("Hai inserito un valore non valido devi inserire 1, hai inserito: " + action + " riprova");
-            showTouristOptions();
+        switch (action) {
+            case "1":
+                touristHandler.reportContent();
+                break;
+            case "2":
+                retrieveInfo();
+                break;
+            default:
+                System.out.println("Hai inserito un valore non valido devi inserire o 1 o 2, hai inserito: " + action + " riprova");
+                showTouristOptions();
         }
     }
 }

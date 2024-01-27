@@ -26,6 +26,14 @@ public class Itinerary implements Info {
         // this.photos = new ArrayList<>();
     }
 
+    public Itinerary(String title, Date publicationDate, AuthorizedContributor authorizedContributor, String description, String startDate, String endDate) {
+        this.title = title;
+        this.publicationDate = publicationDate;
+        this.author = authorizedContributor;
+        this.description = description;
+        // this.photos = new ArrayList<>();
+    }
+
     /*
     public void addPhoto(Photo photo) {
         this.photos.add(photo);
@@ -65,4 +73,5 @@ public class Itinerary implements Info {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         return "Itinerario creato il " + sdf.format(publicationDate) + " da " + author.getName() + " " + author.getSurname() + ".\nTitolo: " + title + "\nDescrizione: " + description + "\nNumero di punti di interesse: " + POIs.size() + "\n";
     }
+
 }

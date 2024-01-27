@@ -1,8 +1,6 @@
 package it.unicam.cs.ids.localplatform.util;
 
-import it.unicam.cs.ids.localplatform.model.AuthorizedContributor;
-import it.unicam.cs.ids.localplatform.model.Content;
-import it.unicam.cs.ids.localplatform.model.Coordinates;
+import it.unicam.cs.ids.localplatform.model.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -56,18 +54,20 @@ public class AuthorizedContributorHandler {
         }
     }
 
-    /*
+    /**
+     * This method allows the authorized contributor to upload a new itinerary to the platform.
+     */
     public void uploadItinerary() {
         System.out.println("Inserisci il titolo dell'itinerario:");
         String title = scanner.nextLine();
         System.out.println("Inserisci la descrizione dell'itinerario:");
         String description = scanner.nextLine();
-
-        try {
-            authorizedContributor.publishItinerary(title, description);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        System.out.println("Inserisci la data di inizio dell'itinerario (dd-MM-yyyy):");
+        String startDate = scanner.nextLine();
+        System.out.println("Inserisci la data di fine dell'itinerario (dd-MM-yyyy):");
+        String endDate = scanner.nextLine();
+        Itinerary itinerary = new Itinerary(title, new Date(), authorizedContributor, description, startDate, endDate);
     }
-    */
+
+
 }
