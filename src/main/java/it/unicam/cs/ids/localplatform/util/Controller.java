@@ -72,12 +72,17 @@ public class Controller {
         System.out.print("Codice fiscale: ");
         String cf = scanner.nextLine();
 
-        Roles role = askForRole();
-
-        User user = new User(name, surname, email, password, new MunicipalTerritory(residence), cf);
-        this.platformManager.getPendingUsers().put(user, role);
-        System.out.println("Utente inserito correttamente☻.\nIn attesa che il manager della piattaforma assegni il ruolo.");
-        this.platformManager.assignRoles();
+        if(residence.equals(municipalTerritory.getMunicipalName())) {
+            System.out.println("Sei un cittadino di " + municipalTerritory.getMunicipalName() + " e puoi iscriverti alla piattaforma.");
+            Roles role = askForRole();
+            User user = new User(name, surname, email, password, new MunicipalTerritory(residence), cf);
+            this.platformManager.getPendingUsers().put(user, role);
+            System.out.println("Utente inserito correttamente☻.\nIn attesa che il manager della piattaforma assegni il ruolo.");
+            this.platformManager.assignRoles();
+        } else {
+            System.out.println("Non sei un cittadino di " + municipalTerritory.getMunicipalName() + " sarai considerato turista");
+            showTouristOptions();
+        }
         initialize();
     }
 
@@ -325,14 +330,15 @@ public class Controller {
         }
     }
 
-    private void showTouristOptions() { // Sistemare
+    private void showTouristOptions() { // Sistemare -> ci ho provato
         Tourist tourist = (Tourist) this.currentUser;
         TouristHandler touristHandler = new TouristHandler(tourist);
 
-        System.out.println("Seleziona l'azione da eseguire: " + "\n" + "1. Segnala un contenuto" + "\n" + "Digita il numero corrispondente e premi invio per selezionare l'azione da eseguire --> ");
+        System.out.print("Seleziona l'azione da eseguire: " + "\n" + "1. Segnala un contenuto" + "\n" +
+                "Digita il numero corrispondente e premi invio per selezionare l'azione da eseguire --> ");
         String action = scanner.nextLine();
         if (action.equals("1")) {
-            //touristHandler.reportContent();
+            touristHandler.reportContent();
         } else {
             System.out.println("Hai inserito un valore non valido devi inserire 1, hai inserito: " + action + " riprova");
             showTouristOptions();

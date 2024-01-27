@@ -3,9 +3,12 @@ package it.unicam.cs.ids.localplatform.util;
 import it.unicam.cs.ids.localplatform.model.Content;
 import it.unicam.cs.ids.localplatform.model.Contributor;
 import it.unicam.cs.ids.localplatform.model.Coordinates;
+import it.unicam.cs.ids.localplatform.model.POI;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -56,18 +59,37 @@ public class ContributorHandler {
         }
     }
 
-    /*
+    /* questa è una grossa porcata per me, ma non saprei come fare altrimenti
     public void sendItinerary() {
         System.out.println("Inserisci il titolo dell'itinerario:");
         String title = scanner.nextLine();
         System.out.println("Inserisci la descrizione dell'itinerario:");
         String description = scanner.nextLine();
 
+        List<POI> POIs = new ArrayList<>();
+
+        while (true) {
+            System.out.println("Inserisci il titolo del POI da aggiungere all'itinerario (inserisci 'fine' per terminare):");
+            String poiTitle = scanner.nextLine();
+
+            if (poiTitle.equals("fine")) {
+                break;
+            }
+
+            POI poi = POIHandler.getPOIByTitle(poiTitle); -> sarebbe da implementare una variabile POIHandler, però meglio ragiornarci insieme su come fare
+
+            if (poi == null) {
+                System.out.println("Il POI inserito non esiste.");
+                continue;
+            }
+
+            POIs.add(poi);
+        }
+
         try {
-            contributor.submitItinerary(title, description);
+            contributor.submitItinerary(title, POIs, description);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
-    */
+    }*/
 }
