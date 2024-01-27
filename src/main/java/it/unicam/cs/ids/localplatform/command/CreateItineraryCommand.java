@@ -7,8 +7,8 @@ import it.unicam.cs.ids.localplatform.model.Itinerary;
  * This class implements the command pattern and is used to create an itinerary.
  */
 public class CreateItineraryCommand implements Command {
-    private Itinerary itinerary;
-    private MunicipalTerritory municipality;
+    private final Itinerary itinerary;
+    private final MunicipalTerritory municipality;
 
     public CreateItineraryCommand(Itinerary itinerary, MunicipalTerritory municipality) {
         if (itinerary == null || municipality == null)

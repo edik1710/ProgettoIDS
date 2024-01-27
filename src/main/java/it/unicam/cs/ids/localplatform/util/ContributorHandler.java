@@ -3,12 +3,9 @@ package it.unicam.cs.ids.localplatform.util;
 import it.unicam.cs.ids.localplatform.model.Content;
 import it.unicam.cs.ids.localplatform.model.Contributor;
 import it.unicam.cs.ids.localplatform.model.Coordinates;
-import it.unicam.cs.ids.localplatform.model.POI;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Scanner;
 
 /**

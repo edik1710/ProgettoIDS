@@ -7,8 +7,8 @@ import it.unicam.cs.ids.localplatform.model.Content;
  * This class implements the command pattern and is used to create a general content.
  */
 public class CreateGeneralContentCommand implements Command {
-    private Content content;
-    private MunicipalTerritory municipality;
+    private final Content content;
+    private final MunicipalTerritory municipality;
 
     public CreateGeneralContentCommand(Content content, MunicipalTerritory municipality) {
         if (content == null || municipality == null)

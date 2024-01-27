@@ -3,9 +3,12 @@ package it.unicam.cs.ids.localplatform.model;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * This class represents a content.
+ */
 public class Content implements Info {
-    private Date publicationDate;
-    private User author;
+    private final Date publicationDate;
+    private final User author;
     private String text;
     private int reports;
     // private Photo photo;  ->   da implementare con springBoot
@@ -16,14 +19,6 @@ public class Content implements Info {
         this.text = text;
         this.reports = 0;
         // this.photo = photo;
-    }
-
-    public Date getPublicationDate() {
-        return publicationDate;
-    }
-
-    public User getAuthor() {
-        return author;
     }
 
     public String getText() {
@@ -42,12 +37,11 @@ public class Content implements Info {
         return this.text.equals(that.text);
     }
 
+    /**
+     * This method allows to report a content.
+     */
     public void reportContent() {
         this.reports++;
-    }
-
-    public void resetReportedContents() {
-        this.reports = 0;
     }
 
     public int getReports() {

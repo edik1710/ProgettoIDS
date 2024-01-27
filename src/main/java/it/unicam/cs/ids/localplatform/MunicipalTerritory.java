@@ -8,12 +8,12 @@ import java.util.*;
  * This class represents a municipal territory.
  */
 public class MunicipalTerritory {
-    private String municipalName;
-    private Map<Coordinates, POI> POIs;
-    private List<Content> generalContents;
-    private List<Itinerary> itineraries;
-    private List<Contest> contests;
-    private List<User> users;
+    private final String municipalName;
+    private final Map<Coordinates, POI> POIs;
+    private final List<Content> generalContents;
+    private final List<Itinerary> itineraries;
+    private final List<Contest> contests;
+    private final List<User> users;
 
     public MunicipalTerritory(String municipalName) {
         this.municipalName = municipalName;

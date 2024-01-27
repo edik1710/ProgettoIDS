@@ -7,8 +7,8 @@ import it.unicam.cs.ids.localplatform.model.Content;
  * This class implements the command pattern and it is used to delete a content.
  */
 public class DeleteGeneralContentCommand implements Command {
-    private MunicipalTerritory municipality;
-    private Content content;
+    private final MunicipalTerritory municipality;
+    private final Content content;
 
     public DeleteGeneralContentCommand(MunicipalTerritory residence, Content content) {
         if (residence == null || content == null) throw new NullPointerException("Null parameters are not allowed.");

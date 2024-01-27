@@ -6,8 +6,8 @@ import it.unicam.cs.ids.localplatform.model.Itinerary;
  * This class implements the command pattern and is used to change an itinerary.
  */
 public class ChangeItineraryCommand implements Command {
-    private Itinerary itinerary;
-    private String title;
+    private final Itinerary itinerary;
+    private final String title;
 
     public ChangeItineraryCommand(Itinerary itinerary, String title) {
         if (itinerary == null || title == null) throw new NullPointerException("Null parameters are not allowed.");

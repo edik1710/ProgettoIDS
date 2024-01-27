@@ -7,8 +7,8 @@ import it.unicam.cs.ids.localplatform.model.Coordinates;
  * This class implements the command pattern and it is used to delete a POI.
  */
 public class DeletePOICommand implements Command {
-    private MunicipalTerritory municipality;
-    private Coordinates coordinates;
+    private final MunicipalTerritory municipality;
+    private final Coordinates coordinates;
 
     public DeletePOICommand(MunicipalTerritory municipality, Coordinates coordinates) {
         if (municipality == null || coordinates == null)

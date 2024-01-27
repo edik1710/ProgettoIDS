@@ -5,12 +5,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * This class represents a contest.
+ */
 public class Contest {
-    private String objective;
-    private String title;
-    private Date startDate;
-    private Date endDate;
-    private List<Content> contents;
+    private final String objective;
+    private final String title;
+    private final Date startDate;
+    private final Date endDate;
+    private final List<Content> contents;
 
     public Contest(String objective, String title, Date startDate, Date endDate) {
         if (startDate.after(endDate))

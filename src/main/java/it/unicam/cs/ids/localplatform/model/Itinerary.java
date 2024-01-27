@@ -9,10 +9,10 @@ import java.util.List;
  */
 public class Itinerary implements Info {
     private String title;
-    private Date publicationDate;
-    private User author;
-    private List<POI> POIs;
-    private String description;
+    private final Date publicationDate;
+    private final User author;
+    private final List<POI> POIs;
+    private final String description;
     // private List<Photo> photos
 
     public Itinerary(String title, Date publicationDate, User author, List<POI> POIs, String description) {
@@ -26,14 +26,6 @@ public class Itinerary implements Info {
         // this.photos = new ArrayList<>();
     }
 
-    public Itinerary(String title, Date publicationDate, AuthorizedContributor authorizedContributor, String description, String startDate, String endDate) {
-        this.title = title;
-        this.publicationDate = publicationDate;
-        this.author = authorizedContributor;
-        this.description = description;
-        // this.photos = new ArrayList<>();
-    }
-
     /*
     public void addPhoto(Photo photo) {
         this.photos.add(photo);
@@ -42,18 +34,6 @@ public class Itinerary implements Info {
 
     public String getTitle() {
         return title;
-    }
-
-    public Date getPublicationDate() {
-        return publicationDate;
-    }
-
-    public User getAuthor() {
-        return author;
-    }
-
-    public List<POI> getPOIs() {
-        return POIs;
     }
 
     @Override

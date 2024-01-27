@@ -7,8 +7,8 @@ import it.unicam.cs.ids.localplatform.model.POI;
  * This class implements the command pattern and is used to create a POI.
  */
 public class CreatePOICommand implements Command {
-    private POI poi;
-    private MunicipalTerritory municipality;
+    private final POI poi;
+    private final MunicipalTerritory municipality;
 
     public CreatePOICommand(POI poi, MunicipalTerritory municipality) {
         if (poi == null || municipality == null) throw new NullPointerException("Null parameters are not allowed.");

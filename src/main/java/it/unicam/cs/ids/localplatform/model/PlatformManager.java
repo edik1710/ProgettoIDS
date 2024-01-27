@@ -10,7 +10,7 @@ import java.util.Map;
  * Platform Managers manage all aspects of the platform, not least the acceptance of authorizations and accreditations on the platform itself.
  */
 public class PlatformManager extends User {
-    private Map<User, Roles> pendingUsers = new HashMap<>();
+    private final Map<User, Roles> pendingUsers = new HashMap<>();
 
     public PlatformManager(String name, String surname, String email, String password, MunicipalTerritory residence, String cf) {
         super(name, surname, email, password, residence, cf);

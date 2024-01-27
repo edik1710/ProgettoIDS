@@ -10,7 +10,7 @@ import java.util.List;
  * An Authorized Tourist has the ability to save information for future visits, upload photos on the routes (to be submitted for approval).
  */
 public class AuthorizedTourist extends Tourist {
-    private List<Info> savedInfo;
+    private final List<Info> savedInfo;
 
     public AuthorizedTourist(String name, String surname, String email, String password, MunicipalTerritory residence, String cf) {
         super(name, surname, email, password, residence, cf);

@@ -37,7 +37,13 @@ public class Controller {
      */
     public void initialize() {
         System.out.println("Software di valorizzazione del territorio comunale di " + this.municipalTerritory.getMunicipalName());
-        System.out.print("Scegli un'azione da eseguire:\n" + "1. Crea nuovo utente.\n" + "2. Visualizza info sul territorio.\n" + "3. Accedi.\n\n" + "Digita il numero corrispondente e premi invio per selezionare l'azione da eseguire --> ");
+        System.out.print("""
+                Scegli un'azione da eseguire:
+                1. Crea nuovo utente.
+                2. Visualizza info sul territorio.
+                3. Accedi.
+
+                Digita il numero corrispondente e premi invio per selezionare l'azione da eseguire -->\s""");
 
         String input = scanner.nextLine();
         if (!Objects.equals(input, "1") && !Objects.equals(input, "2") && !Objects.equals(input, "3")) {
@@ -72,7 +78,7 @@ public class Controller {
         System.out.print("Codice fiscale: ");
         String cf = scanner.nextLine();
 
-        if(residence.equals(municipalTerritory.getMunicipalName())) {
+        if (residence.equals(municipalTerritory.getMunicipalName())) {
             System.out.println("Sei un cittadino di " + municipalTerritory.getMunicipalName() + " e puoi iscriverti alla piattaforma.");
             Roles role = askForRole();
             User user = new User(name, surname, email, password, new MunicipalTerritory(residence), cf);
@@ -87,7 +93,14 @@ public class Controller {
     }
 
     private Roles askForRole() {
-        System.out.print("Seleziona un ruolo da scegliere: " + "\n" + "1. Animator" + "\n" + "2. Contributor" + "\n" + "3. Curator" + "\n" + "4. Platform Manager" + "\n\n" + "Digita il numero corrispondente e premi invio per selezionare l'azione da eseguire --> ");
+        System.out.print("""
+                Seleziona un ruolo da scegliere:\s
+                1. Animator
+                2. Contributor
+                3. Curator
+                4. Platform Manager
+
+                Digita il numero corrispondente e premi invio per selezionare l'azione da eseguire -->\s""");
         String role = scanner.nextLine();
         switch (role) {
             case "1":
@@ -109,7 +122,15 @@ public class Controller {
         System.out.println("Numero di itinerari: " + this.municipalTerritory.getItineraries().size());
         System.out.println("Numero di concorsi: " + this.municipalTerritory.getContests().size());
 
-        System.out.print("\nSeleziona l'informazione che vuoi vedere " + "\n" + "1. Contenuti Generali" + "\n" + "2. Punti d'Interesse" + "\n" + "3. Itinerari" + "\n" + "4. Concorsi" + "\n\n" + "Digita il numero corrispondente e premi invio per selezionare l'azione da eseguire --> ");
+        System.out.print("""
+
+                Seleziona l'informazione che vuoi vedere\s
+                1. Contenuti Generali
+                2. Punti d'Interesse
+                3. Itinerari
+                4. Concorsi
+
+                Digita il numero corrispondente e premi invio per selezionare l'azione da eseguire -->\s""");
         String info = scanner.nextLine();
         switch (info) {
             case "1":
@@ -233,7 +254,11 @@ public class Controller {
         Animator animator = (Animator) this.currentUser;
         AnimatorHandler animatorHandler = new AnimatorHandler(animator);
 
-        System.out.println("Seleziona l'azione da eseguire: " + "\n" + "1. Proporre un concorso" + "\n" + "2. Visualizzare il prossimo contenuto da validare" + "\n" + "Digita il numero corrispondente e premi invio per selezionare l'azione da eseguire --> ");
+        System.out.println("""
+                Seleziona l'azione da eseguire:\s
+                1. Proporre un concorso
+                2. Visualizzare il prossimo contenuto da validare
+                Digita il numero corrispondente e premi invio per selezionare l'azione da eseguire -->\s""");
         String action = scanner.nextLine();
         switch (action) {
             case "1":
@@ -252,7 +277,12 @@ public class Controller {
         Contributor contributor = (Contributor) this.currentUser;
         ContributorHandler contributorHandler = new ContributorHandler(contributor);
 
-        System.out.println("Seleziona l'azione da eseguire: " + "\n" + "1. Proporre un contenuto generale" + "\n" + "2. Proporre un punto di interesse" + "\n" + "3. Proporre un itinerario" + "\n" + "Digita il numero corrispondente e premi invio per selezionare l'azione da eseguire --> ");
+        System.out.println("""
+                Seleziona l'azione da eseguire:\s
+                1. Proporre un contenuto generale
+                2. Proporre un punto di interesse
+                3. Proporre un itinerario
+                Digita il numero corrispondente e premi invio per selezionare l'azione da eseguire -->\s""");
         String action = scanner.nextLine();
         switch (action) {
             case "1":
@@ -274,7 +304,11 @@ public class Controller {
         Curator curator = (Curator) this.currentUser;
         CuratorHandler curatorHandler = new CuratorHandler(curator);
 
-        System.out.println("Seleziona l'azione da eseguire: " + "\n" + "1. Visualizzare il prossimo comando da validare" + "\n" + "2. Rimuovere i contenuti segnalati" + "\n" + "Digita il numero corrispondente e premi invio per selezionare l'azione da eseguire --> ");
+        System.out.println("""
+                Seleziona l'azione da eseguire:\s
+                1. Visualizzare il prossimo comando da validare
+                2. Rimuovere i contenuti segnalati
+                Digita il numero corrispondente e premi invio per selezionare l'azione da eseguire -->\s""");
         String action = scanner.nextLine();
         switch (action) {
             case "1":
@@ -293,7 +327,12 @@ public class Controller {
         AuthorizedContributor authorizedContributor = (AuthorizedContributor) this.currentUser;
         AuthorizedContributorHandler authorizedContributorHandler = new AuthorizedContributorHandler(authorizedContributor);
 
-        System.out.println("Seleziona l'azione da eseguire: " + "\n" + "1. Carica un contenuto generale" + "\n" + "2. Carica un punto di interesse" + "\n" + "3. Carica un itinerario" + "\n" + "Digita il numero corrispondente e premi invio per selezionare l'azione da eseguire --> ");
+        System.out.println("""
+                Seleziona l'azione da eseguire:\s
+                1. Carica un contenuto generale
+                2. Carica un punto di interesse
+                3. Carica un itinerario
+                Digita il numero corrispondente e premi invio per selezionare l'azione da eseguire -->\s""");
         String action = scanner.nextLine();
         switch (action) {
             case "1":
@@ -315,10 +354,11 @@ public class Controller {
         AuthorizedTourist authorizedTourist = (AuthorizedTourist) this.currentUser;
         AuthorizedTouristHandler authorizedTouristHandler = new AuthorizedTouristHandler(authorizedTourist);
 
-        System.out.println("Seleziona l'azione da eseguire: " + "\n" +
-                "1. Salva un contenuto" + "\n" +
-                "2. Rimuovi un contenuto" + "\n" +
-                "Digita il numero corrispondente e premi invio per selezionare l'azione da eseguire --> ");
+        System.out.println("""
+                Seleziona l'azione da eseguire:\s
+                1. Salva un contenuto
+                2. Rimuovi un contenuto
+                Digita il numero corrispondente e premi invio per selezionare l'azione da eseguire -->\s""");
         String action = scanner.nextLine();
         switch (action) {
             case "1":
@@ -337,14 +377,15 @@ public class Controller {
         Tourist tourist = (Tourist) this.currentUser;
         TouristHandler touristHandler = new TouristHandler(tourist);
 
-        System.out.print("Seleziona l'azione da eseguire: " + "\n" +
-                "1. Segnala un contenuto" + "\n" +
-                "2. Recupera informazioni sul territorio" + "\n" +
-                "Digita il numero corrispondente e premi invio per selezionare l'azione da eseguire --> ");
+        System.out.print("""
+                Seleziona l'azione da eseguire:\s
+                1. Segnala un contenuto
+                2. Recupera informazioni sul territorio
+                Digita il numero corrispondente e premi invio per selezionare l'azione da eseguire -->\s""");
         String action = scanner.nextLine();
         switch (action) {
             case "1":
-                touristHandler.reportContent();
+                //touristHandler.reportContent();
                 break;
             case "2":
                 retrieveInfo();

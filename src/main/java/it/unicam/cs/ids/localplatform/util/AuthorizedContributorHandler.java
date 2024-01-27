@@ -1,6 +1,8 @@
 package it.unicam.cs.ids.localplatform.util;
 
-import it.unicam.cs.ids.localplatform.model.*;
+import it.unicam.cs.ids.localplatform.model.AuthorizedContributor;
+import it.unicam.cs.ids.localplatform.model.Content;
+import it.unicam.cs.ids.localplatform.model.Coordinates;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -60,13 +62,8 @@ public class AuthorizedContributorHandler {
     public void uploadItinerary() {
         System.out.println("Inserisci il titolo dell'itinerario:");
         String title = scanner.nextLine();
-        System.out.println("Inserisci la descrizione dell'itinerario:");
-        String description = scanner.nextLine();
-        System.out.println("Inserisci la data di inizio dell'itinerario (dd-MM-yyyy):");
-        String startDate = scanner.nextLine();
-        System.out.println("Inserisci la data di fine dell'itinerario (dd-MM-yyyy):");
-        String endDate = scanner.nextLine();
-        Itinerary itinerary = new Itinerary(title, new Date(), authorizedContributor, description, startDate, endDate);
+        // Inserire POIs
+        //Itinerary itinerary = new Itinerary(title, new Date(), authorizedContributor, /*POIs*/);
     }
 
 

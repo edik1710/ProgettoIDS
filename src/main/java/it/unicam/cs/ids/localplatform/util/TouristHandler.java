@@ -1,6 +1,5 @@
 package it.unicam.cs.ids.localplatform.util;
 
-import it.unicam.cs.ids.localplatform.model.Content;
 import it.unicam.cs.ids.localplatform.model.Tourist;
 
 import java.text.SimpleDateFormat;
@@ -19,6 +18,11 @@ public class TouristHandler {
         this.tourist = tourist;
     }
 
+    /*
+    Il campo curatorHandler non viene mai inizializzato, quindi è sempre null.
+    Non credo sia concettualmente corretto inserire un handler all'interno di un altro handler.
+     */
+    /*
     private CuratorHandler curatorHandler;
     public void reportContent() {
         System.out.println("Inserisci l'ID del contenuto da segnalare:");
@@ -30,5 +34,5 @@ public class TouristHandler {
             curatorHandler.removeReportedContents();
         }
     }
-
+    */
 }
