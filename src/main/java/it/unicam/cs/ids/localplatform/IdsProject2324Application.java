@@ -11,7 +11,9 @@ public class IdsProject2324Application {
     public static void main(String[] args) {
         SpringApplication.run(IdsProject2324Application.class, args);
 
+        /*
         Controller controller = new Controller();
         controller.initialize();
+        */
     }
 }

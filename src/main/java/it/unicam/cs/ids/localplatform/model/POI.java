@@ -10,11 +10,46 @@ import java.util.List;
  */
 public class POI implements Info {
     private String title;
-    private final Date publicationDate;
-    private final User author;
-    private final List<Content> contents;
-    private final Coordinates coordinates;
-    private final String description;
+    private  Date publicationDate;
+    private  User author;
+    private  List<Content> contents;
+    private  Coordinates coordinates;
+
+    public POI() {}
+
+    public Date getPublicationDate() {
+        return publicationDate;
+    }
+
+    public void setPublicationDate(Date publicationDate) {
+        this.publicationDate = publicationDate;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public void setContents(List<Content> contents) {
+        this.contents = contents;
+    }
+
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    private  String description;
 
     public POI(String title, Date publicationDate, User author, Coordinates coordinates, String description) {
         this.title = title;

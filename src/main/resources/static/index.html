@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valorizzazione territorio Comunale</title>
+</head>
+<body>
+
+<h1>Valorizzazione del territorio Comunale</h1>
+<h2>Lista Punti d'Interesse</h2>
+<ul id = "POIlist"></ul>
+
+<button onclick="getPOIs()"> Lista dei POI</button>
+<h2>Lista POI</h2>
+<ul id="POIlist>"></ul>
+
+<h2>Comune di interesse</h2>
+<label for="name">Nome</label>
+<input type="text" id="name">
+<lable for="Provincia">Provincia</lable>
+<input type="text" id="Provincia">
+<button onclick="findMunicipal()">Crea cerca</button>
+
+<h2>Creazione POI</h2>
+<label for="title">Titolo</label>
+<input type="text" id="title">
+<label for ="pubblicationDate">Data di pubblicazione</label>
+<input type="date" id="pubblicationDate">
+<label for="author">Autore</label>
+<input type="text" id="author">
+<label for="content">Contenuto</label>
+<input type="text" id="content">
+<label for="description">Descrizione</label>
+<input type="text" id="description">
+<button onclick="createPOI()">Crea POI</button>
+
+<h2>Update POI</h2>
+
+
+<h2>Cancellazione POI</h2>
+<label for="CancellazionePOI">Cancellazione del POI:</label>
+<input type="text" id="CancellazionePOI">
+<button onclick="deletePOI()">Cancella POI</button>
+
+<h2>Cerca punto d'interesse dal nome</h2>
+<label for="CercaPOI">Cerca POI:</label>
+<input type="text" id="CercaPOI">
+<button onclick="findPOI()">Cerca POI</button>
+
+<script>
+    const baseUrl = 'http://localhost:8080';
+
+    function getPOIs() {
+        fetch(`${baseUrl}/POIs`)
+            .then(response => response.json())
+            .then(data => {
+                const list = document.getElementById("POIlist");
+
+                if (Array.isArray(data)) {
+                    data.forEach(POI => {
+                        const li = document.createElement('li');
+                        li.textContent = `Titolo: ${POI.title}, Data di Pubblicazione ${POI.pubblicationDate},
+                        Autore: ${POI.author}, Contenuto: ${POI.content}, Descrizione: ${POI.description}`;
+                        list.appendChild(li);
+                    });
+                } else {
+                    const li = document.createElement('li');
+                    li.textContent = `Titolo: ${data.title}, Data di Pubblicazione ${data.pubblicationDate},
+                    Autore: ${data.author}, Contenuto: ${data.content}, Descrizione: ${data.description}`;
+                    list.appendChild(li);
+                }
+            })
+            .catch(error => console.error('Error', error));
+    }
+
+
+
+
+    function createPOI(){
+        const title = document.getElementById("title").value;
+        const pubblicationDate = document.getElementById("pubblicationDate").value;
+        const author = document.getElementById("author").value;
+        const content = document.getElementById("content").value;
+        const description = document.getElementById("description").value;
+        const POI = {title: title,pubblicationDate: pubblicationDate,author: author,contents: content,description: description};
+
+        fetch(`${baseUrl}/AggiungiPOI`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(POI),
+        })
+        .then(response => response.text())
+        .then(data => console.log('POI creato con successo:', data))
+        .catch((error) => {
+            console.error('POI non creato:', error);
+        });
+    }
+
+    function deletePOI(){
+        const CancellazionePOI = document.getElementById("CancellazionePOI").value;
+        fetch(`${baseUrl}/POI/${CancellazionePOI}`,{
+            method: 'DELETE',
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('POI cancellato con successo:', data);
+            getPOI();
+        })
+        .catch((error) => {
+            console.error('POI non cancellato:', error);
+        });
+    }
+
+    function findPOI(){
+        const CercaPOI = document.getElementById("CercaPOI").value;
+        fetch(`${baseUrl}/POI/${CercaPOI}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log('POI trovato con successo:', data);
+            getPOI();
+        })
+        .catch((error) => {
+            console.error('POI non trovato:', error);
+        });
+    }
+</script>

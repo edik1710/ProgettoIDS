@@ -9,10 +9,6 @@ public class Comune {
         this.name = name;
     }
 
-    public String getProvince() {
-        return province;
-    }
-
     public void setProvince(String province) {
         this.province = province;
     }

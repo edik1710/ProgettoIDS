@@ -8,12 +8,12 @@ import java.util.*;
  * This class represents a municipal territory.
  */
 public class MunicipalTerritory {
-    private final String municipalName;
-    private final Map<Coordinates, POI> POIs;
-    private final List<Content> generalContents;
-    private final List<Itinerary> itineraries;
-    private final List<Contest> contests;
-    private final List<User> users;
+    private String municipalName;
+    private  Map<Coordinates, POI> POIs;
+    private  List<Content> generalContents;
+    private  List<Itinerary> itineraries;
+    private  List<Contest> contests;
+    private  List<User> users;
 
     public MunicipalTerritory(String municipalName) {
         this.municipalName = municipalName;
@@ -148,5 +148,29 @@ public class MunicipalTerritory {
         MunicipalTerritory that = (MunicipalTerritory) o;
         return this.municipalName.equals(that.municipalName);
     }
+    public void setMunicipalName(String municipalName) {
+        this.municipalName = municipalName;
+    }
+
+    public void setPOIs(Map<Coordinates, POI> POIs) {
+        this.POIs = POIs;
+    }
+
+    public void setGeneralContents(List<Content> generalContents) {
+        this.generalContents = generalContents;
+    }
+
+    public void setItineraries(List<Itinerary> itineraries) {
+        this.itineraries = itineraries;
+    }
+
+    public void setContests(List<Contest> contests) {
+        this.contests = contests;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
 
 }
