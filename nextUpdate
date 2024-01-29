@@ -1,1 +1,4 @@
 Ragionare sull'inserimento di un controllo: attualmente le Info possono essere create da tutti gli attori (quindi anche i turisti) invece che solo da quelli che possono crearle.
+
+
+Finire il controller e implementare le classi rimanenenti, creare il package "Exception", creare il file HTML per provare il programma e aggiustarlo successivamente
