@@ -1,6 +1,5 @@
 package it.unicam.cs.ids.localplatform;
 
-import it.unicam.cs.ids.localplatform.util.Controller;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

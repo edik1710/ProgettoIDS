@@ -51,6 +51,9 @@ public class Content implements Info {
     @Override
     public String toString() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        return "Contenuto pubblicato il " + sdf.format(publicationDate) + " da " + author.getName() + " " + author.getSurname() + ".\nTesto: " + text + "\nNumero di segnalazioni: " + reports + "\n";
+        return "Contenuto pubblicato il " + sdf.format(publicationDate)
+                + " da " + author.getName() + " " + author.getSurname()
+                + ".\nTesto: " + text
+                + "\nNumero di segnalazioni: " + reports + "\n";
     }
 }

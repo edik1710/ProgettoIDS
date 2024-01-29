@@ -10,11 +10,11 @@ import java.util.List;
  */
 public class POI implements Info {
     private String title;
-    private  Date publicationDate;
-    private  User author;
-    private  List<Content> contents;
-    private  Coordinates coordinates;
-
+    private Date publicationDate;
+    private User author;
+    private List<Content> contents;
+    private Coordinates coordinates;
+    private String description;
 
     public Date getPublicationDate() {
         return publicationDate;
@@ -47,8 +47,6 @@ public class POI implements Info {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    private  String description;
 
     public POI(String title, Date publicationDate, User author, Coordinates coordinates, String description) {
         this.title = title;
@@ -111,6 +109,11 @@ public class POI implements Info {
     @Override
     public String toString() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        return "Punto di Interesse pubblicato il " + sdf.format(publicationDate) + " da " + author.getName() + " " + author.getSurname() + ".\nTitolo: " + title + "\nCoordinate: " + coordinates + "\nDescrizione: " + description + "\nNumero di contenuti: " + contents.size() + "\n";
+        return "Punto di Interesse pubblicato il " + sdf.format(publicationDate)
+                + " da " + author.getName() + " " + author.getSurname()
+                + ".\nTitolo: " + title
+                + "\nCoordinate: " + coordinates
+                + "\nDescrizione: " + description
+                + "\nNumero di contenuti: " + contents.size() + "\n";
     }
 }
