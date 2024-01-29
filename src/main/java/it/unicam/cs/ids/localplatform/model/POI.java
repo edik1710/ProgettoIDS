@@ -15,7 +15,6 @@ public class POI implements Info {
     private  List<Content> contents;
     private  Coordinates coordinates;
 
-    public POI() {}
 
     public Date getPublicationDate() {
         return publicationDate;

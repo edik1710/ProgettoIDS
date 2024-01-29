@@ -20,7 +20,7 @@ public class POIController {
 
     private static final Map<String, POI> pois = new HashMap<>();
     static {
-        POI p1 = new POI();
+        POI p1 = new POI("piazza del comune", null, null, null, null);
         p1.setTitle("Piazza del Comune");
         try {
             p1.setPublicationDate(dateFormat.parse("01-02-2024"));
@@ -30,6 +30,8 @@ public class POIController {
         p1.setAuthor(new User("Mario", "Rossi", "Mario.Rossi@email.com", "123456", new MunicipalTerritory("Camerino"), "codiceFiscale"));
         p1.setContents(new ArrayList<>());
         p1.setCoordinates(new Coordinates(43.133333, 13.066667));
+        p1.setDescription("Piazza del Comune di Camerino");
+        pois.put(p1.getTitle(), p1);
     }
     
 
