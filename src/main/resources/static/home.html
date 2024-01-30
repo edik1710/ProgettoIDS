@@ -12,7 +12,7 @@
     }
 
     /* Full-width inputs */
-    input[type=text], input[type=password] {
+    input[type=text], input[type=date] {
         width: 100%;
         padding: 12px 20px;
         margin: 8px 0;
@@ -35,18 +35,6 @@
     /* Add a hover effect for buttons */
     button:hover {
         opacity: 0.8;
-    }
-
-    /* Change styles for span and cancel button on extra small screens */
-    @media screen and (max-width: 300px) {
-        span.psw {
-            display: block;
-            float: none;
-        }
-
-        .cancelbtn {
-            width: 100%;
-        }
     }
 </style>
 <body>
@@ -72,6 +60,30 @@
 <lable for="Provincia">Provincia</lable>
 <input type="text" id="Provincia">
 <button onclick="findMunicipal()">Crea cerca</button>
+
+
+<!-- OpenLayers library -->
+<script src="https://openlayers.org/en/v4.6.5/build/ol.js"></script>
+<!-- Leaflet library -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<!-- HTML container for the map -->
+<div id="map" style="width: 100%; height: 400px;"></div>
+
+<script>
+    // Create a map with OpenLayers
+    // Create a map with Leaflet
+    var map = L.map('map').setView([0, 0], 2);
+
+    // Add OpenStreetMap tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors',
+    }).addTo(map);
+
+    // Add a marker to the map
+    var marker = L.marker([51.505, -0.09]).addTo(map);
+</script>
+
 
 <h2>Creazione POI</h2>
 <label for="title">Titolo</label>
@@ -102,6 +114,7 @@
 <label for="CercaPOI">Cerca POI:</label>
 <input type="text" id="CercaPOI">
 <button onclick="findPOI()">Cerca POI</button>
+
 
 <script>
     const baseUrl = 'http://localhost:8080';
