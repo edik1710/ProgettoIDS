@@ -1,17 +1,11 @@
 package it.unicam.cs.ids.localplatform;
 
-import it.unicam.cs.ids.localplatform.model.Content;
-import it.unicam.cs.ids.localplatform.model.Coordinates;
-import it.unicam.cs.ids.localplatform.model.Itinerary;
-import it.unicam.cs.ids.localplatform.model.POI;
+import it.unicam.cs.ids.localplatform.model.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @CrossOrigin(origins = "http://localhost:63342")
 @RestController
@@ -27,7 +21,7 @@ public class MunicipalServiceController {
     @RequestMapping("/POIs")
     public ResponseEntity<Object> getPOIs() {
 
-        /*
+
         Coordinates coordinates = new Coordinates(43.133333, 13.066667);
         Contributor contributor = new Contributor("Mario", "Rossi", "email", "password", municipalTerritory, "codiceFiscale");
         POI p1 = new POI("piazza del comune", new Date(), contributor, coordinates, "Piazza del Comune di Camerino");
@@ -36,7 +30,7 @@ public class MunicipalServiceController {
         Coordinates coordinates1 = new Coordinates(52, 75);
         POI p2 = new POI("piazza del comune", new Date(), contributor, coordinates1, "Piazza del Comune di Camerino");
         this.municipalTerritory.getPOIs().put(coordinates1, p2);
-        */
+
 
         // Recupera la mappa dei POI da MunicipalTerritory
         Map<Coordinates, POI> poiMap = municipalTerritory.getPOIs();
