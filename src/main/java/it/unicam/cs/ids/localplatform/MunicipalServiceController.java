@@ -14,7 +14,6 @@ public class MunicipalServiceController {
 
     // Da sostituire con il database <-- l'ha scritto Copilot
     // Da tentare di rimuovere
-    public CredentialListRepository credentialListRepository;
     private static final Map<String, POI> pois = new HashMap<>();
 
     private MunicipalTerritory municipalTerritory = new MunicipalTerritory("Camerino");
@@ -139,6 +138,40 @@ public class MunicipalServiceController {
             return new ResponseEntity<>("Punto d'Interesse aggiunto correttamente", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Punto d'Interesse già Esistente", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // FUNZIONA
+    @PostMapping("/AggiungiItinerario")
+    public ResponseEntity<String> addItinerary(@RequestBody String[] array) {
+
+        List<POI> pois = new ArrayList<>();
+        // Lista placeholder
+        POI poi1 = new POI("piazza del comune", new Date(), currentUser, new Coordinates(43.133333, 13.066667), "Piazza del Comune di Camerino");
+        POI poi2 = new POI("Pievetorina", new Date(), currentUser, new Coordinates(43, 13), "Pievetorina");
+        pois.add(poi1);
+        pois.add(poi2);
+
+        Itinerary itinerary = new Itinerary(array[0], new Date(), currentUser, pois, array[1]);
+
+        if (!this.municipalTerritory.getItineraries().contains(itinerary)) {
+            this.municipalTerritory.addItinerary(itinerary);
+            return new ResponseEntity<>("Itinerario aggiunto correttamente", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Itinerario già Esistente", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // FUNZIONA
+    @PostMapping("/AggiungiContenutoGenerale")
+    public ResponseEntity<String> addGeneralContent(@RequestBody String text) {
+        Content content = new Content(new Date(), currentUser, text);
+
+        if (!this.municipalTerritory.getGeneralContents().contains(content)) {
+            this.municipalTerritory.addGeneralContent(content);
+            return new ResponseEntity<>("Contenuto aggiunto correttamente", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Contenuto già Esistente", HttpStatus.BAD_REQUEST);
         }
     }
 
