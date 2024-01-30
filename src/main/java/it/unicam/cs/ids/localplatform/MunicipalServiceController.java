@@ -18,6 +18,8 @@ public class MunicipalServiceController {
 
     private MunicipalTerritory municipalTerritory = new MunicipalTerritory("Camerino");
 
+    private User currentUser;
+
     @RequestMapping("/POIs")
     public ResponseEntity<Object> getPOIs() {
 
@@ -103,7 +105,13 @@ public class MunicipalServiceController {
     }
 
     @PostMapping("/AggiungiPOI")
-    public ResponseEntity<String> addPOI(@RequestBody POI POI) {
+    public ResponseEntity<String> addPOI(@RequestBody String[] array) {
+
+        Contributor contributor = new Contributor("Mario", "Rossi", "email", "password", municipalTerritory, "codiceFiscale");
+        Coordinates coordinates = new Coordinates(43, 13);
+
+        POI POI = new POI(array[0], new Date(), contributor, coordinates, array[1]);
+
         if (!this.municipalTerritory.getPOIs().containsKey(POI.getCoordinates())) {
             this.municipalTerritory.addPOI(POI);
             return new ResponseEntity<>("Punto d'Interesse aggiunto correttamente", HttpStatus.OK);

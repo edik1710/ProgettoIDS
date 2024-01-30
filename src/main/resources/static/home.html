@@ -68,36 +68,69 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <!-- HTML container for the map -->
+<body>
+<!-- HTML container for the map -->
+
+
+<!-- Input field for latitude -->
+<label for="latitude">Latitude:</label>
+<input type="text" id="latitude" placeholder="Enter latitude">
+
+<!-- Input field for longitude -->
+<label for="longitude">Longitude:</label>
+<input type="text" id="longitude" placeholder="Enter longitude">
 <div id="map" style="width: 100%; height: 400px;"></div>
 
+<!-- Button to set marker based on input -->
+<button onclick="setMarker()">Set Marker</button>
+
+<!-- Leaflet library -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<!-- Your JavaScript code for the map and mobile marker -->
 <script>
-    // Create a map with OpenLayers
-    // Create a map with Leaflet
     var map = L.map('map').setView([0, 0], 2);
 
-    // Add OpenStreetMap tile layer
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors',
     }).addTo(map);
 
-    // Add a marker to the map
-    var marker = L.marker([51.505, -0.09]).addTo(map);
+    var mobileIcon = L.icon({
+        iconUrl: 'https://th.bing.com/th/id/OIP.HSUt0EhnxjyNWHKF7frcjwHaHk?w=203&h=207&c=7&r=0&o=5&dpr=1.3&pid=1.7',
+        iconSize: [30, 30],
+        iconAnchor: [15, 30],
+        popupAnchor: [0, -30],
+    });
+
+    var mobileMarker = L.marker([0, 0], { icon: mobileIcon }).addTo(map);
+
+    function setMarker() {
+        var latitude = parseFloat(document.getElementById('latitude').value);
+        var longitude = parseFloat(document.getElementById('longitude').value);
+
+        if (!isNaN(latitude) && !isNaN(longitude)) {
+            mobileMarker.setLatLng([latitude, longitude]);
+            map.setView([latitude, longitude], 12);
+        } else {
+            alert('Invalid coordinates. Please enter valid numbers.');
+        }
+    }
 </script>
+</body>
+
 
 
 <h2>Creazione POI</h2>
 <label for="title">Titolo</label>
 <input type="text" id="title">
-<label for="publicationDate">Data di pubblicazione</label>
-<input type="date" id="publicationDate">
+<!--
 <label for="author">Autore</label>
 <input type="text" id="author">
-<!--
-<label for="content">Contenuto</label>
-<input type="text" id="content">
 -->
+<!--
 <label for="coordinates">Coordinate</label>
 <input type="text" id="coordinates">
+-->
 <label for="description">Descrizione</label>
 <input type="text" id="description">
 <button onclick="createPOI()">Crea POI</button>
@@ -163,9 +196,9 @@
 
     function createPOI() {
         const title = document.getElementById("title").value;
-        const publicationDate = new Date(document.getElementById("publicationDate").value);
         //const author = document.getElementById("author").value;
 
+        /*
         const author = {
             // Fill in the fields for the author object
             // For example:
@@ -175,36 +208,34 @@
             password: document.getElementById("authorPassword").value,
             fiscalCode: document.getElementById("authorFiscalCode").value,
         };
+        */
 
-        //const content = document.getElementById("content").value;
         //const coordinates = document.getElementById("coordinates").value;
 
+        /*
         const coordinates = {
             // Fill in the fields for the coordinates object
             // For example:
             latitude: parseFloat(document.getElementById("latitude").value),
             longitude: parseFloat(document.getElementById("longitude").value),
         };
+        */
 
         const description = document.getElementById("description").value;
-        const POI = {
-            title: title,
-            publicationDate: publicationDate,
-            author: author,
-            //contents: content,
-            coordinates: coordinates,
-            description: description
-        };
+
+        const POIArray = [title, description];
 
         fetch(`${baseUrl}/AggiungiPOI`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(POI),
+            body: JSON.stringify(POIArray),
         })
             .then(response => response.text())
-            .then(data => console.log('POI creato con successo:', data))
+            .then(data => {
+                console.log('POI creato con successo:', data);
+            })
             .catch((error) => {
                 console.error('POI non creato:', error);
             });

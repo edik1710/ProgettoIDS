@@ -1,3 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Box Example</title>
+</head>
+<style>
+    .hidden{
+        display: none;
+    }
+</style>
+<style>
+    #Roles {
+        display: none;
+    }
+</style>
+
 <form id="loginForm" method="post">
     <div class="container">
         <label for="uname"><b>Username</b></label>
@@ -10,7 +28,24 @@
         <input type="text" placeholder="Enter Residence" name="Residence" id="Residence" required>
         <label for="psw"><b>Password</b></label>
         <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
-
+        <label for="Roles" class="hidden">Seleziona un Ruolo</label>
+        <select id="Roles" name="Roles">
+            <option value="Contributors">Contributors</option>
+            <option value="Animatore">Animatore</option>
+            <option value="Platform_Manager">Manger Della Piattaforma</option>
+            <option value="Curator">Curatore</option>
+        </select>
+        <script>
+            document.getElementById('Residence').addEventListener('input', function() {
+                var rolesSelect = document.getElementById('Roles');
+                // Show or hide the list box based on the input value
+                if (this.value.trim() === 'Camerino') {
+                    rolesSelect.style.display = 'block';
+                } else {
+                    rolesSelect.style.display = 'none';
+                }
+            });
+        </script>
         <button type="submit">Login</button>
         <label>
             <input type="checkbox" checked="checked" name="remember"> Remember me
@@ -30,7 +65,15 @@
         }
 
         /* Full-width inputs */
-        input[type=text], input[type=password], input[type=email] {
+        input[type=text], input[type=password], input[type=email]  {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        select{
             width: 100%;
             padding: 12px 20px;
             margin: 8px 0;
@@ -98,3 +141,4 @@
         window.location.href = '/home.html';
     });
 </script>
+</html>
