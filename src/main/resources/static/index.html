@@ -6,7 +6,7 @@
     <title>Valorizzazione Territorio Comunale</title>
 </head>
 <style>
-    .hidden{
+    .hidden {
         display: none;
     }
 </style>
@@ -22,9 +22,9 @@
         <input type="text" placeholder="Enter Username" name="name" id="name" required>
         <label for="Cognome"><b>Cognome</b></label>
         <input type="text" placeholder="Enter Username" name="Cognome" id="Cognome" required>
-        <label for ="Cf"><b>Codice Fiscale</b></label>
+        <label for="Cf"><b>Codice Fiscale</b></label>
         <input type="text" placeholder="Enter Fiscal Code" name="Cf" id="Cf" required>
-        <label for ="email"><b>Email</b></label>
+        <label for="email"><b>Email</b></label>
         <input type="email" placeholder="Enter Email" name="email" id="email" required>
         <label for="Residence"><b>Residenza</b></label>
         <input type="text" placeholder="Enter Residence" name="Residence" id="Residence" required>
@@ -38,7 +38,7 @@
             <option value="Curator">Curatore</option>
         </select>
         <script>
-            document.getElementById('Residence').addEventListener('input', function() {
+            document.getElementById('Residence').addEventListener('input', function () {
                 var rolesSelect = document.getElementById('Roles');
                 // Show or hide the list box based on the input value
                 if (this.value.trim() === 'Camerino') {
@@ -48,7 +48,7 @@
                 }
             });
         </script>
-        <button type="submit" onclick="Login()" >Login</button>
+        <button type="submit" onclick="Login()">Login</button>
         <label>
             <input type="checkbox" checked="checked" name="remember"> Remember me
         </label>
@@ -67,7 +67,7 @@
         }
 
         /* Full-width inputs */
-        input[type=text], input[type=password], input[type=email]  {
+        input[type=text], input[type=password], input[type=email] {
             width: 100%;
             padding: 12px 20px;
             margin: 8px 0;
@@ -75,7 +75,8 @@
             border: 1px solid #ccc;
             box-sizing: border-box;
         }
-        select{
+
+        select {
             width: 100%;
             padding: 12px 20px;
             margin: 8px 0;
@@ -138,7 +139,9 @@
     </style>
 </head>
 <script>
-    function Login(){
+    const baseUrl = 'http://localhost:8080';
+
+    function Login() {
         const nome = document.getElementById("name").value;
         const cognome = document.getElementById("Cognome").value;
         const email = document.getElementById("email").value;
@@ -165,7 +168,7 @@
     }
 </script>
 <script>
-    document.getElementById("loginForm").addEventListener("submit", function(event){
+    document.getElementById("loginForm").addEventListener("submit", function (event) {
         event.preventDefault()
         window.location.href = '/home.html';
     });
