@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>List Box Example</title>
+    <title>Valorizzazione Territorio Comunale</title>
 </head>
 <style>
     .hidden{
@@ -18,8 +18,10 @@
 
 <form id="loginForm" method="post">
     <div class="container">
-        <label for="uname"><b>Username</b></label>
-        <input type="text" placeholder="Enter Username" name="uname" id="uname" required>
+        <label for="name"><b>Nome</b></label>
+        <input type="text" placeholder="Enter Username" name="name" id="name" required>
+        <label for="Cognome"><b>Cognome</b></label>
+        <input type="text" placeholder="Enter Username" name="Cognome" id="Cognome" required>
         <label for ="Cf"><b>Codice Fiscale</b></label>
         <input type="text" placeholder="Enter Fiscal Code" name="Cf" id="Cf" required>
         <label for ="email"><b>Email</b></label>
@@ -46,7 +48,7 @@
                 }
             });
         </script>
-        <button type="submit">Login</button>
+        <button type="submit" onclick="Login()" >Login</button>
         <label>
             <input type="checkbox" checked="checked" name="remember"> Remember me
         </label>
@@ -135,6 +137,33 @@
         }
     </style>
 </head>
+<script>
+    function Login(){
+        const nome = document.getElementById("name").value;
+        const cognome = document.getElementById("Cognome").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("psw").value;
+        const residence = document.getElementById("Residence").value;
+        const fiscalCode = document.getElementById("Cf").value;
+
+        const UserInfo = [nome, cognome, email, password, residence, fiscalCode];
+
+        fetch(`${baseUrl}/Login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(UserInfo),
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log('Info dell utente ottenute con successo:', data);
+            })
+            .catch((error) => {
+                console.error('Info dell utente non ricevute:', error);
+            });
+    }
+</script>
 <script>
     document.getElementById("loginForm").addEventListener("submit", function(event){
         event.preventDefault()

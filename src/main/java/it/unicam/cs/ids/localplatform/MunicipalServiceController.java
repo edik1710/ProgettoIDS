@@ -14,16 +14,41 @@ public class MunicipalServiceController {
 
     // Da sostituire con il database <-- l'ha scritto Copilot
     // Da tentare di rimuovere
+    public CredentialListRepository credentialListRepository;
     private static final Map<String, POI> pois = new HashMap<>();
 
     private MunicipalTerritory municipalTerritory = new MunicipalTerritory("Camerino");
 
-    private User currentUser;
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
+    }
+
+    private User currentUser ;
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    @GetMapping("/Login")
+    public ResponseEntity<Object> getLoginInfo(@RequestBody String[] array) {
+        /*
+        credentialListRepository.save(array[0]);
+        credentialListRepository.save(array[1]);
+        credentialListRepository.save(array[2]);
+        credentialListRepository.save(array[3]);
+        credentialListRepository.save(array[4]);
+        credentialListRepository.save(array[5]);
+        */
+
+        MunicipalTerritory mt = new MunicipalTerritory(array[4]);
+        this.currentUser = new User(array[0], array[1], array[2], array[3], mt, array[5]);
+
+        System.out.println("Mannaggia a quelli della prima fila" + currentUser);
+        return new ResponseEntity<>("User saved", HttpStatus.OK);
+    }
 
     @RequestMapping("/POIs")
     public ResponseEntity<Object> getPOIs() {
-
-
         Coordinates coordinates = new Coordinates(43.133333, 13.066667);
         Contributor contributor = new Contributor("Mario", "Rossi", "email", "password", municipalTerritory, "codiceFiscale");
         POI p1 = new POI("piazza del comune", new Date(), contributor, coordinates, "Piazza del Comune di Camerino");
@@ -43,6 +68,8 @@ public class MunicipalServiceController {
         for (POI poi : poiList) {
             poiListStringArray[poiList.indexOf(poi)] = poi.toString();
         }
+
+        System.out.println(currentUser);
 
         // Restituisce la lista di POI
         return new ResponseEntity<>(poiListStringArray, HttpStatus.OK);
@@ -107,9 +134,10 @@ public class MunicipalServiceController {
     @PostMapping("/AggiungiPOI")
     public ResponseEntity<String> addPOI(@RequestBody String[] array) {
 
-        Contributor contributor = new Contributor("Mario", "Rossi", "email", "password", municipalTerritory, "codiceFiscale");
+        Contributor contributor = new Contributor("Eracleonte", "Villa", "email", "password", municipalTerritory, "codiceFiscale");
         Coordinates coordinates = new Coordinates(43, 13);
 
+        // contributor sarà sostituito da currentUser
         POI POI = new POI(array[0], new Date(), contributor, coordinates, array[1]);
 
         if (!this.municipalTerritory.getPOIs().containsKey(POI.getCoordinates())) {
