@@ -168,7 +168,7 @@ public class MunicipalServiceController {
     @PostMapping("/AggiungiItinerario")
     public ResponseEntity<String> addItinerary(@RequestBody String[] array) {
 
-        /*
+        /* mammamia
         List<POI> pois = new ArrayList<>();
         // TODO : Lista placeholder
         POI poi1 = new POI("piazza del comune", new Date(), currentUser, new Coordinates(43.133333, 13.066667), "Piazza del Comune di Camerino");
