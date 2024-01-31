@@ -54,6 +54,10 @@
 <ul id="GeneralContentsList"></ul>
 <button onclick="getGeneralContents()"> Lista dei contenuti generali</button>
 
+<h2>Lista Contest</h2>
+<ul id="ContestList"></ul>
+<button onclick="getContests()"> Lista dei contest</button>
+
 <h2>Comune di interesse</h2>
 <label for="name">Nome</label>
 <input type="text" id="name">
@@ -144,6 +148,17 @@
 <input type="text" id="GeneralContentText">
 <button onclick="createGeneralContent()">Crea Contenuto Generale</button>
 
+<h2>Creazione Contest</h2>
+<label for="ContestObjective">Obiettivo</label>
+<input type="text" id="ContestObjective">
+<label for="ContestTitle">Titolo</label>
+<input type="text" id="ContestTitle">
+<label for="ContestStartDate">Data di inizio</label>
+<input type="date" id="ContestStartDate">
+<label for="ContestEndDate">Data di fine</label>
+<input type="date" id="ContestEndDate">
+<button onclick="createContest()">Crea Contest</button>
+
 <h2>Update POI</h2>
 
 
@@ -194,6 +209,20 @@
             .then(response => response.json())  // Modifica qui per ricevere un array
             .then(data => {
                 const list = document.getElementById("GeneralContentsList");
+                data.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;  // Modifica qui per stampare la stringa
+                    list.appendChild(li);
+                });
+            })
+            .catch(error => console.error('Error', error));
+    }
+
+    function getContests() {
+        fetch(`${baseUrl}/Contests`)
+            .then(response => response.json())  // Modifica qui per ricevere un array
+            .then(data => {
+                const list = document.getElementById("ContestList");
                 data.forEach(item => {
                     const li = document.createElement('li');
                     li.textContent = item;  // Modifica qui per stampare la stringa
@@ -265,6 +294,30 @@
             })
             .catch((error) => {
                 console.error('Contenuto generale non creato:', error);
+            });
+    }
+
+    function createContest() {
+        const ContestObjective = document.getElementById("ContestObjective").value;
+        const ContestTitle = document.getElementById("ContestTitle").value;
+        const ContestStartDate = document.getElementById("ContestStartDate").value;
+        const ContestEndDate = document.getElementById("ContestEndDate").value;
+
+        const ContestArray = [ContestObjective, ContestTitle, ContestStartDate, ContestEndDate];
+
+        fetch(`${baseUrl}/AggiungiContest`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(ContestArray),
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log('Contest creato con successo:', data);
+            })
+            .catch((error) => {
+                console.error('Contest non creato:', error);
             });
     }
 

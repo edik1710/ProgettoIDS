@@ -5,12 +5,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @CrossOrigin(origins = "http://localhost:63342")
 @RestController
 public class MunicipalServiceController {
-    //private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     // Da sostituire con il database <-- l'ha scritto Copilot
     // Da tentare di rimuovere
@@ -117,6 +119,28 @@ public class MunicipalServiceController {
         return new ResponseEntity<>(generalContentsStringArray, HttpStatus.OK);
     }
 
+    @RequestMapping("/Contests")
+    public ResponseEntity<Object> getContests() {
+
+        /*
+        Contributor contributor = new Contributor("Mario", "Rossi", "email", "password", municipalTerritory, "codiceFiscale");
+        Date startDate = new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24); // 1 day from now
+        Date endDate = new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 48); // 2 days from now
+        Contest c1 = new Contest("Objective", "Title", startDate, endDate);
+        this.municipalTerritory.getContests().add(c1);
+        */
+
+        List<Contest> contests = municipalTerritory.getContests();
+        Contest[] contestsArray = contests.toArray(new Contest[0]);
+        String[] contestsStringArray = new String[contestsArray.length];
+        for (int i = 0; i < contestsArray.length; i++) {
+            contestsStringArray[i] = contestsArray[i].toString();
+        }
+
+        return new ResponseEntity<>(contestsStringArray, HttpStatus.OK);
+    }
+
+    // Forse non serve
     @GetMapping("/POI/{name}")
     public ResponseEntity<Object> getPOI(@PathVariable("name") String name) {
         return new ResponseEntity<>(pois.get(name), HttpStatus.OK);
@@ -175,6 +199,22 @@ public class MunicipalServiceController {
         }
     }
 
+    // Ho aggiunto throws ParseException per non dover gestire l'eccezione
+    // e perché si legge meglio l'errore nella console
+    @PostMapping("/AggiungiContest")
+    public ResponseEntity<Object> addContest(@RequestBody String[] array) throws ParseException {
+        Date startDate = dateFormat.parse(array[2]);
+        Date endDate = dateFormat.parse(array[3]);
+        Contest contest = new Contest(array[0], array[1], startDate, endDate);
+
+        if (!this.municipalTerritory.getContests().contains(contest)) {
+            this.municipalTerritory.addContest(contest);
+            return new ResponseEntity<>("Concorso aggiunto correttamente", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Concorso già Esistente", HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @DeleteMapping("/POI/{name}")
     public ResponseEntity<Object> deletePOI(@PathVariable("name") String name) {
         if (pois.containsKey(name)) {
@@ -184,15 +224,4 @@ public class MunicipalServiceController {
             return new ResponseEntity<>("Il Punto d'interesse non esiste", HttpStatus.BAD_REQUEST);
         }
     }
-
-   /* @RequestMapping (value = "/POI{name}", method = RequestMethod.PUT)
-    public ResponseEntity<Object> updatePOI(@PathVariable("name")String name, @RequestBody POI POI){
-        if(pois.containsKey(name)){
-            pois.get(name).setName(POI.getMunicipalName());
-            return new ResponseEntity<>("Punto d'Interesse Aggiornato correttamente", HttpStatus.OK);
-        }else {
-            throw new POIExecption (); //<- Da Implemetare
-        }
-    }
-*/
 }
