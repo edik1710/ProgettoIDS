@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Valorizzazione territorio Comunale</title>
     <style>
-        #preview{
+        #preview {
             border: 1px solid black;
         }
     </style>
@@ -109,8 +109,7 @@
 <script>
     var map = L.map('map').setView([0, 0], 2);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    }).addTo(map);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
 
     var mobileIcon = L.icon({
         iconUrl: '/image/mapmarker.png',
@@ -151,7 +150,8 @@
 
 <h2>Creazione Itinerario</h2>
 
-<h3>Per creare un itinerario aggiungi un POI (GIA' ESISTENTE) alla volta, poi inserisci titolo e descrizione, quindi clicca "Crea Itinerario".</h3>
+<h3>Per creare un itinerario aggiungi un POI (GIA' ESISTENTE) alla volta, poi inserisci titolo e descrizione, quindi
+    clicca "Crea Itinerario".</h3>
 <label for="TempLatitude">Latitude:</label>
 <input type="text" id="TempLatitude" placeholder="Enter latitude">
 <label for="TempLongitude">Longitude:</label>
@@ -189,7 +189,12 @@
 <input type="text" id="NewPOITitle">
 <button onclick="updatePOI()">Aggiorna POI</button>
 
-<!-- Inserire qui per l'update dell'itinerario -->
+<h2>Update Itinerario</h2>
+<label for="CurrentItineraryTitle">Titolo attuale</label>
+<input type="text" id="CurrentItineraryTitle">
+<label for="NewItineraryTitle">Nuovo titolo</label>
+<input type="text" id="NewItineraryTitle">
+<button onclick="updateItinerary()">Aggiorna Itinerario</button>
 
 <h2>Update Contenuto Generale</h2>
 <label for="CurrentText">Testo attuale</label>
@@ -198,8 +203,6 @@
 <input type="text" id="NewText">
 <button onclick="updateGeneralContent()">Aggiorna Contenuto Generale</button>
 
-
-
 <h2>Cancellazione POI</h2>
 <label for="ToDeleteLatitude">Latitudine</label>
 <input type="text" id="ToDeleteLatitude">
@@ -207,6 +210,17 @@
 <input type="text" id="ToDeleteLongitude">
 <button onclick="deletePOI()">Cancella POI</button>
 
+<h2>Cancellazione Itinerario</h2>
+<label for="ToDeleteItineraryTitle">Titolo</label>
+<input type="text" id="ToDeleteItineraryTitle">
+<button onclick="deleteItinerary()">Cancella Itinerario</button>
+
+<h2>Cancellazione Contenuto Generale</h2>
+<label for="ToDeleteGeneralContentText">Testo</label>
+<input type="text" id="ToDeleteGeneralContentText">
+<button onclick="deleteGeneralContent()">Cancella Contenuto Generale</button>
+
+<!-- Da togliere -->
 <h2>Cerca punto d'interesse dal nome</h2>
 <label for="CercaPOI">Cerca POI:</label>
 <input type="text" id="CercaPOI">
@@ -383,7 +397,7 @@
             });
     }
 
-    function updatePOI(){
+    function updatePOI() {
         const UpdateLatitude = document.getElementById("UpdateLatitude").value;
         const UpdateLongitude = document.getElementById("UpdateLongitude").value;
         const NewPOITitle = document.getElementById("NewPOITitle").value;
@@ -403,6 +417,28 @@
             })
             .catch((error) => {
                 console.error('POI non aggiornato:', error);
+            });
+    }
+
+    function updateItinerary() {
+        const CurrentItineraryTitle = document.getElementById("CurrentItineraryTitle").value;
+        const NewItineraryDescription = document.getElementById("NewItineraryTitle").value;
+
+        const ItineraryUpdateArray = [CurrentItineraryTitle, NewItineraryDescription];
+
+        fetch(`${baseUrl}/ModificaItinerario`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(ItineraryUpdateArray),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Itinerario aggiornato con successo:', data)
+            })
+            .catch((error) => {
+                console.error('Itinerario non aggiornato:', error);
             });
     }
 
@@ -452,6 +488,48 @@
             });
     }
 
+    function deleteItinerary() {
+        const ToDeleteItineraryTitle = document.getElementById("ToDeleteItineraryTitle").value;
+
+        const ToDeleteItineraryTitleArray = [ToDeleteItineraryTitle];
+
+        fetch(`${baseUrl}/CancellaItinerario`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(ToDeleteItineraryTitleArray),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Itinerario cancellato con successo:', data)
+            })
+            .catch((error) => {
+                console.error('Itinerario non cancellato:', error);
+            });
+    }
+
+    function deleteGeneralContent() {
+        const ToDeleteGeneralContentText = document.getElementById("ToDeleteGeneralContentText").value;
+
+        const ToDeleteGeneralContentTextArray = [ToDeleteGeneralContentText];
+
+        fetch(`${baseUrl}/CancellaContenutoGenerale`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(ToDeleteGeneralContentTextArray),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Contenuto generale cancellato con successo:', data)
+            })
+            .catch((error) => {
+                console.error('Contenuto generale non cancellato:', error);
+            });
+    }
+
     function findPOI() {
         const CercaPOI = document.getElementById("CercaPOI").value;
         fetch(`${baseUrl}/POI/${CercaPOI}`)
@@ -464,18 +542,19 @@
                 console.error('POI non trovato:', error);
             });
     }
-    function previewImage(){
+
+    function previewImage() {
         var preview = document.querySelector('#preview');
         var fileInput = document.getElementById('photoUpload');
         var file = fileInput.files[0];
-        if (file){
+        if (file) {
             var reader = new FileReader();
-            reader.onload = function(e){
+            reader.onload = function (e) {
                 preview.src = reader.result;
             };
             reader.readAsDataURL(file);
-        }else{
-            preview.src ='#';
+        } else {
+            preview.src = '#';
         }
     }
 

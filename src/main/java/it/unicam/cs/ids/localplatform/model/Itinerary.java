@@ -41,7 +41,7 @@ public class Itinerary implements Info {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Itinerary that = (Itinerary) o;
-        return this.POIs.equals(that.POIs);
+        return this.title.equals(that.title); //
     }
 
     public void setTitle(String title) {
