@@ -35,6 +35,7 @@ public class MunicipalServiceController {
         return new ResponseEntity<>("User saved", HttpStatus.OK);
     }
 
+
     @RequestMapping("/POIs")
     public ResponseEntity<Object> getPOIs() {
         /*
@@ -143,7 +144,7 @@ public class MunicipalServiceController {
     @PostMapping("/AggiungiItinerario")
     public ResponseEntity<String> addItinerary(@RequestBody String[] array) {
 
-        /* mammamia
+        /* mammamia<
         List<POI> pois = new ArrayList<>();
         POI poi1 = new POI("piazza del comune", new Date(), currentUser, new Coordinates(43.133333, 13.066667), "Piazza del Comune di Camerino");
         POI poi2 = new POI("Pievetorina", new Date(), currentUser, new Coordinates(43, 13), "Pievetorina");
