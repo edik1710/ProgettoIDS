@@ -50,9 +50,9 @@ public class PlatformManager extends User {
     }
 
     /**
-     * This method allows the platform manager to create a new animator.
+     * This method allows the platform manager to create a new tourist.
      *
-     * @param user The name of the animator.
+     * @param user The name of the tourist.
      */
     private void createTourist(User user) {
         Tourist tourist = new Tourist(user.getName(), user.getSurname(), user.getEmail(), user.getPassword(), user.getResidence(), user.getCf());

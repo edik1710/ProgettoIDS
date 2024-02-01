@@ -1,19 +1,23 @@
 package it.unicam.cs.ids.localplatform.model;
 
 import it.unicam.cs.ids.localplatform.MunicipalTerritory;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jdk.jfr.Enabled;
 
 import java.util.Objects;
 
 /**
  * This class is a model of a generic user.
  */
+
 public class User {
-    private final String name;
-    private final String surname;
-    private final String email;
-    private final String password;
-    private final MunicipalTerritory residence;
-    private final String cf;
+    private String name;
+    private String surname;
+    private String email;
+    private String password;
+    private MunicipalTerritory residence;
+    private String cf;
 
     public User(String name, String surname, String email, String password, MunicipalTerritory residence, String cf) {
         this.name = name;
@@ -59,5 +63,29 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(email, password);
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setResidence(MunicipalTerritory residence) {
+        this.residence = residence;
+    }
+
+    public void setCf(String cf) {
+        this.cf = cf;
     }
 }

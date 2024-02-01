@@ -13,14 +13,17 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "http://localhost:63343")
 @RestController
 public class TuristaController {
-    private Tourist turist = new Tourist(currentUser.getName(), currentUser.getSurname(), currentUser.getEmail(), currentUser.getPassword(), currentUser.getResidence(), currentUser.getCf();
+    private Tourist turist = new Tourist("Mario", "Rossi", "Mario.Rossi@Tursita.t", "MarioRossi", new MunicipalTerritory("Camerino"), "MRRSMR00A00A000A");
     public User currentUser;
-    @PostMapping("/Login")
+    @PostMapping("/LoginTurista")
     public ResponseEntity<Object> getLoginInfo(@RequestBody String[] array) {
-        Tourist mt = new Tourist(array[4]);
-        this.currentUser = new User(array[0], array[1], array[2], array[3], mt, array[5]);
-
-        //System.out.println("Mannaggia a quelli della prima fila" + currentUser);
-        return new ResponseEntity<>("User saved", HttpStatus.OK);
+        if (array.length == 2) {
+            if (array[0].equals("turista")) {
+                if (turist.getEmail().equals(array[1])) {
+                    return new ResponseEntity<>(turist, HttpStatus.OK);
+                }
+            }
+        }
+        return new ResponseEntity<>("Errore", HttpStatus.BAD_REQUEST);
     }
 }

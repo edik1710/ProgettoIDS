@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Turista</title>
+    <h1>Pagina del Turista</h1>
+</head>
+<style>
+    form {
+        border: 3px solid #f1f1f1;
+    }
+
+    /* Full-width inputs */
+    input[type=text], input[type=date] {
+        width: 20%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+
+    /* CSS */
+     button {
+         appearance: none;
+         background-color: #FAFBFC;
+         border: 1px solid rgba(27, 31, 35, 0.15);
+         border-radius: 6px;
+         box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset;
+         box-sizing: border-box;
+         color: #24292E;
+         cursor: pointer;
+         display: inline-block;
+         font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+         font-size: 14px;
+         font-weight: 500;
+         line-height: 20px;
+         list-style: none;
+         padding: 6px 16px;
+         position: relative;
+         transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+         user-select: none;
+         -webkit-user-select: none;
+         touch-action: manipulation;
+         vertical-align: middle;
+         white-space: nowrap;
+         word-wrap: break-word;
+     }
+
+   button:hover {
+        background-color: #F3F4F6;
+        text-decoration: none;
+        transition-duration: 0.1s;
+    }
+
+   button:disabled {
+        background-color: #FAFBFC;
+        border-color: rgba(27, 31, 35, 0.15);
+        color: #959DA5;
+        cursor: default;
+    }
+
+   button:active {
+        background-color: #EDEFF2;
+        box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
+        transition: none 0s;
+    }
+
+   button:focus {
+        outline: 1px transparent;
+    }
+
+   button:before {
+        display: none;
+    }
+
+   button::-webkit-details-marker {
+        display: none;
+    }
+</style>
+<form id="Tourist" method="post">
+<h2>Lista Dei Contenuti Generali</h2>
+<ul id="GeneralContentsList"></ul>
+<button onclick="getGeneralContents()"> Lista dei contenuti generali</button>
+
+<h2>Lista Dei Punti D'Interesse</h2>
+<ul id="POIlist"></ul>
+<button onclick="getPOIs()"> Lista dei POI</button>
+
+<h2>Lista Dei Itinerari</h2>
+<ul id="ItinerariesList"></ul>
+<button onclick="getItineraries()"> Lista degli itinerari</button>
+
+<h2>Lista Contest</h2>
+<ul id="ContestList"></ul>
+<button onclick="getContests()"> Lista dei contest</button>
+
+<h2>Report</h2>
+<label for="Report">Report</label>
+<input type="text" id="Report" name="Report" placeholder="Motivo del Report">
+<label for="Contenuto">Titolo Contenuto</label>
+<input type="text" id="Contenuto" name="Contenuto" placeholder="Titolo del contenuto">
+<button type="submit" onclick="Report()">Report</button>
+
+</form>
+<script>
+    const baseUrl = 'http://localhost:8080';
+
+    function getGeneralContents() {
+        fetch(`${baseUrl}/GeneralContents`)
+            .then(response => response.json())  // Modifica qui per ricevere un array
+            .then(data => {
+                const list = document.getElementById("GeneralContentsList");
+                data.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;  // Modifica qui per stampare la stringa
+                    list.appendChild(li);
+                });
+            })
+            .catch(error => console.error('Error', error));
+    }
+    function getPOIs() {
+        fetch(`${baseUrl}/POIs`)
+            .then(response => response.json())  // Modifica qui per ricevere un array
+            .then(data => {
+                const list = document.getElementById("POIlist");
+                data.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;  // Modifica qui per stampare la stringa
+                    list.appendChild(li);
+                });
+            })
+            .catch(error => console.error('Error', error));
+    }
+    function getItineraries() {
+        fetch(`${baseUrl}/Itineraries`)
+            .then(response => response.json())  // Modifica qui per ricevere un array
+            .then(data => {
+                const list = document.getElementById("ItinerariesList");
+                data.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;  // Modifica qui per stampare la stringa
+                    list.appendChild(li);
+                });
+            })
+            .catch(error => console.error('Error', error));
+    }
+    function getContests() {
+        fetch(`${baseUrl}/Contests`)
+            .then(response => response.json())  // Modifica qui per ricevere un array
+            .then(data => {
+                const list = document.getElementById("ContestList");
+                data.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;  // Modifica qui per stampare la stringa
+                    list.appendChild(li);
+                });
+            })
+            .catch(error => console.error('Error', error));
+    }
+
+    function Report(){
+        const Report = document.getElementById("Report").value;
+
+        const ReportArray = [Report];
+
+        fetch(`${baseUrl}/Report`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(ReportArray),
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log('Report inviato con successo:', data);
+            })
+            .catch((error) => {
+                console.error('Report non inviato:', error);
+            });
+    }
+</script>
+</html>

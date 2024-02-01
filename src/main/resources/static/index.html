@@ -90,7 +90,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 30px 54px;
+            padding: 20px 30px;
             font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
             border-radius: 6px;
             color: #3D3D3D;
@@ -149,9 +149,9 @@
         const residence = document.getElementById("Residence").value;
         const fiscalCode = document.getElementById("Cf").value;
 
-        const UserInfo = [nome, cognome, email, password, residence, fiscalCode];
+        const role = document.getElementById("Roles").value;
 
-        if (residence === 'Camerino') {
+        const UserInfo = [nome, cognome, email, password, residence, fiscalCode];
             fetch(`${baseUrl}/Login`, {
                 method: 'POST',
                 headers: {
@@ -166,29 +166,32 @@
                 .catch((error) => {
                     console.error('Info dell utente non ricevute:', error);
                 });
-        }else {
-            fetch(`${baseUrl}/LoginTurista`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(UserInfo),
-            })
-                .then(response => response.text())
-                .then(data => {
-                    console.log('Info dell utente ottenute con successo:', data);
-                })
-                .catch((error) => {
-                    console.error('Info dell utente non ricevute:', error);
-                });
-        }
 
+        document.getElementById("loginForm").addEventListener("submit", function (event) {
+            event.preventDefault()
+            if (residence === 'Camerino') {
+                switch (role) {
+                    case "Animatore":
+                        window.location.href = '/Animator.html';
+                        break;
+                    case "Contributors":
+                        window.location.href = '/Contributor.html';
+                        break;
+                    case "Platform_Manager":
+                        window.location.href = '/Platform_Manager.html';
+                        break;
+                    case "Curator":
+                        window.location.href = '/Curator.html';
+                        break;
+                    default:
+                        window.location.href = '/home.html';
+                        break;
+                }
+            } else {
+                window.location.href = '/Tourist.html';
+            }
+
+        });
     }
-</script>
-<script>
-    document.getElementById("loginForm").addEventListener("submit", function (event) {
-        event.preventDefault()
-        window.location.href = '/home.html';
-    });
 </script>
 </html>

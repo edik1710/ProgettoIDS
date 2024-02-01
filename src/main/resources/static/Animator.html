@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valorizzazione Territorio Comunale: Pagina Animatore</title>
+    <h1>Valorizzazione del territorio Comunale</h1>
+
+</head>
+
+<style>
+    form {
+        border: 3px solid #f1f1f1;
+    }
+
+    /* Full-width inputs */
+    input[type=text], input[type=date] {
+        width: 20%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+
+    /* Set a style for all buttons */
+    button {
+        appearance: none;
+        background-color: #FAFBFC;
+        border: 1px solid rgba(27, 31, 35, 0.15);
+        border-radius: 6px;
+        box-shadow: rgba(27, 31, 35, 0.04) 0 1px 0, rgba(255, 255, 255, 0.25) 0 1px 0 inset;
+        box-sizing: border-box;
+        color: #24292E;
+        cursor: pointer;
+        display: inline-block;
+        font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 20px;
+        list-style: none;
+        padding: 6px 16px;
+        position: relative;
+        transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        vertical-align: middle;
+        white-space: nowrap;
+        word-wrap: break-word;
+    }
+
+    button:hover {
+        background-color: #F3F4F6;
+        text-decoration: none;
+        transition-duration: 0.1s;
+    }
+
+    button:disabled {
+        background-color: #FAFBFC;
+        border-color: rgba(27, 31, 35, 0.15);
+        color: #959DA5;
+        cursor: default;
+    }
+
+    button:active {
+        background-color: #EDEFF2;
+        box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
+        transition: none 0s;
+    }
+
+    button:focus {
+        outline: 1px transparent;
+    }
+
+    button:before {
+        display: none;
+    }
+
+    button::-webkit-details-marker {
+        display: none;
+    }
+</style>
+<form>
+
+<h2>Lista Contest</h2>
+<ul id="ContestList"></ul>
+<button onclick="getContests()"> Lista dei contest</button>
+</form>
+
+
+<h2>Proponi Contest</h2>
+<label for="ContestObjective">Obiettivo</label>
+<input type="text" id="ContestObjective">
+<label for="ContestTitle">Titolo</label>
+<input type="text" id="ContestTitle">
+<label for="ContestStartDate">Data di inizio</label>
+<input type="date" id="ContestStartDate">
+<label for="ContestEndDate">Data di fine</label>
+<input type="date" id="ContestEndDate">
+<button onclick="createContest()">Crea Contest</button>
+
+<script>
+    const baseUrl = 'http://localhost:8080';
+
+    function getContests() {
+        fetch(`${baseUrl}/Contests`)
+            .then(response => response.json())  // Modifica qui per ricevere un array
+            .then(data => {
+                const list = document.getElementById("ContestList");
+                data.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;  // Modifica qui per stampare la stringa
+                    list.appendChild(li);
+                });
+            })
+            .catch(error => console.error('Error', error));
+    }
+
+    function createContest() {
+        const ContestObjective = document.getElementById("ContestObjective").value;
+        const ContestTitle = document.getElementById("ContestTitle").value;
+        const ContestStartDate = document.getElementById("ContestStartDate").value;
+        const ContestEndDate = document.getElementById("ContestEndDate").value;
+
+        const ContestArray = [ContestObjective, ContestTitle, ContestStartDate, ContestEndDate];
+
+        fetch(`${baseUrl}/AggiungiContest`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(ContestArray),
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log('Contest creato con successo:', data);
+            })
+            .catch((error) => {
+                console.error('Contest non creato:', error);
+            });
+    }
+</script>
+</html>
