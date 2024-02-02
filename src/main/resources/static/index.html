@@ -32,7 +32,7 @@
         <input type="password" placeholder="Enter Password" name="psw" id="psw" required>
         <label for="Roles" class="hidden">Seleziona un Ruolo</label>
         <select id="Roles" name="Roles">
-            <option value="Contributors">Contributors</option>
+            <option value="Contributor">Contributor</option>
             <option value="Animatore">Animatore</option>
             <option value="Platform_Manager">Manger Della Piattaforma</option>
             <option value="Curator">Curatore</option>
@@ -149,10 +149,9 @@
         const password = document.getElementById("psw").value;
         const residence = document.getElementById("Residence").value;
         const fiscalCode = document.getElementById("Cf").value;
-
         const role = document.getElementById("Roles").value;
 
-        const UserInfo = [nome, cognome, email, password, residence, fiscalCode];
+        const UserInfo = [nome, cognome, email, password, residence, fiscalCode, role];
         fetch(`${baseUrl}/Register`, {
             method: 'POST',
             headers: {
@@ -178,7 +177,7 @@
                     case "Animatore":
                         window.location.href = '/Animator.html';
                         break;
-                    case "Contributors":
+                    case "Contributor":
                         window.location.href = '/Contributor.html';
                         break;
                     case "Platform_Manager":

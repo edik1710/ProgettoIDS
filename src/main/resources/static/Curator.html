@@ -80,5 +80,53 @@
 <body>
 <h1>Pagina del Curatore</h1>
 
+<h2>Lista Itinerari da Approvare</h2>
+<ul id="ItinerariesList"></ul>
+<button onclick="getItineraries()">Lista degli itinerari</button>
+<script>
+    function getItineraries() {
+        fetch('http://localhost:8080/itineraries')
+            .then(response => response.json())  // Modifica qui per ricevere un array
+            .then(data => {
+                const list = document.getElementById("ItinerariesList");
+                data.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;  // Modifica qui per stampare la stringa
+                    list.appendChild(li);
+                });
+            })
+            .catch(error => console.error('Error', error));
+    }
+</script>
+<h3>Scegli Se Rifiutare o Approvare L'itinerario</h3>
+<button onclick="reject()">Rifiuta</button>
+<button onclick="approved()">Approva</button>
+
+<script>
+    function reject(){
+        fetch('http://localhost:8080/itineraries/reject')
+            .then(response => response.json())  // Modifica qui per ricevere un array
+            .then(data => {
+                const list = document.getElementById("ItinerariesList");
+                data.forEach(item => {
+                    alert("L'itinerario non è stato approvato" + list);
+                    list.textContent = item;
+
+                });
+            })
+            .catch(error => console.error('Error', error));
+    }
+    function approved(){
+        fetch('http://localhost:8080/itineraries/approved')
+            .then(response => response.json())  // Modifica qui per ricevere un array
+            .then(data => {
+                const list = document.getElementById("ItinerariesList");
+                data.forEach(item => {
+                    alert("L'itinerario è stato approvato" + item)
+                });
+            })
+            .catch(error => console.error('Error', error));
+    }
+</script>
 </body>
 </html>

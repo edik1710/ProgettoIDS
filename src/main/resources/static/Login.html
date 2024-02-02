@@ -120,10 +120,36 @@
 
         document.getElementById("login").addEventListener("submit", function (event) {
             event.preventDefault()
-
-            window.location.href = '/home.html';
-
+            role();
         });
+    }
+
+    function role() {
+        fetch(`${baseUrl}/Role`)
+            .then(response => response.text())
+            .then(data => {
+                switch (data) {
+                    case "Animatore":
+                        window.location.href = '/Animator.html';
+                        break;
+                    case "Contributor":
+                        window.location.href = '/Contributor.html';
+                        break;
+                    case "Platform_Manager":
+                        window.location.href = '/Platform_Manager.html';
+                        break;
+                    case "Curator":
+                        window.location.href = '/Curator.html';
+                        break;
+                    case "Turista":
+                        window.location.href = '/Tourist.html';
+                        break;
+                    default:
+                        window.location.href = '/home.html';
+                        break;
+                }
+            })
+            .catch(error => console.error('Error', error));
     }
 </script>
 </html>

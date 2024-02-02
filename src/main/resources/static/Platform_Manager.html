@@ -80,6 +80,119 @@
 <body>
 <h1> Gestore Della Piattaforma</h1>
 
+<h2>Lista degli utenti in attesa</h2>
+<ul id="PendingUserList"></ul>
+<button onclick="PendingUserList()">Lista degli utenti in attesa</button>
+
+<h2>Accetta o Rifiuta l'utente un utente</h2>
+<ul id="AcceptUser"></ul>
+<label for="email">Email:</label>
+<input type="text" id="email" name="email">
+<button onclick="AcceptUser()">Accetta un utente</button>
+<ul id="DeleteUser"></ul>
+<button onclick="RejectUser()">Rifiuta Utente</button>
+
+<h2>Lista dei contributori e turisti</h2>
+<ul id="ContributorsAndTouristsList"></ul>
+<button onclick="ContributorsAndTouristsList()">Lista dei contributori e turisti</button>
+
+<label for="getUserList">Seleziona un Contributor</label>
+<input type="text" id="getUserList" name="getUserList">
+<button onclick="autorized()">Autorizza</button>
+
+
 
 </body>
 </html>
+
+<script>
+    const baseUrl = 'http://localhost:8080';
+
+    function PendingUserList() {
+        fetch(`${baseUrl}/PendingUserList`)
+            .then(response => response.json())
+            .then(data => {
+                const list = document.getElementById("PendingUserList");
+                data.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;  // Modifica qui per stampare la stringa
+                    list.appendChild(li);
+                });
+            })
+            .catch(error => console.error('Error', error));
+    }
+
+    function AcceptUser(){
+        const email = document.getElementById("email").value;
+        const dataArray = [email];
+        fetch(`${baseUrl}/AcceptUser`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dataArray),
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log('Success:', data);
+                alert("utente Approvato con successo!" +data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+
+    function RejectUser(){
+        const email = document.getElementById("email").value;
+        const dataArray = [email];
+        fetch(`${baseUrl}/DeleteUser`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dataArray),
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log('Success:', data);
+                alert("utente rifiutato con successo!" +data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+
+    function ContributorsAndTouristsList() {
+        fetch(`${baseUrl}/ContributorsAndTouristsList`)
+            .then(response => response.json())
+            .then(data => {
+                const list = document.getElementById("ContributorsAndTouristsList");
+                data.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;  // Modifica qui per stampare la stringa
+                    list.appendChild(li);
+                });
+            })
+            .catch(error => console.error('Error', error));
+    }
+
+    function autorized(){
+        const email = document.getElementById("getUserList").value;
+        const dataArray = [email];
+        fetch(`${baseUrl}/autorized`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dataArray),
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log('Success:', data);
+                alert("utente Approvato con successo!" +data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+</script>

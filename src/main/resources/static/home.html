@@ -91,15 +91,15 @@
 
 <h2>Lista Punti d'Interesse</h2>
 <ul id="POIlist"></ul>
-<button onclick="getPOIs()"> Lista dei POI</button>
+<button onclick="getPOIs()">Lista dei POI</button>
 
 <h2>Lista Itinerari</h2>
 <ul id="ItinerariesList"></ul>
-<button onclick="getItineraries()"> Lista degli itinerari</button>
+<button onclick="getItineraries()">Lista degli itinerari</button>
 
 <h2>Lista Contenuti Generali</h2>
 <ul id="GeneralContentsList"></ul>
-<button onclick="getGeneralContents()"> Lista dei contenuti generali</button>
+<button onclick="getGeneralContents()">Lista dei contenuti generali</button>
 
 <h2>Carica Foto</h2>
 <label for="photoUpload">Upload a photo:</label>
@@ -109,7 +109,7 @@
 
 <h2>Lista Contest</h2>
 <ul id="ContestList"></ul>
-<button onclick="getContests()"> Lista dei contest</button>
+<button onclick="getContests()">Lista dei contest</button>
 
 <h2>Comune di interesse</h2>
 <label for="name">Nome</label>
@@ -146,23 +146,19 @@
     var map = L.map('map').setView([0, 0], 2);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
-
-    var mobileIcon = L.icon({
-        iconUrl: '/image/mapmarker.png',
-        iconSize: [30, 30],
-        iconAnchor: [15, 30],
-        popupAnchor: [0, -30],
-    });
-
-    var mobileMarker = L.marker([0, 0], {icon: mobileIcon}).addTo(map);
+    var mobileMarker = L.marker([0, 0]).addTo(map);
 
     function setMarker() {
+        var title = document.getElementById('title').value;
         var latitude = parseFloat(document.getElementById('POILatitude').value);
         var longitude = parseFloat(document.getElementById('POILongitude').value);
 
         if (!isNaN(latitude) && !isNaN(longitude)) {
             mobileMarker.setLatLng([latitude, longitude]);
             map.setView([latitude, longitude], 12);
+
+            // Update popup content with coordinates
+            mobileMarker.bindPopup('Titolo: ' + title + '<br>Latitudine:' + latitude + '<br>Longitudine: ' + longitude).openPopup();
         } else {
             alert('Invalid coordinates. Please enter valid numbers.');
         }

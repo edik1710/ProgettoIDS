@@ -18,6 +18,26 @@ public class UserTable {
 
     private String cf;
 
+    private String role;
+
+    private boolean pending;
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public boolean isPending() {
+        return pending;
+    }
+
+    public void setPending(boolean pending) {
+        this.pending = pending;
+    }
+
     public String getName() {
         return name;
     }
@@ -64,5 +84,17 @@ public class UserTable {
 
     public void setCf(String cf) {
         this.cf = cf;
+    }
+
+    @Override
+    public String toString() {
+        return "name=" + name +
+                ", surname=" + surname +
+                ", email=" + email +
+                ", password=" + password +
+                ", residence=" + residence +
+                ", cf=" + cf +
+                ", role=" + role +
+                ", pending=" + pending;
     }
 }

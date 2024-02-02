@@ -24,6 +24,27 @@ public class MunicipalServiceController {
     @Autowired
     public MunicipalServiceController(UserListRepository userRepository) {
         this.userRepository = userRepository;
+        UserTable userTable1 = new UserTable();
+        userTable1.setName("Edoardo");
+        userTable1.setSurname("Dottori");
+        userTable1.setEmail("edoardo.dottori@progetto.ids");
+        userTable1.setPassword("tottigol");
+        userTable1.setResidence("Camerino");
+        userTable1.setCf("cfcfcfcf456cf4f");
+        userTable1.setRole("Platform_Manager");
+        userTable1.setPending(false);
+        this.userRepository.save(userTable1);
+
+        UserTable userTable2 = new UserTable();
+        userTable2.setName("Elia");
+        userTable2.setSurname("Toma");
+        userTable2.setEmail("elia.toma@progetto.ids");
+        userTable2.setPassword("brodoCovid");
+        userTable2.setResidence("Camerino");
+        userTable2.setCf("tomatoma002t2tte");
+        userTable2.setRole("Platform_Manager");
+        userTable2.setPending(false);
+        this.userRepository.save(userTable2);
     }
 
     public void setCurrentUser(User currentUser) {
@@ -49,6 +70,11 @@ public class MunicipalServiceController {
         userTable.setPassword(array[3]);
         userTable.setResidence(array[4]);
         userTable.setCf(array[5]);
+        if(!userTable.getResidence().equals("Camerino"))
+            userTable.setRole(array[6]);
+        else
+            userTable.setRole("Turista");
+        userTable.setPending(true);
         if (!userRepository.existsById(userTable.getEmail())) {
             userRepository.save(userTable);
             return new ResponseEntity<>("User saved", HttpStatus.OK);
@@ -66,6 +92,79 @@ public class MunicipalServiceController {
         if (userTable != null && userTable.getPassword().equals(array[1])) {
             this.currentUser = new User(userTable.getName(), userTable.getSurname(), userTable.getEmail(), userTable.getPassword(), new MunicipalTerritory(userTable.getResidence()), userTable.getCf());
             return new ResponseEntity<>("User logged in", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("User not found", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @RequestMapping("/Role")
+    public ResponseEntity<Object> getRole() {
+        String email = this.currentUser.getEmail();
+        UserTable userTable = userRepository.findById(email).orElse(null);
+        return new ResponseEntity<>(userTable.getRole(), HttpStatus.OK);
+    }
+
+    @RequestMapping("/PendingUserList")
+    public ResponseEntity<Object> getPendingUserList() {
+        List<UserTable> allUsers = new ArrayList<>();
+        allUsers = (ArrayList<UserTable>) this.userRepository.findAll();
+        List<UserTable> pendingUsers = new ArrayList<>();
+        for(UserTable u : allUsers)
+            if(u.isPending())
+                pendingUsers.add(u);
+        String[] pendingUsersArray = new String[pendingUsers.size()];
+        for(UserTable u : pendingUsers)
+            pendingUsersArray[pendingUsers.indexOf(u)] = u.toString();
+        return new ResponseEntity<>(pendingUsersArray, HttpStatus.OK);
+    }
+
+    @RequestMapping("/ContributorsAndTouristsList")
+    public ResponseEntity<Object> getContributorsAndTouristsList() {
+        List<UserTable> allUsers = new ArrayList<>();
+        allUsers = (ArrayList<UserTable>) this.userRepository.findAll();
+        List<UserTable> contributorsAndTouristsUsers = new ArrayList<>();
+        for(UserTable u : allUsers)
+            if(u.getRole().equals("Contributor") || u.getRole().equals("Turista"))
+                contributorsAndTouristsUsers.add(u);
+        String[] contributorsAndTouristsUsersArray = new String[contributorsAndTouristsUsers.size()];
+        for(UserTable u : contributorsAndTouristsUsers)
+            contributorsAndTouristsUsersArray[contributorsAndTouristsUsers.indexOf(u)] = u.toString();
+        return new ResponseEntity<>(contributorsAndTouristsUsersArray, HttpStatus.OK);
+    }
+
+    @PostMapping("/AcceptUser")
+    public ResponseEntity<Object> authorizeUser(@RequestBody String[] array) {
+        UserTable userTable = userRepository.findById(array[0]).orElse(null);
+        if (userTable != null) {
+            userTable.setPending(false);
+            userRepository.save(userTable);
+            return new ResponseEntity<>("User authorized", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("User not found", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping ("/autorized")
+    public ResponseEntity<Object> autorized(@RequestBody String[] array){
+        UserTable userTable = userRepository.findById(array[0]).orElse(null);
+        if (userTable != null) {
+            if(userTable.getRole().equals("Contributor"))
+                userTable.setRole("Authorized_Contributor");
+            if(userTable.getRole().equals("Turista"))
+                userTable.setRole("Authorized_Tourist");
+            userRepository.save(userTable);
+            return new ResponseEntity<>("User authorized", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("User not found", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/DeleteUser")
+    public ResponseEntity<Object> deleteUser(@RequestBody String[] array) {
+        UserTable userTable = userRepository.findById(array[0]).orElse(null);
+        if (userTable != null) {
+            userRepository.delete(userTable);
+            return new ResponseEntity<>("User deleted", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("User not found", HttpStatus.BAD_REQUEST);
         }
