@@ -170,6 +170,11 @@ public class MunicipalServiceController {
         }
     }
 
+    @PostMapping("saveInfo")
+    public ResponseEntity<Object> saveInfo(@RequestBody String[] array){
+        POI poi = new POI(array[0], new Date(), currentUser, new Coordinates(Double.parseDouble(array[1]), Double.parseDouble(array[2])), array[3]);
+
+    }
     @RequestMapping("/POIs")
     public ResponseEntity<Object> getPOIs() {
         /*
