@@ -48,7 +48,8 @@
                 }
             });
         </script>
-        <button type="submit" onclick="Login()">Login</button>
+        <button type="submit" onclick="Register()">Registrati</button>
+        <button type="submit" onclick="Login()">Sei già registrato? Clicca qui!</button>
         <label>
             <input type="checkbox" checked="checked" name="remember"> Remember me
         </label>
@@ -141,7 +142,7 @@
 <script>
     const baseUrl = 'http://localhost:8080';
 
-    function Login() {
+    function Register() {
         const nome = document.getElementById("name").value;
         const cognome = document.getElementById("Cognome").value;
         const email = document.getElementById("email").value;
@@ -152,23 +153,26 @@
         const role = document.getElementById("Roles").value;
 
         const UserInfo = [nome, cognome, email, password, residence, fiscalCode];
-            fetch(`${baseUrl}/Login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(UserInfo),
+        fetch(`${baseUrl}/Register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(UserInfo),
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log('Info dell utente ottenute con successo:', data);
             })
-                .then(response => response.text())
-                .then(data => {
-                    console.log('Info dell utente ottenute con successo:', data);
-                })
-                .catch((error) => {
-                    console.error('Info dell utente non ricevute:', error);
-                });
+            .catch((error) => {
+                console.error('Info dell utente non ricevute:', error);
+            });
 
         document.getElementById("loginForm").addEventListener("submit", function (event) {
             event.preventDefault()
+
+            // Ho commentato la selezione del ruolo perché andra' implementata in seguito nel login
+            /*
             if (residence === 'Camerino') {
                 switch (role) {
                     case "Animatore":
@@ -190,8 +194,13 @@
             } else {
                 window.location.href = '/Tourist.html';
             }
+            */
 
         });
+    }
+
+    function Login() {
+        window.location.href = '/Login.html';
     }
 </script>
 </html>

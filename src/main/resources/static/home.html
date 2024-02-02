@@ -393,12 +393,14 @@
     function createGeneralContent() {
         const GeneralContentText = document.getElementById("GeneralContentText").value;
 
+        const GeneralContentTextArray = [GeneralContentText];
+
         fetch(`${baseUrl}/AggiungiContenutoGenerale`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(GeneralContentText),
+            body: JSON.stringify(GeneralContentTextArray),
         })
             .then(response => response.text())
             .then(data => {

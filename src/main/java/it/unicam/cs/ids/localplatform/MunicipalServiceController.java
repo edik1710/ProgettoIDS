@@ -1,6 +1,9 @@
 package it.unicam.cs.ids.localplatform;
 
 import it.unicam.cs.ids.localplatform.model.*;
+import it.unicam.cs.ids.localplatform.web.UserListRepository;
+import it.unicam.cs.ids.localplatform.web.UserTable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +19,13 @@ public class MunicipalServiceController {
 
     private MunicipalTerritory municipalTerritory = new MunicipalTerritory("Camerino");
 
+    private final UserListRepository userRepository;
+
+    @Autowired
+    public MunicipalServiceController(UserListRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
     }
@@ -26,15 +36,40 @@ public class MunicipalServiceController {
         return currentUser;
     }
 
-    @PostMapping("/Login")
+    @PostMapping("/Register")
     public ResponseEntity<Object> getLoginInfo(@RequestBody String[] array) {
-        MunicipalTerritory mt = new MunicipalTerritory(array[4]);
-        this.currentUser = new User(array[0], array[1], array[2], array[3], mt, array[5]);
+        // Le due righe seguenti si dovrebbero togliere
+        //MunicipalTerritory mt = new MunicipalTerritory(array[4]);
+        //this.currentUser = new User(array[0], array[1], array[2], array[3], mt, array[5]);
+
+        UserTable userTable = new UserTable();
+        userTable.setName(array[0]);
+        userTable.setSurname(array[1]);
+        userTable.setEmail(array[2]);
+        userTable.setPassword(array[3]);
+        userTable.setResidence(array[4]);
+        userTable.setCf(array[5]);
+        if (!userRepository.existsById(userTable.getEmail())) {
+            userRepository.save(userTable);
+            return new ResponseEntity<>("User saved", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("User already exists", HttpStatus.BAD_REQUEST);
+        }
 
         //System.out.println("Mannaggia a quelli della prima fila" + currentUser);
-        return new ResponseEntity<>("User saved", HttpStatus.OK);
+        //return new ResponseEntity<>("User saved", HttpStatus.OK);
     }
 
+    @PostMapping("/Login")
+    public ResponseEntity<Object> accessPlatform(@RequestBody String[] array) {
+        UserTable userTable = userRepository.findById(array[0]).orElse(null);
+        if (userTable != null && userTable.getPassword().equals(array[1])) {
+            this.currentUser = new User(userTable.getName(), userTable.getSurname(), userTable.getEmail(), userTable.getPassword(), new MunicipalTerritory(userTable.getResidence()), userTable.getCf());
+            return new ResponseEntity<>("User logged in", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("User not found", HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @RequestMapping("/POIs")
     public ResponseEntity<Object> getPOIs() {
@@ -169,8 +204,8 @@ public class MunicipalServiceController {
 
     // FUNZIONA
     @PostMapping("/AggiungiContenutoGenerale")
-    public ResponseEntity<String> addGeneralContent(@RequestBody String text) {
-        Content content = new Content(new Date(), currentUser, text);
+    public ResponseEntity<Object> addGeneralContent(@RequestBody String[] text) {
+        Content content = new Content(new Date(), currentUser, text[0]);
 
         if (!this.municipalTerritory.getGeneralContents().contains(content)) {
             this.municipalTerritory.addGeneralContent(content);
@@ -229,8 +264,8 @@ public class MunicipalServiceController {
     // FUNZIONA
     @PostMapping("/ModificaContenutoGenerale")
     public ResponseEntity<Object> changeGeneralContent(@RequestBody String[] array) {
-        String currentText = '"' + array[0] + '"';
-        Content content = new Content(new Date(), currentUser, currentText);
+        //String currentText = '"' + array[0] + '"';
+        Content content = new Content(new Date(), currentUser, array[0]);
         if (!this.municipalTerritory.getGeneralContents().contains(content))
             return new ResponseEntity<>(Collections.singletonMap("message", "Il contenuto generale non esiste"), HttpStatus.BAD_REQUEST);
         else {
@@ -281,8 +316,8 @@ public class MunicipalServiceController {
     // FUNZIONA
     @DeleteMapping("/CancellaContenutoGenerale")
     public ResponseEntity<Object> deleteGeneralContent(@RequestBody String[] text) {
-        String currentText = '"' + text[0] + '"';
-        Content content = new Content(new Date(), currentUser, currentText);
+        //String currentText = '"' + text[0] + '"';
+        Content content = new Content(new Date(), currentUser, text[0]);
         if (!this.municipalTerritory.getGeneralContents().contains(content))
             return new ResponseEntity<>(Collections.singletonMap("message", "Il contenuto generale non esiste"), HttpStatus.BAD_REQUEST);
         else {

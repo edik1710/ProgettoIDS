@@ -7,8 +7,8 @@
 <body>
 
 </body>
-<form id ="login" method ="post">
-    <div class ="container">
+<form id="login" method="post">
+    <div class="container">
         <label for="email"> Email</label>
         <input type="email" placeholder="Enter Email" name="email" id="email" required>
         <label for="psw"> Password</label>
@@ -97,26 +97,33 @@
 <script>
     const baseUrl = "http://localhost:8080";
 
-    function login(){
-        var email = document.getElementById("email").value;
-        var password = document.getElementById("psw").value;
-        var data = {
-            "email": email,
-            "password": password
-        };
-        var json = JSON.stringify(data);
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", baseUrl + "/login", true);
-        xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
-        xhr.onload = function () {
-            var users = JSON.parse(xhr.responseText);
-            if (xhr.readyState == 4 && xhr.status == "200") {
-                console.table(users);
-            } else {
-                console.error(users);
-            }
-        }
-        xhr.send(json);
+    function login() {
+        const email = document.getElementById("email").value;
+        const psw = document.getElementById("psw").value;
+
+        const accessData = [email, psw];
+
+        fetch(`${baseUrl}/Login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(accessData),
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log('User logged in', data);
+            })
+            .catch((error) => {
+                console.error('Login failed', error);
+            });
+
+        document.getElementById("login").addEventListener("submit", function (event) {
+            event.preventDefault()
+
+            window.location.href = '/home.html';
+
+        });
     }
 </script>
 </html>
