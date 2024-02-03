@@ -79,7 +79,7 @@
     }
 </style>
 <body>
-<form id ="AuthTourist" method ="post">
+<form id="AuthTourist" method="post">
     <h2>Vedere tutte le informazion per future visite</h2>
     <ul id="saveList"></ul>
     <button onclick="infoList()">Lista delle Informazioni</button>
@@ -93,6 +93,7 @@
 
 <script>
     const baseUrl = 'http://localhost:8080';
+
     function infoList() {
         fetch(`${baseUrl}/POIs`)
             .then(response => response.json())
@@ -107,7 +108,8 @@
                 });
             });
     }
-    function saveInfo(){
+
+    function saveInfo() {
         const saveInfo = document.getElementById('saveInfo').value;
         fetch(`${baseUrl}/saveInfo`, {
             method: 'POST',

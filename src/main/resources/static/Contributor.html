@@ -101,27 +101,6 @@
 <ul id="GeneralContentsList"></ul>
 <button onclick="getGeneralContents()"> Lista dei contenuti generali</button>
 
-<!--
-
-<h2>Carica Foto</h2>
-<label for="photoUpload">Upload a photo:</label>
-<input type="file" id="photoUpload" name="photoUpload" accept="image/*" onchange="previewImage()">
-<img id="preview" src="#">
-<button type="submit">Carica Foto Del Contenuto</button>
-
-<h2>Lista Contest</h2>
-<ul id="ContestList"></ul>
-<button onclick="getContests()"> Lista dei contest</button>
-
-<h2>Comune di interesse</h2>
-<label for="name">Nome</label>
-<input type="text" id="name">
-<lable for="Provincia">Provincia</lable>
-<input type="text" id="Provincia">
-<button onclick="findPOI()">Crea cerca</button>
-
--->
-
 <!-- OpenLayers library -->
 <script src="https://openlayers.org/en/v4.6.5/build/ol.js"></script>
 <!-- Leaflet library -->
@@ -130,7 +109,6 @@
 <!-- HTML container for the map -->
 <body>
 <!-- HTML container for the map -->
-
 
 <!-- Input field for latitude -->
 <label for="latitude">Latitude:</label>
@@ -166,7 +144,6 @@
 </body>
 
 
-
 <h2>Creazione POI</h2>
 <label for="title">Titolo</label>
 <input type="text" id="title">
@@ -200,21 +177,6 @@
 <label for="GeneralContentText">Testo</label>
 <input type="text" id="GeneralContentText">
 <button onclick="createGeneralContent()">Crea Contenuto Generale</button>
-
-<!--
-
-<h2>Creazione Contest</h2>
-<label for="ContestObjective">Obiettivo</label>
-<input type="text" id="ContestObjective">
-<label for="ContestTitle">Titolo</label>
-<input type="text" id="ContestTitle">
-<label for="ContestStartDate">Data di inizio</label>
-<input type="date" id="ContestStartDate">
-<label for="ContestEndDate">Data di fine</label>
-<input type="date" id="ContestEndDate">
-<button onclick="createContest()">Crea Contest</button>
-
--->
 
 <h2>Update POI</h2>
 <label for="UpdateLatitude">Latitude:</label>

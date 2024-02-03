@@ -12,14 +12,19 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * This class is the controller of the Municipal Service.
+ */
 @CrossOrigin(origins = "http://localhost:63342")
 @RestController
 public class MunicipalServiceController {
-    private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    private MunicipalTerritory municipalTerritory = new MunicipalTerritory("Camerino");
+    private final MunicipalTerritory municipalTerritory = new MunicipalTerritory("Camerino");
 
     private final UserListRepository userRepository;
+
+    private User currentUser;
 
     @Autowired
     public MunicipalServiceController(UserListRepository userRepository) {
@@ -51,18 +56,18 @@ public class MunicipalServiceController {
         this.currentUser = currentUser;
     }
 
-    private User currentUser;
-
     public User getCurrentUser() {
         return currentUser;
     }
 
+    /**
+     * This method is used to get the login information.
+     *
+     * @param array The information of the user.
+     * @return Result of the operation.
+     */
     @PostMapping("/Register")
     public ResponseEntity<Object> getLoginInfo(@RequestBody String[] array) {
-        // Le due righe seguenti si dovrebbero togliere
-        //MunicipalTerritory mt = new MunicipalTerritory(array[4]);
-        //this.currentUser = new User(array[0], array[1], array[2], array[3], mt, array[5]);
-
         UserTable userTable = new UserTable();
         userTable.setName(array[0]);
         userTable.setSurname(array[1]);
@@ -70,7 +75,7 @@ public class MunicipalServiceController {
         userTable.setPassword(array[3]);
         userTable.setResidence(array[4]);
         userTable.setCf(array[5]);
-        if(userTable.getResidence().equals("Camerino"))
+        if (userTable.getResidence().equals("Camerino"))
             userTable.setRole(array[6]);
         else
             userTable.setRole("Turista");
@@ -81,11 +86,14 @@ public class MunicipalServiceController {
         } else {
             return new ResponseEntity<>("User already exists", HttpStatus.BAD_REQUEST);
         }
-
-        //System.out.println("Mannaggia a quelli della prima fila" + currentUser);
-        //return new ResponseEntity<>("User saved", HttpStatus.OK);
     }
 
+    /**
+     * This method is used to access the platform.
+     *
+     * @param array The credentials of the user.
+     * @return Result of the operation.
+     */
     @PostMapping("/Login")
     public ResponseEntity<Object> accessPlatform(@RequestBody String[] array) {
         UserTable userTable = userRepository.findById(array[0]).orElse(null);
@@ -97,6 +105,11 @@ public class MunicipalServiceController {
         }
     }
 
+    /**
+     * This method is used to get the role of the user.
+     *
+     * @return The role of the user.
+     */
     @RequestMapping("/Role")
     public ResponseEntity<Object> getRole() {
         String email = this.currentUser.getEmail();
@@ -104,34 +117,50 @@ public class MunicipalServiceController {
         return new ResponseEntity<>(userTable.getRole(), HttpStatus.OK);
     }
 
+    /**
+     * This method is used to get the list of the pending users.
+     *
+     * @return The list of the pending users.
+     */
     @RequestMapping("/PendingUserList")
     public ResponseEntity<Object> getPendingUserList() {
         List<UserTable> allUsers = new ArrayList<>();
         allUsers = (ArrayList<UserTable>) this.userRepository.findAll();
         List<UserTable> pendingUsers = new ArrayList<>();
-        for(UserTable u : allUsers)
-            if(u.isPending())
+        for (UserTable u : allUsers)
+            if (u.isPending())
                 pendingUsers.add(u);
         String[] pendingUsersArray = new String[pendingUsers.size()];
-        for(UserTable u : pendingUsers)
+        for (UserTable u : pendingUsers)
             pendingUsersArray[pendingUsers.indexOf(u)] = u.toString();
         return new ResponseEntity<>(pendingUsersArray, HttpStatus.OK);
     }
 
+    /**
+     * This method is used to get the list of the contributors and the tourists.
+     *
+     * @return The list of the contributors and the tourists.
+     */
     @RequestMapping("/ContributorsAndTouristsList")
     public ResponseEntity<Object> getContributorsAndTouristsList() {
         List<UserTable> allUsers = new ArrayList<>();
         allUsers = (ArrayList<UserTable>) this.userRepository.findAll();
         List<UserTable> contributorsAndTouristsUsers = new ArrayList<>();
-        for(UserTable u : allUsers)
-            if(u.getRole().equals("Contributor") || u.getRole().equals("Turista"))
+        for (UserTable u : allUsers)
+            if (u.getRole().equals("Contributor") || u.getRole().equals("Turista"))
                 contributorsAndTouristsUsers.add(u);
         String[] contributorsAndTouristsUsersArray = new String[contributorsAndTouristsUsers.size()];
-        for(UserTable u : contributorsAndTouristsUsers)
+        for (UserTable u : contributorsAndTouristsUsers)
             contributorsAndTouristsUsersArray[contributorsAndTouristsUsers.indexOf(u)] = u.toString();
         return new ResponseEntity<>(contributorsAndTouristsUsersArray, HttpStatus.OK);
     }
 
+    /**
+     * This method is used to authorize the user.
+     *
+     * @param array The email of the user.
+     * @return Result of the operation.
+     */
     @PostMapping("/AcceptUser")
     public ResponseEntity<Object> authorizeUser(@RequestBody String[] array) {
         UserTable userTable = userRepository.findById(array[0]).orElse(null);
@@ -144,13 +173,19 @@ public class MunicipalServiceController {
         }
     }
 
-    @PostMapping ("/autorized")
-    public ResponseEntity<Object> autorized(@RequestBody String[] array){
+    /**
+     * This method is used to authorize the contributor or the tourist.
+     *
+     * @param array The email of the user.
+     * @return Result of the operation.
+     */
+    @PostMapping("/autorized")
+    public ResponseEntity<Object> autorized(@RequestBody String[] array) {
         UserTable userTable = userRepository.findById(array[0]).orElse(null);
         if (userTable != null) {
-            if(userTable.getRole().equals("Contributor"))
+            if (userTable.getRole().equals("Contributor"))
                 userTable.setRole("Authorized_Contributor");
-            if(userTable.getRole().equals("Turista"))
+            if (userTable.getRole().equals("Turista"))
                 userTable.setRole("Authorized_Tourist");
             userRepository.save(userTable);
             return new ResponseEntity<>("User authorized", HttpStatus.OK);
@@ -159,6 +194,12 @@ public class MunicipalServiceController {
         }
     }
 
+    /**
+     * This method is used to deny the user.
+     *
+     * @param array The email of the user.
+     * @return Result of the operation.
+     */
     @PostMapping("/DeleteUser")
     public ResponseEntity<Object> deleteUser(@RequestBody String[] array) {
         UserTable userTable = userRepository.findById(array[0]).orElse(null);
@@ -170,19 +211,13 @@ public class MunicipalServiceController {
         }
     }
 
+    /**
+     * This method is used to get the list of the POIs.
+     *
+     * @return The list of the POIs.
+     */
     @RequestMapping("/POIs")
     public ResponseEntity<Object> getPOIs() {
-        /*
-        Coordinates coordinates = new Coordinates(43, 13);
-        Contributor contributor = new Contributor("Mario", "Rossi", "email", "password", municipalTerritory, "codiceFiscale");
-        POI p1 = new POI("piazza del comune", new Date(), contributor, coordinates, "Piazza del Comune di Camerino");
-        this.municipalTerritory.getPOIs().put(coordinates, p1);
-
-        Coordinates coordinates1 = new Coordinates(52, 75);
-        POI p2 = new POI("piazza del comune", new Date(), contributor, coordinates1, "Piazza del Comune di Camerino");
-        this.municipalTerritory.getPOIs().put(coordinates1, p2);
-        */
-
         // Recupera la mappa dei POI da MunicipalTerritory
         Map<Coordinates, POI> poiMap = municipalTerritory.getPOIs();
 
@@ -193,12 +228,16 @@ public class MunicipalServiceController {
             poiListStringArray[poiList.indexOf(poi)] = poi.toString();
         }
 
-        //System.out.println(currentUser);
-
+        System.out.println(Arrays.toString(poiListStringArray));
         // Restituisce la lista di POI
         return new ResponseEntity<>(poiListStringArray, HttpStatus.OK);
     }
 
+    /**
+     * This method is used to get the list of the itineraries.
+     *
+     * @return The list of the itineraries.
+     */
     @RequestMapping("/Itineraries")
     public ResponseEntity<Object> getItineraries() {
         List<Itinerary> itineraries = municipalTerritory.getItineraries();
@@ -213,6 +252,11 @@ public class MunicipalServiceController {
         return new ResponseEntity<>(itinerariesStringArray, HttpStatus.OK);
     }
 
+    /**
+     * This method is used to get the list of the general contents.
+     *
+     * @return The list of the general contents.
+     */
     @RequestMapping("/GeneralContents")
     public ResponseEntity<Object> getGeneralContents() {
         List<Content> generalContents = municipalTerritory.getGeneralContents();
@@ -225,17 +269,13 @@ public class MunicipalServiceController {
         return new ResponseEntity<>(generalContentsStringArray, HttpStatus.OK);
     }
 
+    /**
+     * This method is used to get the list of the contests.
+     *
+     * @return The list of the contests.
+     */
     @RequestMapping("/Contests")
     public ResponseEntity<Object> getContests() {
-
-        /*
-        Contributor contributor = new Contributor("Mario", "Rossi", "email", "password", municipalTerritory, "codiceFiscale");
-        Date startDate = new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24); // 1 day from now
-        Date endDate = new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 48); // 2 days from now
-        Contest c1 = new Contest("Objective", "Title", startDate, endDate);
-        this.municipalTerritory.getContests().add(c1);
-        */
-
         List<Contest> contests = municipalTerritory.getContests();
         Contest[] contestsArray = contests.toArray(new Contest[0]);
         String[] contestsStringArray = new String[contestsArray.length];
@@ -246,13 +286,14 @@ public class MunicipalServiceController {
         return new ResponseEntity<>(contestsStringArray, HttpStatus.OK);
     }
 
-    // FUNZIONA
+    /**
+     * This method is used to add a POI.
+     *
+     * @param array The information of the POI.
+     * @return Result of the operation.
+     */
     @PostMapping("/AggiungiPOI")
     public ResponseEntity<String> addPOI(@RequestBody String[] array) {
-
-        //Contributor contributor = new Contributor("Eracleonte", "Villa", "email", "password", municipalTerritory, "codiceFiscale");
-        //Coordinates c = new Coordinates(43, 13);
-
         Coordinates coordinates = new Coordinates(Double.parseDouble(array[2]), Double.parseDouble(array[3]));
 
         POI POI = new POI(array[0], new Date(), currentUser, coordinates, array[1]);
@@ -267,6 +308,12 @@ public class MunicipalServiceController {
 
     private static List<Coordinates> tempPOIList = new ArrayList<>();
 
+    /**
+     * This method is used to add a POI to the temporary list.
+     *
+     * @param array The coordinates of the POI.
+     * @return Result of the operation.
+     */
     @PostMapping("/AggiungiPOIAListaItinerario")
     public ResponseEntity<Object> addPOIToTempList(@RequestBody String[] array) {
         Coordinates coordinates = new Coordinates(Double.parseDouble(array[0]), Double.parseDouble(array[1]));
@@ -274,18 +321,14 @@ public class MunicipalServiceController {
         return new ResponseEntity<>("Punto d'Interesse aggiunto correttamente", HttpStatus.OK);
     }
 
-    // FUNZIONA
+    /**
+     * This method is used to add an itinerary.
+     *
+     * @param array The information of the itinerary.
+     * @return Result of the operation.
+     */
     @PostMapping("/AggiungiItinerario")
     public ResponseEntity<String> addItinerary(@RequestBody String[] array) {
-
-        /* mammamia<
-        List<POI> pois = new ArrayList<>();
-        POI poi1 = new POI("piazza del comune", new Date(), currentUser, new Coordinates(43.133333, 13.066667), "Piazza del Comune di Camerino");
-        POI poi2 = new POI("Pievetorina", new Date(), currentUser, new Coordinates(43, 13), "Pievetorina");
-        pois.add(poi1);
-        pois.add(poi2);
-        */
-
         List<POI> POIs = new ArrayList<>();
         for (Coordinates c : tempPOIList)
             POIs.add(this.municipalTerritory.getPOIs().get(c));
@@ -301,7 +344,12 @@ public class MunicipalServiceController {
         }
     }
 
-    // FUNZIONA
+    /**
+     * This method is used to add a general content.
+     *
+     * @param text The text of the content.
+     * @return Result of the operation.
+     */
     @PostMapping("/AggiungiContenutoGenerale")
     public ResponseEntity<Object> addGeneralContent(@RequestBody String[] text) {
         Content content = new Content(new Date(), currentUser, text[0]);
@@ -314,8 +362,13 @@ public class MunicipalServiceController {
         }
     }
 
-    // Ho aggiunto throws ParseException per non dover gestire l'eccezione
-    // e perché si legge meglio l'errore nella console
+    /**
+     * This method is used to add a contest.
+     *
+     * @param array The information of the contest.
+     * @return Result of the operation.
+     * @throws ParseException If the date is not valid.
+     */
     @PostMapping("/AggiungiContest")
     public ResponseEntity<Object> addContest(@RequestBody String[] array) throws ParseException {
         Date startDate = dateFormat.parse(array[2]);
@@ -330,7 +383,12 @@ public class MunicipalServiceController {
         }
     }
 
-    // FUNZIONA
+    /**
+     * This method is used to modify the information of a POI.
+     *
+     * @param array The information of the POI.
+     * @return Result of the operation.
+     */
     @PostMapping("/ModificaPOI")
     public ResponseEntity<Object> changePOI(@RequestBody String[] array) {
         Coordinates coordinates = new Coordinates(Double.parseDouble(array[0]), Double.parseDouble(array[1]));
@@ -342,10 +400,14 @@ public class MunicipalServiceController {
         }
     }
 
-    // FUNZIONA
+    /**
+     * This method is used to modify the information of an itinerary.
+     *
+     * @param array The information of the itinerary.
+     * @return Result of the operation.
+     */
     @PostMapping("/ModificaItinerario")
     public ResponseEntity<Object> changeItinerary(@RequestBody String[] array) {
-        //String currentTitle = '"' + array[0] + '"';
         POI poi1 = new POI("", new Date(), currentUser, new Coordinates(1, 1), "");
         POI poi2 = new POI("", new Date(), currentUser, new Coordinates(2, 2), "");
         List<POI> pois = new ArrayList<>();
@@ -360,10 +422,14 @@ public class MunicipalServiceController {
         }
     }
 
-    // FUNZIONA
+    /**
+     * This method is used to modify the information of a general content.
+     *
+     * @param array The information of the general content.
+     * @return Result of the operation.
+     */
     @PostMapping("/ModificaContenutoGenerale")
     public ResponseEntity<Object> changeGeneralContent(@RequestBody String[] array) {
-        //String currentText = '"' + array[0] + '"';
         Content content = new Content(new Date(), currentUser, array[0]);
         if (!this.municipalTerritory.getGeneralContents().contains(content))
             return new ResponseEntity<>(Collections.singletonMap("message", "Il contenuto generale non esiste"), HttpStatus.BAD_REQUEST);
@@ -373,23 +439,30 @@ public class MunicipalServiceController {
         }
     }
 
-    // FUNZIONA
+    /**
+     * This method is used to delete a POI.
+     *
+     * @param array The coordinates of the POI.
+     * @return Result of the operation.
+     */
     @DeleteMapping("/CancellaPOI")
     public ResponseEntity<Object> deletePOI(@RequestBody String[] array) {
         Coordinates coordinates = new Coordinates(Double.parseDouble(array[0]), Double.parseDouble(array[1]));
 
         if (this.municipalTerritory.getPOIs().containsKey(coordinates)) {
             this.municipalTerritory.getPOIs().remove(coordinates);
-
-            System.out.println(this.municipalTerritory.getPOIs().size());
-
             return new ResponseEntity<>("Il Punto d'interesse è stato cancellato correttamente", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Il Punto d'interesse non esiste", HttpStatus.BAD_REQUEST);
         }
     }
 
-    // FUNZIONA
+    /**
+     * This method is used to delete an itinerary.
+     *
+     * @param title The title of the itinerary.
+     * @return Result of the operation.
+     */
     @DeleteMapping("/CancellaItinerario")
     public ResponseEntity<Object> deleteItinerary(@RequestBody String[] title) {
         POI poi1 = new POI("", new Date(), currentUser, new Coordinates(1, 1), "");
@@ -397,25 +470,23 @@ public class MunicipalServiceController {
         List<POI> pois = new ArrayList<>();
         pois.add(poi1);
         pois.add(poi2);
-
-        //System.out.println(title[0]);
-
         Itinerary itinerary = new Itinerary(title[0], new Date(), currentUser, pois, "");
         if (!this.municipalTerritory.getItineraries().contains(itinerary))
             return new ResponseEntity<>(Collections.singletonMap("message", "L'itinerario non esiste"), HttpStatus.BAD_REQUEST);
         else {
             this.municipalTerritory.getItineraries().remove(itinerary);
-
-            //System.out.println(this.municipalTerritory.getItineraries().size());
-
             return new ResponseEntity<>(Collections.singletonMap("message", "Itinerario cancellato"), HttpStatus.OK);
         }
     }
 
-    // FUNZIONA
+    /**
+     * This method is used to delete a general content.
+     *
+     * @param text The text of the content.
+     * @return Result of the operation.
+     */
     @DeleteMapping("/CancellaContenutoGenerale")
     public ResponseEntity<Object> deleteGeneralContent(@RequestBody String[] text) {
-        //String currentText = '"' + text[0] + '"';
         Content content = new Content(new Date(), currentUser, text[0]);
         if (!this.municipalTerritory.getGeneralContents().contains(content))
             return new ResponseEntity<>(Collections.singletonMap("message", "Il contenuto generale non esiste"), HttpStatus.BAD_REQUEST);
@@ -424,17 +495,4 @@ public class MunicipalServiceController {
             return new ResponseEntity<>(Collections.singletonMap("message", "Contenuto generale cancellato"), HttpStatus.OK);
         }
     }
-    //Save Info of Point of Interest
-    /*@RequestMapping("/saveInfo")
-    public ResponseEntity<Object> saveInfo(@RequestBody String[] text){
-        POI poi = new POI(text[0], new Date(), currentUser, new Coordinates(Double.parseDouble(text[1]), Double.parseDouble(text[2])), text[4]);
-        if (!this.municipalTerritory.getPOIs().containsKey(poi.getCoordinates()))
-            return new ResponseEntity<>("Il POI non esiste", HttpStatus.BAD_REQUEST);
-        else {
-            this.municipalTerritory.getPOIs().get(poi.getCoordinates()).setTitle(text[0]);
-            this.municipalTerritory.getPOIs().get(poi.getCoordinates()).setDescription(text[4]);
-            return new ResponseEntity<>("POI aggiornato", HttpStatus.OK);
-        }
-    }*/
-
 }

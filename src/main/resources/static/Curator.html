@@ -2,8 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Curatore</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valorizzazione Territorio Comunale: Pagina Curatore</title>
 </head>
+
 <style>
     form {
         border: 3px solid #f1f1f1;
@@ -78,17 +80,131 @@
     }
 </style>
 <body>
+
+
 <h1>Pagina del Curatore</h1>
 
-<h2>Lista Itinerari da Approvare</h2>
+<h2>Lista Punti d'Interesse</h2>
+<ul id="POIlist"></ul>
+<button onclick="getPOIs()"> Lista dei POI</button>
+
+<h2>Lista Itinerari</h2>
 <ul id="ItinerariesList"></ul>
-<button onclick="getItineraries()">Lista degli itinerari</button>
+<button onclick="getItineraries()"> Lista degli itinerari</button>
+
+<h2>Lista Contenuti Generali</h2>
+<ul id="GeneralContentsList"></ul>
+<button onclick="getGeneralContents()"> Lista dei contenuti generali</button>
+</body>
+
+<h2>Creazione POI</h2>
+<label for="title">Titolo</label>
+<input type="text" id="title">
+<label for="description">Descrizione</label>
+<input type="text" id="description">
+<label for="POILatitude">Latitude:</label>
+<input type="text" id="POILatitude" placeholder="Enter latitude">
+<label for="POILongitude">Longitude:</label>
+<input type="text" id="POILongitude" placeholder="Enter longitude">
+<button onclick="createPOI()">Crea POI</button>
+
+<h2>Creazione Itinerario</h2>
+
+<h3>Per creare un itinerario aggiungi un POI (GIA' ESISTENTE) alla volta, poi inserisci titolo e descrizione, quindi
+    clicca "Crea Itinerario".</h3>
+<label for="TempLatitude">Latitude:</label>
+<input type="text" id="TempLatitude" placeholder="Enter latitude">
+<label for="TempLongitude">Longitude:</label>
+<input type="text" id="TempLongitude" placeholder="Enter longitude">
+<button onclick="addPOIToTempList()">Aggiungi POI</button>
+
+<label for="ItineraryTitle">Titolo</label>
+<input type="text" id="ItineraryTitle">
+<label for="ItineraryDescription">Descrizione</label>
+<input type="text" id="ItineraryDescription">
+<button onclick="createItinerary()">Crea Itinerario</button>
+
+<h2>Creazione Contenuto Generale</h2>
+<label for="GeneralContentText">Testo</label>
+<input type="text" id="GeneralContentText">
+<button onclick="createGeneralContent()">Crea Contenuto Generale</button>
+
+<h2>Update POI</h2>
+<label for="UpdateLatitude">Latitude:</label>
+<input type="text" id="UpdateLatitude" placeholder="Enter latitude">
+<label for="UpdateLongitude">Longitude:</label>
+<input type="text" id="UpdateLongitude" placeholder="Enter longitude">
+<label for="NewPOITitle">Nuovo titolo</label>
+<input type="text" id="NewPOITitle">
+<button onclick="updatePOI()">Aggiorna POI</button>
+
+<h2>Update Itinerario</h2>
+<label for="CurrentItineraryTitle">Titolo attuale</label>
+<input type="text" id="CurrentItineraryTitle">
+<label for="NewItineraryTitle">Nuovo titolo</label>
+<input type="text" id="NewItineraryTitle">
+<button onclick="updateItinerary()">Aggiorna Itinerario</button>
+
+<h2>Update Contenuto Generale</h2>
+<label for="CurrentText">Testo attuale</label>
+<input type="text" id="CurrentText">
+<label for="NewText">Nuovo testo</label>
+<input type="text" id="NewText">
+<button onclick="updateGeneralContent()">Aggiorna Contenuto Generale</button>
+
+<h2>Cancellazione POI</h2>
+<label for="ToDeleteLatitude">Latitudine</label>
+<input type="text" id="ToDeleteLatitude">
+<label for="ToDeleteLongitude">Longitudine</label>
+<input type="text" id="ToDeleteLongitude">
+<button onclick="deletePOI()">Cancella POI</button>
+
+<h2>Cancellazione Itinerario</h2>
+<label for="ToDeleteItineraryTitle">Titolo</label>
+<input type="text" id="ToDeleteItineraryTitle">
+<button onclick="deleteItinerary()">Cancella Itinerario</button>
+
+<h2>Cancellazione Contenuto Generale</h2>
+<label for="ToDeleteGeneralContentText">Testo</label>
+<input type="text" id="ToDeleteGeneralContentText">
+<button onclick="deleteGeneralContent()">Cancella Contenuto Generale</button>
+
 <script>
+    const baseUrl = 'http://localhost:8080';
+
+    function getPOIs() {
+        fetch(`${baseUrl}/POIs`)
+            .then(response => response.json())  // Modifica qui per ricevere un array
+            .then(data => {
+                const list = document.getElementById("POIlist");
+                data.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;  // Modifica qui per stampare la stringa
+                    list.appendChild(li);
+                });
+            })
+            .catch(error => console.error('Error', error));
+    }
+
     function getItineraries() {
-        fetch('http://localhost:8080/itineraries')
+        fetch(`${baseUrl}/Itineraries`)
             .then(response => response.json())  // Modifica qui per ricevere un array
             .then(data => {
                 const list = document.getElementById("ItinerariesList");
+                data.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;  // Modifica qui per stampare la stringa
+                    list.appendChild(li);
+                });
+            })
+            .catch(error => console.error('Error', error));
+    }
+
+    function getGeneralContents() {
+        fetch(`${baseUrl}/GeneralContents`)
+            .then(response => response.json())  // Modifica qui per ricevere un array
+            .then(data => {
+                const list = document.getElementById("GeneralContentsList");
                 data.forEach(item => {
                     const li = document.createElement('li');
                     li.textContent = item;  // Modifica qui per stampare la stringa
@@ -103,7 +219,7 @@
 <button onclick="approved()">Approva</button>
 
 <script>
-    function reject(){
+    function reject() {
         fetch('http://localhost:8080/itineraries/reject')
             .then(response => response.json())  // Modifica qui per ricevere un array
             .then(data => {
@@ -116,7 +232,8 @@
             })
             .catch(error => console.error('Error', error));
     }
-    function approved(){
+
+    function approved() {
         fetch('http://localhost:8080/itineraries/approved')
             .then(response => response.json())  // Modifica qui per ricevere un array
             .then(data => {
@@ -127,6 +244,224 @@
             })
             .catch(error => console.error('Error', error));
     }
+
+    function createPOI() {
+        const title = document.getElementById("title").value;
+        const description = document.getElementById("description").value;
+        const POILatitude = parseFloat(document.getElementById("POILatitude").value);
+        const POILongitude = parseFloat(document.getElementById("POILongitude").value);
+
+        const POIArray = [title, description, POILatitude, POILongitude];
+
+        fetch(`${baseUrl}/AggiungiPOI`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(POIArray),
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log('POI creato con successo:', data);
+            })
+            .catch((error) => {
+                console.error('POI non creato:', error);
+            });
+    }
+
+    function addPOIToTempList() {
+        const POILatitude = parseFloat(document.getElementById("TempLatitude").value);
+        const POILongitude = parseFloat(document.getElementById("TempLongitude").value);
+
+        const tempArray = [POILatitude, POILongitude];
+
+        fetch(`${baseUrl}/AggiungiPOIAListaItinerario`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(tempArray),
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log('POI aggiunto con successo:', data);
+            })
+            .catch((error) => {
+                console.error('POI non aggiunto:', error);
+            });
+    }
+
+    function createItinerary() {
+        const ItineraryTitle = document.getElementById("ItineraryTitle").value;
+        const ItineraryDescription = document.getElementById("ItineraryDescription").value;
+
+        const ItineraryArray = [ItineraryTitle, ItineraryDescription];
+
+        fetch(`${baseUrl}/AggiungiItinerario`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(ItineraryArray),
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log('Itinerario creato con successo:', data);
+            })
+            .catch((error) => {
+                console.error('Itinerario non creato:', error);
+            });
+    }
+
+    function createGeneralContent() {
+        const GeneralContentText = document.getElementById("GeneralContentText").value;
+
+        fetch(`${baseUrl}/AggiungiContenutoGenerale`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(GeneralContentText),
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log('Contenuto generale creato con successo:', data);
+            })
+            .catch((error) => {
+                console.error('Contenuto generale non creato:', error);
+            });
+    }
+
+    function updatePOI() {
+        const UpdateLatitude = document.getElementById("UpdateLatitude").value;
+        const UpdateLongitude = document.getElementById("UpdateLongitude").value;
+        const NewPOITitle = document.getElementById("NewPOITitle").value;
+
+        const POIUpdateArray = [UpdateLatitude, UpdateLongitude, NewPOITitle];
+
+        fetch(`${baseUrl}/ModificaPOI`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(POIUpdateArray),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('POI aggiornato con successo:', data);
+            })
+            .catch((error) => {
+                console.error('POI non aggiornato:', error);
+            });
+    }
+
+    function updateItinerary() {
+        const CurrentItineraryTitle = document.getElementById("CurrentItineraryTitle").value;
+        const NewItineraryDescription = document.getElementById("NewItineraryTitle").value;
+
+        const ItineraryUpdateArray = [CurrentItineraryTitle, NewItineraryDescription];
+
+        fetch(`${baseUrl}/ModificaItinerario`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(ItineraryUpdateArray),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Itinerario aggiornato con successo:', data)
+            })
+            .catch((error) => {
+                console.error('Itinerario non aggiornato:', error);
+            });
+    }
+
+    function updateGeneralContent() {
+        const CurrentText = document.getElementById("CurrentText").value;
+        const NewText = document.getElementById("NewText").value;
+
+        const GeneralContentUpdateArray = [CurrentText, NewText];
+
+        fetch(`${baseUrl}/ModificaContenutoGenerale`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(GeneralContentUpdateArray),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Contenuto generale aggiornato con successo:', data)
+            })
+            .catch((error) => {
+                console.error('Contenuto generale non aggiornato:', error);
+            });
+    }
+
+    function deletePOI() {
+        const ToDeleteLatitude = document.getElementById("ToDeleteLatitude").value;
+        const ToDeleteLongitude = document.getElementById("ToDeleteLongitude").value;
+
+        const ToDeleteCoordinatesArray = [ToDeleteLatitude, ToDeleteLongitude];
+
+        fetch(`${baseUrl}/CancellaPOI`, {
+            method: 'DELETE',
+
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(ToDeleteCoordinatesArray),
+
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('POI cancellato con successo:', data)
+            })
+            .catch((error) => {
+                console.error('POI non cancellato:', error);
+            });
+    }
+
+    function deleteItinerary() {
+        const ToDeleteItineraryTitle = document.getElementById("ToDeleteItineraryTitle").value;
+
+        const ToDeleteItineraryTitleArray = [ToDeleteItineraryTitle];
+
+        fetch(`${baseUrl}/CancellaItinerario`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(ToDeleteItineraryTitleArray),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Itinerario cancellato con successo:', data)
+            })
+            .catch((error) => {
+                console.error('Itinerario non cancellato:', error);
+            });
+    }
+
+    function deleteGeneralContent() {
+        const ToDeleteGeneralContentText = document.getElementById("ToDeleteGeneralContentText").value;
+
+        const ToDeleteGeneralContentTextArray = [ToDeleteGeneralContentText];
+
+        fetch(`${baseUrl}/CancellaContenutoGenerale`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(ToDeleteGeneralContentTextArray),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Contenuto generale cancellato con successo:', data)
+            })
+            .catch((error) => {
+                console.error('Contenuto generale non cancellato:', error);
+            });
+    }
 </script>
-</body>
-</html>

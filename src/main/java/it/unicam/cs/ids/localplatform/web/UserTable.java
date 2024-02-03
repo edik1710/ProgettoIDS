@@ -3,6 +3,20 @@ package it.unicam.cs.ids.localplatform.web;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
+/**
+ * This class represents the UserTable entity in the database.
+ * It contains the following fields:
+ * - name: the name of the user
+ * - surname: the surname of the user
+ * - email: the email of the user
+ * - password: the password of the user
+ * - residence: the residence of the user
+ * - cf: the fiscal code of the user
+ * - role: the role of the user
+ * - pending: a boolean that indicates if the user is pending
+ * <p>
+ * The class also contains the getters and setters for the fields.
+ */
 @Entity
 public class UserTable {
     private String name;
@@ -21,22 +35,6 @@ public class UserTable {
     private String role;
 
     private boolean pending;
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public boolean isPending() {
-        return pending;
-    }
-
-    public void setPending(boolean pending) {
-        this.pending = pending;
-    }
 
     public String getName() {
         return name;
@@ -84,6 +82,22 @@ public class UserTable {
 
     public void setCf(String cf) {
         this.cf = cf;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public boolean isPending() {
+        return pending;
+    }
+
+    public void setPending(boolean pending) {
+        this.pending = pending;
     }
 
     @Override

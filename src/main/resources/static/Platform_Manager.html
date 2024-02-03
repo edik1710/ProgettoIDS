@@ -101,7 +101,6 @@
 <button onclick="autorized()">Autorizza</button>
 
 
-
 </body>
 </html>
 
@@ -122,7 +121,7 @@
             .catch(error => console.error('Error', error));
     }
 
-    function AcceptUser(){
+    function AcceptUser() {
         const email = document.getElementById("email").value;
         const dataArray = [email];
         fetch(`${baseUrl}/AcceptUser`, {
@@ -135,14 +134,14 @@
             .then(response => response.text())
             .then(data => {
                 console.log('Success:', data);
-                alert("utente Approvato con successo!" +data);
+                alert("utente Approvato con successo!" + data);
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
     }
 
-    function RejectUser(){
+    function RejectUser() {
         const email = document.getElementById("email").value;
         const dataArray = [email];
         fetch(`${baseUrl}/DeleteUser`, {
@@ -155,7 +154,7 @@
             .then(response => response.text())
             .then(data => {
                 console.log('Success:', data);
-                alert("utente rifiutato con successo!" +data);
+                alert("utente rifiutato con successo!" + data);
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -176,7 +175,7 @@
             .catch(error => console.error('Error', error));
     }
 
-    function autorized(){
+    function autorized() {
         const email = document.getElementById("getUserList").value;
         const dataArray = [email];
         fetch(`${baseUrl}/autorized`, {
@@ -189,7 +188,7 @@
             .then(response => response.text())
             .then(data => {
                 console.log('Success:', data);
-                alert("utente Approvato con successo!" +data);
+                alert("utente Approvato con successo!" + data);
             })
             .catch((error) => {
                 console.error('Error:', error);

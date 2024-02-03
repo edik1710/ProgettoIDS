@@ -1,16 +1,12 @@
 package it.unicam.cs.ids.localplatform.model;
 
 import it.unicam.cs.ids.localplatform.MunicipalTerritory;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jdk.jfr.Enabled;
 
 import java.util.Objects;
 
 /**
  * This class is a model of a generic user.
  */
-
 public class User {
     private String name;
     private String surname;
