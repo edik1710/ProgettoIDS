@@ -103,6 +103,7 @@
 <button type="submit" onclick="Report()">Report</button>
 
 </form>
+</html>
 <script>
     const baseUrl = 'http://localhost:8080';
 
@@ -119,6 +120,7 @@
             })
             .catch(error => console.error('Error', error));
     }
+
     function getPOIs() {
         fetch(`${baseUrl}/POIs`)
             .then(response => response.json())  // Modifica qui per ricevere un array
@@ -132,6 +134,7 @@
             })
             .catch(error => console.error('Error', error));
     }
+
     function getItineraries() {
         fetch(`${baseUrl}/Itineraries`)
             .then(response => response.json())  // Modifica qui per ricevere un array
@@ -145,6 +148,7 @@
             })
             .catch(error => console.error('Error', error));
     }
+
     function getContests() {
         fetch(`${baseUrl}/Contests`)
             .then(response => response.json())  // Modifica qui per ricevere un array
@@ -180,4 +184,3 @@
             });
     }
 </script>
-</html>

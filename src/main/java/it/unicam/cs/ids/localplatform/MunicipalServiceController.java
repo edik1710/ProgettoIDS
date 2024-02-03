@@ -70,7 +70,7 @@ public class MunicipalServiceController {
         userTable.setPassword(array[3]);
         userTable.setResidence(array[4]);
         userTable.setCf(array[5]);
-        if(!userTable.getResidence().equals("Camerino"))
+        if(userTable.getResidence().equals("Camerino"))
             userTable.setRole(array[6]);
         else
             userTable.setRole("Turista");
@@ -170,11 +170,6 @@ public class MunicipalServiceController {
         }
     }
 
-    @PostMapping("saveInfo")
-    public ResponseEntity<Object> saveInfo(@RequestBody String[] array){
-        POI poi = new POI(array[0], new Date(), currentUser, new Coordinates(Double.parseDouble(array[1]), Double.parseDouble(array[2])), array[3]);
-
-    }
     @RequestMapping("/POIs")
     public ResponseEntity<Object> getPOIs() {
         /*
@@ -429,4 +424,17 @@ public class MunicipalServiceController {
             return new ResponseEntity<>(Collections.singletonMap("message", "Contenuto generale cancellato"), HttpStatus.OK);
         }
     }
+    //Save Info of Point of Interest
+    /*@RequestMapping("/saveInfo")
+    public ResponseEntity<Object> saveInfo(@RequestBody String[] text){
+        POI poi = new POI(text[0], new Date(), currentUser, new Coordinates(Double.parseDouble(text[1]), Double.parseDouble(text[2])), text[4]);
+        if (!this.municipalTerritory.getPOIs().containsKey(poi.getCoordinates()))
+            return new ResponseEntity<>("Il POI non esiste", HttpStatus.BAD_REQUEST);
+        else {
+            this.municipalTerritory.getPOIs().get(poi.getCoordinates()).setTitle(text[0]);
+            this.municipalTerritory.getPOIs().get(poi.getCoordinates()).setDescription(text[4]);
+            return new ResponseEntity<>("POI aggiornato", HttpStatus.OK);
+        }
+    }*/
+
 }

@@ -149,15 +149,7 @@
     var map = L.map('map').setView([0, 0], 2);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
-
-    var mobileIcon = L.icon({
-        iconUrl: '/image/mapmarker.png',
-        iconSize: [30, 30],
-        iconAnchor: [15, 30],
-        popupAnchor: [0, -30],
-    });
-
-    var mobileMarker = L.marker([0, 0], {icon: mobileIcon}).addTo(map);
+    var mobileMarker = L.marker([0, 0]).addTo(map);
 
     function setMarker() {
         var latitude = parseFloat(document.getElementById('POILatitude').value);

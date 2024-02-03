@@ -80,18 +80,21 @@
 </style>
 <body>
 <form id ="AuthTourist" method ="post">
-    <h2>Salvare informazione per future visite</h2>
+    <h2>Vedere tutte le informazion per future visite</h2>
     <ul id="saveList"></ul>
-    <input type="text" id="save" name="save" placeholder="Salva informazione">
-    <button onclick="saveList()">Salva</button>
+    <button onclick="infoList()">Lista delle Informazioni</button>
+
+    <h2>Save all info</h2>
+    <input type="text" id="saveInfo" name="saveInfo" placeholder="Save Info">
+    <button onclick="saveInfo()">Save</button>
 </form>
 
 </body>
 
 <script>
     const baseUrl = 'http://localhost:8080';
-    function saveList() {
-        fetch(`${baseUrl}/saveInfo`)
+    function infoList() {
+        fetch(`${baseUrl}/POIs`)
             .then(response => response.json())
             .then(data => {
                 console.log(data);
@@ -102,6 +105,20 @@
                     li.appendChild(document.createTextNode(save));
                     saveList.appendChild(li);
                 });
+            });
+    }
+    function saveInfo(){
+        const saveInfo = document.getElementById('saveInfo').value;
+        fetch(`${baseUrl}/saveInfo`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({saveInfo})
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
             });
     }
 
