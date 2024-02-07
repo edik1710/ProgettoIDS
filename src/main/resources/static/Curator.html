@@ -417,6 +417,9 @@
             .then(response => response.json())
             .then(data => {
                 console.log('POI cancellato con successo:', data)
+                const list = document.getElementById("ToDeleteLatitude");
+                list.removeChild(list.childNodes[0])
+                location.reload();
             })
             .catch((error) => {
                 console.error('POI non cancellato:', error);
@@ -438,6 +441,9 @@
             .then(response => response.json())
             .then(data => {
                 console.log('Itinerario cancellato con successo:', data)
+                const list = document.getElementById("ToDeleteItineraryTitle");
+                list.removeChild(list.childNodes[0])
+                location.reload();
             })
             .catch((error) => {
                 console.error('Itinerario non cancellato:', error);
@@ -459,9 +465,18 @@
             .then(response => response.json())
             .then(data => {
                 console.log('Contenuto generale cancellato con successo:', data)
+                const list = document.getElementById("ToDeleteGeneralContentText");
+                list.removeChild(list.childNodes[0])
+                location.reload();
             })
             .catch((error) => {
                 console.error('Contenuto generale non cancellato:', error);
             });
+    }
+    function clearInput() {
+        // Get the input element
+        var input = document.getElementById('textInput');
+        // Set the input value to an empty string
+        input.value = '';
     }
 </script>

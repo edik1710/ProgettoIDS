@@ -88,9 +88,9 @@
 <ul id="AcceptUser"></ul>
 <label for="email">Email:</label>
 <input type="text" id="email" name="email">
-<button onclick="AcceptUser()">Accetta un utente</button>
+<button onclick="AcceptUser(); clearInput()">Accetta un utente</button>
 <ul id="DeleteUser"></ul>
-<button onclick="RejectUser()">Rifiuta Utente</button>
+<button onclick="RejectUser(); clearInput()">Rifiuta Utente</button>
 
 <h2>Lista dei contributori e turisti</h2>
 <ul id="ContributorsAndTouristsList"></ul>
@@ -156,6 +156,9 @@
             .then(response => response.text())
             .then(data => {
                 console.log('Success:', data);
+                const list = document.getElementById("PendingUserList");
+                list.removeChild(list.childNodes[0])
+                location.reload();
                 alert("utente rifiutato con successo!" + data);
             })
             .catch((error) => {
@@ -190,10 +193,19 @@
             .then(response => response.text())
             .then(data => {
                 console.log('Success:', data);
+                const list = document.getElementById("getUserList");
+                list.removeChild(list.childNodes[0])
+                location.reload();
                 alert("utente autorizzato con successo!" + data);
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
+    }
+    function clearInput() {
+        // Get the input element
+        var input = document.getElementById('email');
+        // Set the input value to an empty string
+        input.value = '';
     }
 </script>
