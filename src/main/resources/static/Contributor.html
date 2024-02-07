@@ -130,12 +130,16 @@
     var mobileMarker = L.marker([0, 0]).addTo(map);
 
     function setMarker() {
+        var title = document.getElementById('title').value;
         var latitude = parseFloat(document.getElementById('POILatitude').value);
         var longitude = parseFloat(document.getElementById('POILongitude').value);
 
         if (!isNaN(latitude) && !isNaN(longitude)) {
             mobileMarker.setLatLng([latitude, longitude]);
             map.setView([latitude, longitude], 12);
+
+            // Update popup content with coordinates
+            mobileMarker.bindPopup('Titolo: ' + title + '<br>Latitudine:' + latitude + '<br>Longitudine: ' + longitude).openPopup();
         } else {
             alert('Invalid coordinates. Please enter valid numbers.');
         }

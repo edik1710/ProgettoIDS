@@ -134,7 +134,9 @@
             .then(response => response.text())
             .then(data => {
                 console.log('Success:', data);
-                alert("utente Approvato con successo!" + data);
+                const list = document.getElementById("PendingUserList");
+                list.removeChild(list.childNodes[0])
+                location.reload();
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -188,7 +190,7 @@
             .then(response => response.text())
             .then(data => {
                 console.log('Success:', data);
-                alert("utente Approvato con successo!" + data);
+                alert("utente autorizzato con successo!" + data);
             })
             .catch((error) => {
                 console.error('Error:', error);
