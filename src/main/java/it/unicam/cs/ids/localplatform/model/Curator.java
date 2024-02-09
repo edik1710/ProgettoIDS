@@ -2,7 +2,7 @@ package it.unicam.cs.ids.localplatform.model;
 
 import it.unicam.cs.ids.localplatform.MunicipalTerritory;
 import it.unicam.cs.ids.localplatform.command.Command;
-import it.unicam.cs.ids.localplatform.singleton.CommandVerificationQueue;
+import it.unicam.cs.ids.localplatform.queue.CommandVerificationQueue;
 
 /**
  * This class represents a Curator of the platform.<br><br>

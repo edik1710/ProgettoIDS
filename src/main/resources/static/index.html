@@ -162,6 +162,7 @@
             .then(response => response.text())
             .then(data => {
                 console.log('Info dell utente ottenute con successo:', data);
+                alert("Utente creato con successo");
             })
             .catch((error) => {
                 console.error('Info dell utente non ricevute:', error);
@@ -169,32 +170,6 @@
 
         document.getElementById("loginForm").addEventListener("submit", function (event) {
             event.preventDefault()
-
-            // Ho commentato la selezione del ruolo perché andra' implementata in seguito nel login
-            /*
-            if (residence === 'Camerino') {
-                switch (role) {
-                    case "Animatore":
-                        window.location.href = '/Animator.html';
-                        break;
-                    case "Contributor":
-                        window.location.href = '/Contributor.html';
-                        break;
-                    case "Platform_Manager":
-                        window.location.href = '/Platform_Manager.html';
-                        break;
-                    case "Curator":
-                        window.location.href = '/Curator.html';
-                        break;
-                    default:
-                        window.location.href = '/home.html';
-                        break;
-                }
-            } else {
-                window.location.href = '/Tourist.html';
-            }
-            */
-
         });
     }
 

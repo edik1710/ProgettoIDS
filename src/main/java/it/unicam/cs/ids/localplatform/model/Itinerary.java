@@ -13,7 +13,6 @@ public class Itinerary implements Info {
     private final User author;
     private final List<POI> POIs;
     private final String description;
-    // private List<Photo> photos
 
     public Itinerary(String title, Date publicationDate, User author, List<POI> POIs, String description) {
         if (POIs.size() < 2) throw new IllegalArgumentException("An itinerary must have at least two POIs.");
@@ -23,14 +22,7 @@ public class Itinerary implements Info {
         this.author = author;
         this.POIs = POIs;
         this.description = description;
-        // this.photos = new ArrayList<>();
     }
-
-    /*
-    public void addPhoto(Photo photo) {
-        this.photos.add(photo);
-    }
-     */
 
     public String getTitle() {
         return title;

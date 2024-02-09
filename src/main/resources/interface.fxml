@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="it.unicam.cs.ids.localplatform.util.Controller"
+            prefHeight="400.0" prefWidth="600.0">
+    <Label fx:id="label1" layoutX="14" layoutY="14" text="POI/Itinerary/General Content"/>
+    <ComboBox fx:id="typeComboBox" layoutX="200" layoutY="14" prefWidth="200"/>
+    <Button fx:id="createButton" layoutX="14" layoutY="50" text="Create"/>
+    <Button fx:id="readButton" layoutX="14" layoutY="86" text="Read"/>
+    <Button fx:id="updateButton" layoutX="14" layoutY="122" text="Update"/>
+    <Button fx:id="deleteButton" layoutX="14" layoutY="158" text="Delete"/>
+    <TextField fx:id="inputField" layoutX="100" layoutY="50" prefWidth="200"/>
+    <TextArea fx:id="outputArea" layoutX="100" layoutY="86" prefHeight="100" prefWidth="200"/>
+</AnchorPane>

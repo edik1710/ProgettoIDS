@@ -1,7 +1,7 @@
 package it.unicam.cs.ids.localplatform;
 
 import it.unicam.cs.ids.localplatform.model.*;
-import it.unicam.cs.ids.localplatform.singleton.CommandVerificationQueue;
+import it.unicam.cs.ids.localplatform.queue.CommandVerificationQueue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

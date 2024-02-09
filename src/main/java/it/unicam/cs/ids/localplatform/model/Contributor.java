@@ -2,7 +2,7 @@ package it.unicam.cs.ids.localplatform.model;
 
 import it.unicam.cs.ids.localplatform.MunicipalTerritory;
 import it.unicam.cs.ids.localplatform.command.*;
-import it.unicam.cs.ids.localplatform.singleton.CommandVerificationQueue;
+import it.unicam.cs.ids.localplatform.queue.CommandVerificationQueue;
 
 import java.util.Date;
 import java.util.List;

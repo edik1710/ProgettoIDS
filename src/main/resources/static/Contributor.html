@@ -91,7 +91,7 @@
 
 <h2>Lista Punti d'Interesse</h2>
 <ul id="POIlist"></ul>
-<button onclick="getPOIs()"> Lista dei POI</button>
+<button onclick="getPOIs(); uploadFile()"> Lista dei POI</button>
 
 <h2>Lista Itinerari</h2>
 <ul id="ItinerariesList"></ul>
@@ -221,6 +221,12 @@
 <label for="ToDeleteGeneralContentText">Testo</label>
 <input type="text" id="ToDeleteGeneralContentText">
 <button onclick="deleteGeneralContent()">Cancella Contenuto Generale</button>
+
+<h2>Download File</h2>
+<p>Enter the filename to download:</p>
+<label for="downloadFilename">File da scaricare</label>
+<input type="text" id="downloadFilename" placeholder="Filename">
+<button type="button" onclick="downloadFile()"> Download File</button>
 
 <script>
     const baseUrl = 'http://localhost:8080';
@@ -486,5 +492,32 @@
                 console.error('Contenuto generale non cancellato:', error);
             });
     }
+
+    function uploadFile() {
+        var fileInput = document.getElementById('POIlist');
+        var file = fileInput.file[0];
+        var filename = fileInput.value.ToString();
+        var formData = new FormData();
+        formaData.append('file', file);
+        formData.append('filename', "file.txt")
+
+        fetch(`${baseUrl}/fileupload`, {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => console.error('Error: ', error));
+
+    }
+
+    function downloadFile() {
+        var filenameInput = document.getElementById('downloadFilename');
+        var filename = filenameInput.value;
+        window.location.href = `${baseUrl}/download/` + filename;
+    }
+
 
 </script>

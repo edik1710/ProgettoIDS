@@ -11,14 +11,12 @@ public class Content implements Info {
     private final User author;
     private String text;
     private int reports;
-    // private Photo photo;  ->   da implementare con springBoot
 
     public Content(Date publicationDate, User author, String text) {
         this.publicationDate = publicationDate;
         this.author = author;
         this.text = text;
         this.reports = 0;
-        // this.photo = photo;
     }
 
     public String getText() {

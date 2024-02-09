@@ -1,4 +1,4 @@
-package it.unicam.cs.ids.localplatform.singleton;
+package it.unicam.cs.ids.localplatform.queue;
 
 import it.unicam.cs.ids.localplatform.command.Command;
 
@@ -6,13 +6,13 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * This class is a singleton that contains a queue of commands that have to be verified.
+ * This class contains a queue of commands that have to be verified.
  */
 public class CommandVerificationQueue {
     private static CommandVerificationQueue instance;
-    private Queue<Command> toBeVerified = new LinkedList<>();
+    private final Queue<Command> toBeVerified = new LinkedList<>();
 
-    private CommandVerificationQueue() {
+    public CommandVerificationQueue() {
     }
 
     public static CommandVerificationQueue getInstance() {

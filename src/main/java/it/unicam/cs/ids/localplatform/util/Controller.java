@@ -9,6 +9,12 @@ import java.util.OptionalInt;
 import java.util.Scanner;
 import java.util.stream.IntStream;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Effect;
+
 /**
  * The Controller class is responsible for managing the interactions between the user and the application.
  * This class may include methods to handle user requests, update the application model,
@@ -35,6 +41,7 @@ public class Controller {
     /**
      * This method initializes the controller.
      */
+    /*
     public void initialize() {
         System.out.println("Software di valorizzazione del territorio comunale di " + this.municipalTerritory.getMunicipalName());
         System.out.print("""
@@ -63,6 +70,7 @@ public class Controller {
             }
         }
     }
+
 
     private void newUser() {
         System.out.print("Inserisci i tuoi dati:\n" + "Nome: ");
@@ -394,5 +402,5 @@ public class Controller {
                 System.out.println("Hai inserito un valore non valido devi inserire o 1 o 2, hai inserito: " + action + " riprova");
                 showTouristOptions();
         }
-    }
+    }*/
 }

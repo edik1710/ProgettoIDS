@@ -5,7 +5,7 @@ import it.unicam.cs.ids.localplatform.model.Content;
 import it.unicam.cs.ids.localplatform.model.Coordinates;
 import it.unicam.cs.ids.localplatform.model.Curator;
 import it.unicam.cs.ids.localplatform.model.POI;
-import it.unicam.cs.ids.localplatform.singleton.CommandVerificationQueue;
+import it.unicam.cs.ids.localplatform.queue.CommandVerificationQueue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -4,10 +4,21 @@ import it.unicam.cs.ids.localplatform.model.*;
 import it.unicam.cs.ids.localplatform.web.UserListRepository;
 import it.unicam.cs.ids.localplatform.web.UserTable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -495,4 +506,37 @@ public class MunicipalServiceController {
             return new ResponseEntity<>(Collections.singletonMap("message", "Contenuto generale cancellato"), HttpStatus.OK);
         }
     }
+
+    @PostMapping(value = "/fileUpload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Object> uploadFile(@RequestParam("file") MultipartFile file,
+                                             @RequestParam("filename") String filename) {
+        try {
+            Path filePath = Paths.get("path/to/your/upload/directory", filename);
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+            return ResponseEntity.ok().body("File saved successfully");
+        } catch (IOException e) {
+            e.printStackTrace(); // Handle exception properly
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to save file");
+        }
+    }
+
+    @GetMapping("/download")
+    public ResponseEntity<Resource> downloadFile(@RequestParam("filename") String filename) {
+        try {
+            Path filePath = Paths.get("path/to/your/upload/directory", filename);
+            Resource resource = new UrlResource(filePath.toUri());
+
+            if (resource.exists() && resource.isReadable()) {
+                return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                        .body(resource);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace(); // Handle exception properly
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
 }

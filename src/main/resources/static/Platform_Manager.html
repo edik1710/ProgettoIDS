@@ -92,6 +92,8 @@
 <ul id="DeleteUser"></ul>
 <button onclick="RejectUser(); clearInput()">Rifiuta Utente</button>
 
+<p>Don't have an account? <a href="index.html">Ritrorna alla homepage</a></p>
+
 <h2>Lista dei contributori e turisti</h2>
 <ul id="ContributorsAndTouristsList"></ul>
 <button onclick="ContributorsAndTouristsList()">Lista dei contributori e turisti</button>
@@ -202,6 +204,7 @@
                 console.error('Error:', error);
             });
     }
+
     function clearInput() {
         // Get the input element
         var input = document.getElementById('email');

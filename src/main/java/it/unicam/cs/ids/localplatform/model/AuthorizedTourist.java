@@ -38,10 +38,4 @@ public class AuthorizedTourist extends Tourist {
     public List<Info> getSavedInfo() {
         return savedInfo;
     }
-
-    /*
-    public void addPhotoToItinerary(Itinerary itinerary, Photo photo) {
-        itinerary.addPhoto(photo);
-    }
-     */
 }
