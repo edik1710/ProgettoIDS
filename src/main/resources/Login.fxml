@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="it.unicam.cs.ids.localplatform.util.Controller"
+      prefHeight="400.0" prefWidth="600.0">
+
+    <Label text="Email"/>
+    <TextField fx:id="email"/>
+
+    <Label text="Password"/>
+    <PasswordField fx:id="psw"/>
+
+    <!--<Button text="Accedi" onAction="#login"/>-->
+</VBox>

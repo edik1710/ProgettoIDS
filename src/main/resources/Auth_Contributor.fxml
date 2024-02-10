@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Controller da cambiare -->
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="it.unicam.cs.ids.localplatform.util.Controller"
+      prefHeight="400.0" prefWidth="600.0">
+
+    <Label text="Lista Punti d'Interesse"/>
+    <ListView fx:id="POIlist"/>
+    <!--<Button text="Lista dei POI" onAction="#getPOIs"/>-->
+
+    <Label text="Lista Itinerari"/>
+    <ListView fx:id="ItinerariesList"/>
+    <!--<Button text="Lista degli itinerari" onAction="#getItineraries"/>-->
+
+    <Label text="Lista Contenuti Generali"/>
+    <ListView fx:id="GeneralContentsList"/>
+    <!--<Button text="Lista dei contenuti generali" onAction="#getGeneralContents"/>-->
+
+    <Label text="Creazione POI"/>
+    <Label text="Titolo"/>
+    <TextField fx:id="title"/>
+    <Label text="Descrizione"/>
+    <TextField fx:id="description"/>
+    <Label text="Latitude"/>
+    <TextField fx:id="POILatitude"/>
+    <Label text="Longitude"/>
+    <TextField fx:id="POILongitude"/>
+    <!--<Button text="Crea POI" onAction="#createPOI"/>-->
+
+    <Label text="Creazione Itinerario"/>
+    <Label text="Latitude"/>
+    <TextField fx:id="TempLatitude"/>
+    <Label text="Longitude"/>
+    <TextField fx:id="TempLongitude"/>
+    <!--<Button text="Aggiungi POI" onAction="#addPOIToTempList"/>-->
+    <Label text="Titolo"/>
+    <TextField fx:id="ItineraryTitle"/>
+    <Label text="Descrizione"/>
+    <TextField fx:id="ItineraryDescription"/>
+    <!--<Button text="Crea Itinerario" onAction="#createItinerary"/>-->
+
+    <Label text="Creazione Contenuto Generale"/>
+    <Label text="Testo"/>
+    <TextField fx:id="GeneralContentText"/>
+    <!--<Button text="Crea Contenuto Generale" onAction="#createGeneralContent"/>-->
+
+    <Label text="Update POI"/>
+    <Label text="Latitude"/>
+    <TextField fx:id="UpdateLatitude"/>
+    <Label text="Longitude"/>
+    <TextField fx:id="UpdateLongitude"/>
+    <Label text="Nuovo titolo"/>
+    <TextField fx:id="NewPOITitle"/>
+    <!--<Button text="Aggiorna POI" onAction="#updatePOI"/>-->
+
+    <Label text="Update Itinerario"/>
+    <Label text="Titolo attuale"/>
+    <TextField fx:id="CurrentItineraryTitle"/>
+    <Label text="Nuovo titolo"/>
+    <TextField fx:id="NewItineraryTitle"/>
+    <!--<Button text="Aggiorna Itinerario" onAction="#updateItinerary"/>-->
+
+    <Label text="Update Contenuto Generale"/>
+    <Label text="Testo attuale"/>
+    <TextField fx:id="CurrentText"/>
+    <Label text="Nuovo testo"/>
+    <TextField fx:id="NewText"/>
+    <!--<Button text="Aggiorna Contenuto Generale" onAction="#updateGeneralContent"/>-->
+
+    <Label text="Cancellazione POI"/>
+    <Label text="Latitudine"/>
+    <TextField fx:id="ToDeleteLatitude"/>
+    <Label text="Longitudine"/>
+    <TextField fx:id="ToDeleteLongitude"/>
+    <!--<Button text="Cancella POI" onAction="#deletePOI"/>-->
+
+    <Label text="Cancellazione Itinerario"/>
+    <Label text="Titolo"/>
+    <TextField fx:id="ToDeleteItineraryTitle"/>
+    <!--<Button text="Cancella Itinerario" onAction="#deleteItinerary"/>-->
+
+    <Label text="Cancellazione Contenuto Generale"/>
+    <Label text="Testo"/>
+    <TextField fx:id="ToDeleteGeneralContentText"/>
+    <!--<Button text="Cancella Contenuto Generale" onAction="#deleteGeneralContent"/>-->
+</VBox>

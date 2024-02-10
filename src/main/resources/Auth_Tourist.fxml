@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Controller da cambiare -->
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="it.unicam.cs.ids.localplatform.util.Controller"
+      prefHeight="400.0" prefWidth="600.0">
+
+    <Label text="Vedere tutte le informazion per future visite"/>
+    <ListView fx:id="saveList"/>
+    <!--<Button text="Lista delle Informazioni" onAction="#infoList"/>-->
+
+    <Label text="Save all info"/>
+    <TextField fx:id="saveInfo"/>
+    <!--<Button text="Save" onAction="#saveInfo"/>-->
+</VBox>

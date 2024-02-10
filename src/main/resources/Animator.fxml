@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Controller da cambiare -->
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="it.unicam.cs.ids.localplatform.util.Controller"
+      prefHeight="400.0" prefWidth="600.0">
+
+    <Label text="Lista Contest"/>
+    <ListView fx:id="ContestList"/>
+    <!--<Button text="Lista dei contest" onAction="#getContests"/>-->
+
+    <Label text="Proponi Contest"/>
+    <Label text="Obiettivo"/>
+    <TextField fx:id="ContestObjective"/>
+    <Label text="Titolo"/>
+    <TextField fx:id="ContestTitle"/>
+    <Label text="Data di inizio"/>
+    <DatePicker fx:id="ContestStartDate"/>
+    <Label text="Data di fine"/>
+    <DatePicker fx:id="ContestEndDate"/>
+    <!--<Button text="Crea Contest" onAction="#createContest"/>-->
+</VBox>

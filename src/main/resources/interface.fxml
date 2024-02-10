@@ -1,21 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import java.lang.String?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="it.unicam.cs.ids.localplatform.util.Controller"
+      prefHeight="400.0" prefWidth="600.0">
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="it.unicam.cs.ids.localplatform.util.Controller"
-            prefHeight="400.0" prefWidth="600.0">
-    <Label fx:id="label1" layoutX="14" layoutY="14" text="POI/Itinerary/General Content"/>
-    <ComboBox fx:id="typeComboBox" layoutX="200" layoutY="14" prefWidth="200"/>
-    <Button fx:id="createButton" layoutX="14" layoutY="50" text="Create"/>
-    <Button fx:id="readButton" layoutX="14" layoutY="86" text="Read"/>
-    <Button fx:id="updateButton" layoutX="14" layoutY="122" text="Update"/>
-    <Button fx:id="deleteButton" layoutX="14" layoutY="158" text="Delete"/>
-    <TextField fx:id="inputField" layoutX="100" layoutY="50" prefWidth="200"/>
-    <TextArea fx:id="outputArea" layoutX="100" layoutY="86" prefHeight="100" prefWidth="200"/>
-</AnchorPane>
+    <Label text="Nome"/>
+    <TextField fx:id="name"/>
+
+    <Label text="Cognome"/>
+    <TextField fx:id="Cognome"/>
+
+    <Label text="Codice Fiscale"/>
+    <TextField fx:id="Cf"/>
+
+    <Label text="Email"/>
+    <TextField fx:id="email"/>
+
+    <Label text="Residenza"/>
+    <TextField fx:id="Residence"/>
+
+    <Label text="Password"/>
+    <PasswordField fx:id="psw"/>
+
+    <Label text="Seleziona un Ruolo" fx:id="RolesLabel" visible="false"/>
+    <ComboBox fx:id="Roles" visible="false">
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <String fx:value="Contributor"/>
+                <String fx:value="Animatore"/>
+                <String fx:value="Platform_Manager"/>
+                <String fx:value="Curator"/>
+            </FXCollections>
+        </items>
+    </ComboBox>
+
+    <!--<Button text="Registrati" onAction="#Register"/>-->
+    <Button text="Sei già registrato? Clicca qui!" onAction="#Login"/>
+
+    <CheckBox text="Remember me"/>
+
+    <HBox>
+        <Button text="Cancel" styleClass="cancelbtn"/>
+        <Hyperlink text="Forgot password?"/>
+    </HBox>
+</VBox>

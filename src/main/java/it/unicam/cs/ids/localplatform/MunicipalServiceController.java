@@ -11,14 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -38,8 +34,9 @@ public class MunicipalServiceController {
     private User currentUser;
 
     @Autowired
-    public MunicipalServiceController(UserListRepository userRepository) {
+    public MunicipalServiceController(UserListRepository userRepository, FileService fileService) {
         this.userRepository = userRepository;
+        this.fileService = fileService;
         UserTable userTable1 = new UserTable();
         userTable1.setName("Edoardo");
         userTable1.setSurname("Dottori");
@@ -125,6 +122,7 @@ public class MunicipalServiceController {
     public ResponseEntity<Object> getRole() {
         String email = this.currentUser.getEmail();
         UserTable userTable = userRepository.findById(email).orElse(null);
+        assert userTable != null;
         return new ResponseEntity<>(userTable.getRole(), HttpStatus.OK);
     }
 
@@ -507,23 +505,10 @@ public class MunicipalServiceController {
         }
     }
 
-    @PostMapping(value = "/fileUpload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Object> uploadFile(@RequestParam("file") MultipartFile file,
-                                             @RequestParam("filename") String filename) {
-        try {
-            Path filePath = Paths.get("path/to/your/upload/directory", filename);
-            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-            return ResponseEntity.ok().body("File saved successfully");
-        } catch (IOException e) {
-            e.printStackTrace(); // Handle exception properly
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to save file");
-        }
-    }
-
     @GetMapping("/download")
     public ResponseEntity<Resource> downloadFile(@RequestParam("filename") String filename) {
         try {
-            Path filePath = Paths.get("path/to/your/upload/directory", filename);
+            Path filePath = Paths.get("src/main/resources/file", filename);
             Resource resource = new UrlResource(filePath.toUri());
 
             if (resource.exists() && resource.isReadable()) {
@@ -537,6 +522,14 @@ public class MunicipalServiceController {
             e.printStackTrace(); // Handle exception properly
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
+    }
+
+    private final FileService fileService;
+
+
+    @PostMapping(value = "/createOrUpdatePOI", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void createOrUpdatePOI(@RequestBody POI poi) {
+        fileService.saveToFile(poi);
     }
 
 }

@@ -91,7 +91,7 @@
 
 <h2>Lista Punti d'Interesse</h2>
 <ul id="POIlist"></ul>
-<button onclick="getPOIs(); uploadFile()"> Lista dei POI</button>
+<button onclick="getPOIs(); createOrUpdatePOI()"> Lista dei POI</button>
 
 <h2>Lista Itinerari</h2>
 <ul id="ItinerariesList"></ul>
@@ -493,29 +493,53 @@
             });
     }
 
-    function uploadFile() {
-        var fileInput = document.getElementById('POIlist');
-        var file = fileInput.file[0];
-        var filename = fileInput.value.ToString();
-        var formData = new FormData();
-        formaData.append('file', file);
-        formData.append('filename', "file.txt")
 
-        fetch(`${baseUrl}/fileupload`, {
+    document.getElementById("POIlist").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent form submission
+
+        const title = document.getElementById("title").value;
+        const description = document.getElementById("description").value;
+        const POILatitude = parseFloat(document.getElementById("POILatitude").value);
+        const POILongitude = parseFloat(document.getElementById("POILongitude").value);
+
+        // Check if latitude and longitude are valid numbers
+        if (isNaN(POILatitude) || isNaN(POILongitude)) {
+            alert("Latitude and longitude must be valid numbers");
+            return;
+        }
+
+        const poiData = {
+            title: title,
+            description: description,
+            POILatitude: POILatitude,
+            POILongitude: POILongitude
+        };
+
+        // Send the data to the backend
+        createOrUpdatePOI(poiData);
+    });
+
+    function createOrUpdatePOI(poiData) {
+        fetch(`${baseUrl}/createOrUpdatePOI`, {
             method: 'POST',
-            body: formData
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(poiData),
         })
-            .then(response => response.text())
+            .then(response => response.json())
             .then(data => {
-                console.log(data);
+                console.log('Success:', data);
             })
-            .catch(error => console.error('Error: ', error));
-
+            .catch((error) => {
+                console.error('Error:', error);
+            });
     }
 
+
     function downloadFile() {
-        var filenameInput = document.getElementById('downloadFilename');
-        var filename = filenameInput.value;
+        const filenameInput = document.getElementById('downloadFilename');
+        const filename = filenameInput.value;
         window.location.href = `${baseUrl}/download/` + filename;
     }
 

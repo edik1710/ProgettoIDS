@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Controller da cambiare -->
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="it.unicam.cs.ids.localplatform.util.Controller"
+      prefHeight="400.0" prefWidth="600.0">
+
+    <Label text="Lista degli utenti in attesa"/>
+    <ListView fx:id="PendingUserList"/>
+    <!--<Button text="Lista degli utenti in attesa" onAction="#PendingUserList"/>-->
+
+    <Label text="Accetta o Rifiuta l'utente un utente"/>
+    <Label text="Email:"/>
+    <TextField fx:id="email"/>
+    <!--<Button text="Accetta un utente" onAction="#AcceptUser"/>-->
+    <!--<Button text="Rifiuta Utente" onAction="#RejectUser"/>-->
+
+    <Label text="Lista dei contributori e turisti"/>
+    <ListView fx:id="ContributorsAndTouristsList"/>
+    <!--<Button text="Lista dei contributori e turisti" onAction="#ContributorsAndTouristsList"/>-->
+
+    <Label text="Seleziona un Contributor o un Turista"/>
+    <TextField fx:id="getUserList"/>
+    <!--<Button text="Autorizza" onAction="#autorized"/>-->
+</VBox>

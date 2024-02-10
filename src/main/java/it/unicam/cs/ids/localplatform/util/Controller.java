@@ -1,19 +1,19 @@
 package it.unicam.cs.ids.localplatform.util;
 
 import it.unicam.cs.ids.localplatform.MunicipalTerritory;
-import it.unicam.cs.ids.localplatform.model.*;
-
-import java.text.SimpleDateFormat;
-import java.util.Objects;
-import java.util.OptionalInt;
-import java.util.Scanner;
-import java.util.stream.IntStream;
-
+import it.unicam.cs.ids.localplatform.model.PlatformManager;
+import it.unicam.cs.ids.localplatform.model.User;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Effect;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Scanner;
 
 /**
  * The Controller class is responsible for managing the interactions between the user and the application.
@@ -30,6 +30,8 @@ public class Controller {
     private User currentUser;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
+    // Constructor called by load() method from FXMLLoader
+
     /**
      * The default constructor.
      */
@@ -41,8 +43,8 @@ public class Controller {
     /**
      * This method initializes the controller.
      */
-    /*
     public void initialize() {
+        /*
         System.out.println("Software di valorizzazione del territorio comunale di " + this.municipalTerritory.getMunicipalName());
         System.out.print("""
                 Scegli un'azione da eseguire:
@@ -69,9 +71,10 @@ public class Controller {
                     break;
             }
         }
+        */
     }
 
-
+/*
     private void newUser() {
         System.out.print("Inserisci i tuoi dati:\n" + "Nome: ");
         String name = scanner.nextLine();
@@ -198,8 +201,20 @@ public class Controller {
                 System.out.println(contest);
         }
     }
+    */
 
-    private void login() {
+    @FXML
+    private void Login(ActionEvent event) throws IOException {
+        Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+
+        Parent root = FXMLLoader.load(getClass().getResource("/Login.fxml")); // path to your Login.fxml
+        Scene scene = new Scene(root, 800, 600);
+
+        stage.setScene(scene);
+        stage.show();
+
+        /*
         System.out.print("Inserisci i tuoi dati:\n" + "Email: ");
         String loginEmail = scanner.nextLine();
         System.out.print("Password: ");
@@ -213,8 +228,10 @@ public class Controller {
             System.out.println("Email o password errati, riprova.");
             login();
         }
+        */
     }
 
+/*
     private boolean isUserInList(User userToFind) {
         return this.municipalTerritory.getUsers().stream().anyMatch(user -> user.getEmail().equals(userToFind.getEmail()) && user.getPassword().equals(userToFind.getPassword()));
     }
