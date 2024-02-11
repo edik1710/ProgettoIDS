@@ -84,6 +84,10 @@
 <ul id="PendingUserList"></ul>
 <button onclick="PendingUserList()">Lista degli utenti in attesa</button>
 
+<h2>Lista Dei punti di interesse in attessa di approvazione</h2>
+<ul id="PendingPOIList"></ul>
+<button onclick="PendingPOIList()">Accettazione Punto Interesse</button>
+
 <h2>Accetta o Rifiuta l'utente un utente</h2>
 <ul id="AcceptUser"></ul>
 <label for="email">Email:</label>
@@ -114,6 +118,19 @@
             .then(response => response.json())
             .then(data => {
                 const list = document.getElementById("PendingUserList");
+                data.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;  // Modifica qui per stampare la stringa
+                    list.appendChild(li);
+                });
+            })
+            .catch(error => console.error('Error', error));
+    }
+    function PendingPOIList() {
+        fetch(`${baseUrl}/PendingPOIList`)
+            .then(response => response.json())
+            .then(data => {
+                const list = document.getElementById("PendingPOIList");
                 data.forEach(item => {
                     const li = document.createElement('li');
                     li.textContent = item;  // Modifica qui per stampare la stringa

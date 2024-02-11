@@ -159,7 +159,7 @@
 
 <label for="longitude">Longitude:</label>
 <input type="text" id="POILongitude" placeholder="Enter longitude">
-<button onclick="createPOI();setMarker();">Crea POI</button>
+<button onclick="createPOI();setMarker();PendingPOI()">Crea POI</button>
 
 <h2>Creazione Itinerario</h2>
 
@@ -233,6 +233,20 @@
 
     function getPOIs() {
         fetch(`${baseUrl}/POIs`)
+            .then(response => response.json())  // Modifica qui per ricevere un array
+            .then(data => {
+                const list = document.getElementById("POIlist");
+                data.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;  // Modifica qui per stampare la stringa
+                    list.appendChild(li);
+                });
+            })
+            .catch(error => console.error('Error', error));
+    }
+
+    function PendingPOI(){
+fetch(`${baseUrl}/PendingPOI`)
             .then(response => response.json())  // Modifica qui per ricevere un array
             .then(data => {
                 const list = document.getElementById("POIlist");
@@ -542,6 +556,4 @@
         const filename = filenameInput.value;
         window.location.href = `${baseUrl}/download/` + filename;
     }
-
-
 </script>

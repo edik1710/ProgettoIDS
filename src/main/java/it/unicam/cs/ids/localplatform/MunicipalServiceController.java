@@ -3,6 +3,7 @@ package it.unicam.cs.ids.localplatform;
 import it.unicam.cs.ids.localplatform.model.*;
 import it.unicam.cs.ids.localplatform.web.UserListRepository;
 import it.unicam.cs.ids.localplatform.web.UserTable;
+import javafx.scene.control.Alert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -12,9 +13,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -145,6 +149,22 @@ public class MunicipalServiceController {
         return new ResponseEntity<>(pendingUsersArray, HttpStatus.OK);
     }
 
+    @RequestMapping("/PendingPOI")
+    public ResponseEntity<Object> getPendingPOI() {
+        List<POI> allPOI = new ArrayList<>();
+        allPOI = (ArrayList<POI>) this.municipalTerritory.getPOIs().values();
+        List<POI> pendingPOI = new ArrayList<>();
+        for (POI p : allPOI)
+            if (p.isPending())
+                pendingPOI.add(p);
+        String[] pendingPOIArray = new String[pendingPOI.size()];
+        for (POI p : pendingPOI)
+            pendingPOIArray[pendingPOI.indexOf(p)] = p.toString();
+        return new ResponseEntity<>(pendingPOIArray, HttpStatus.OK);
+    }
+
+
+
     /**
      * This method is used to get the list of the contributors and the tourists.
      *
@@ -228,6 +248,13 @@ public class MunicipalServiceController {
     @RequestMapping("/POIs")
     public ResponseEntity<Object> getPOIs() {
         // Recupera la mappa dei POI da MunicipalTerritory
+        if(municipalTerritory.getPOIs() == null){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Information");
+            alert.setHeaderText("No POI present");
+            return new ResponseEntity<>("Nessun POI presente", HttpStatus.OK);
+        }
+
         Map<Coordinates, POI> poiMap = municipalTerritory.getPOIs();
 
         // Crea una lista di POI dalla mappa
@@ -523,13 +550,12 @@ public class MunicipalServiceController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-
     private final FileService fileService;
-
-
     @PostMapping(value = "/createOrUpdatePOI", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createOrUpdatePOI(@RequestBody POI poi) {
         fileService.saveToFile(poi);
     }
+
+
 
 }

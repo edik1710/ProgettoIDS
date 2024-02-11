@@ -116,4 +116,8 @@ public class POI implements Info {
                 + "\nDescrizione: " + description
                 + "\nNumero di contenuti: " + contents.size() + "\n";
     }
+
+    public boolean isPending() {
+        return false;
+    }
 }
