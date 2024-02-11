@@ -120,4 +120,8 @@ public class POI implements Info {
     public boolean isPending() {
         return false;
     }
+
+    public void setPending(boolean b) {
+
+    }
 }

@@ -84,10 +84,6 @@
 <ul id="PendingUserList"></ul>
 <button onclick="PendingUserList()">Lista degli utenti in attesa</button>
 
-<h2>Lista Dei punti di interesse in attessa di approvazione</h2>
-<ul id="PendingPOIList"></ul>
-<button onclick="PendingPOIList()">Accettazione Punto Interesse</button>
-
 <h2>Accetta o Rifiuta l'utente un utente</h2>
 <ul id="AcceptUser"></ul>
 <label for="email">Email:</label>
@@ -95,6 +91,17 @@
 <button onclick="AcceptUser(); clearInput()">Accetta un utente</button>
 <ul id="DeleteUser"></ul>
 <button onclick="RejectUser(); clearInput()">Rifiuta Utente</button>
+
+
+<h2>Lista Dei punti di interesse in attessa di approvazione</h2>
+<ul id="PendingPOIList"></ul>
+<button onclick="PendingPOIList()">Lista Punti Interesse</button>
+<h2>Accetta o Rifiuta il Poi </h2>
+<ul id="AcceptPoi"></ul>
+<label for="title">Titolo:</label>
+<input type="text" id="title" name="title">
+<button onclick="AcceptPoi(); clearInput()">Accetta Poi</button>
+
 
 <p>Don't have an account? <a href="index.html">Ritrorna alla homepage</a></p>
 
@@ -216,6 +223,27 @@
                 list.removeChild(list.childNodes[0])
                 location.reload();
                 alert("utente autorizzato con successo!" + data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+    function AcceptPoi() {
+        const title = document.getElementById("title").value;
+        const dataArray = [title];
+        fetch(`${baseUrl}/AcceptPoi`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dataArray),
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log('Success:', data);
+                const list = document.getElementById("PendingPOIList");
+                list.removeChild(list.childNodes[0])
+                location.reload();
             })
             .catch((error) => {
                 console.error('Error:', error);

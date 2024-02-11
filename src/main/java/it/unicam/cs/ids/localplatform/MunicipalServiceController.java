@@ -149,18 +149,18 @@ public class MunicipalServiceController {
         return new ResponseEntity<>(pendingUsersArray, HttpStatus.OK);
     }
 
-    @RequestMapping("/PendingPOI")
+    @RequestMapping("/PendingPOIList")
     public ResponseEntity<Object> getPendingPOI() {
-        List<POI> allPOI = new ArrayList<>();
-        allPOI = (ArrayList<POI>) this.municipalTerritory.getPOIs().values();
+        Map<Coordinates, POI> allPoi = municipalTerritory.getPOIs();
         List<POI> pendingPOI = new ArrayList<>();
-        for (POI p : allPOI)
+        for (POI p : allPoi.values())
             if (p.isPending())
                 pendingPOI.add(p);
         String[] pendingPOIArray = new String[pendingPOI.size()];
         for (POI p : pendingPOI)
             pendingPOIArray[pendingPOI.indexOf(p)] = p.toString();
         return new ResponseEntity<>(pendingPOIArray, HttpStatus.OK);
+
     }
 
 
@@ -221,6 +221,14 @@ public class MunicipalServiceController {
         } else {
             return new ResponseEntity<>("User not found", HttpStatus.BAD_REQUEST);
         }
+    }
+    @PostMapping("/AcceptPoi")
+    public ResponseEntity<Object> acceptPoi(@RequestBody String[] array) {
+        Map<Coordinates, POI> allPoi = municipalTerritory.getPOIs();
+        for (POI p : allPoi.values())
+            if (p.getTitle().equals(array[0]))
+                p.setPending(false);
+        return new ResponseEntity<>("POI authorized", HttpStatus.OK);
     }
 
     /**
