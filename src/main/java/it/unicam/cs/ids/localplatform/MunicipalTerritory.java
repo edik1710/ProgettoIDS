@@ -172,6 +172,4 @@ public class MunicipalTerritory {
     public void setUsers(List<User> users) {
         this.users = users;
     }
-
-
 }

@@ -92,16 +92,10 @@ public class PlatformManager extends User {
     /**
      * This method allows the platform manager to add a pending user.
      *
-     * @param name      The name of the user.
-     * @param surname   The surname of the user.
-     * @param email     The email of the user.
-     * @param password  The password of the user.
-     * @param residence The residence of the user.
-     * @param cf        The fiscal code of the user.
-     * @param role      The role requested by the user.
+     * @param user The user.
+     * @param role The role requested by the user.
      */
-    public void addPendingUser(String name, String surname, String email, String password, String residence, String cf, String role) {
-        User user = new User(name, surname, email, password, new MunicipalTerritory(residence), cf);
+    public void addPendingUser(User user, String role) {
         Roles roles = Roles.valueOf(role);
         pendingUsers.put(user, roles);
     }

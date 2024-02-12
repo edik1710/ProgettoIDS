@@ -355,17 +355,18 @@ public class MunicipalServiceController {
     private static List<Coordinates> tempPOIList = new ArrayList<>();
 
     /**
-     * This method is used to add a POI to the temporary list.
+     * This method is used to add a POI to the pending list.
      *
      * @param array The coordinates of the POI.
      * @return Result of the operation.
      */
-    @PostMapping("/AggiungiPOIAListaItinerario")
+    @PostMapping("/AddPOIToTempList")
     public ResponseEntity<Object> addPOIToTempList(@RequestBody String[] array) {
         POITable poiTable = new POITable();
         poiTable.setTitle(array[0]);
         poiTable.setPOILatitude(array[1]);
         poiTable.setPOILongitude(array[2]);
+        poiTable.setPending(true);
         poiRepository.save(poiTable);
         return new ResponseEntity<>("Punto d'Interesse aggiunto correttamente", HttpStatus.OK);
     }

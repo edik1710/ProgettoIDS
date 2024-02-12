@@ -1,7 +1,7 @@
 package it.unicam.cs.ids.localplatform.util;
 
 import it.unicam.cs.ids.localplatform.MunicipalTerritory;
-import it.unicam.cs.ids.localplatform.model.PlatformManager;
+import it.unicam.cs.ids.localplatform.model.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,17 +16,23 @@ import java.io.IOException;
 
 public class LoginController {
     private final PlatformManager platformManager;
-    private final MunicipalTerritory municipalTerritory;
 
     @FXML
     private TextField email;
     @FXML
     private PasswordField psw;
-    private PlatformManager currentUser;
+    private static User currentUser;
+
+    public static User getCurrentUser() {
+        return currentUser;
+    }
 
     public LoginController() {
-        this.municipalTerritory = new MunicipalTerritory("Camerino");
-        this.platformManager = new PlatformManager("Elia", "Toma", "elia.toma@progetto.ids", "brodoCovid", this.municipalTerritory, "cf");
+        this.platformManager = Controller.getPlatformManager();
+
+        // per testare l'utente più velocemente
+        Animator a = new Animator("diosignore", "cagnaccio", "email", "password", new MunicipalTerritory("Camerino"), "cf");
+        this.platformManager.getResidence().getUsers().add(a);
     }
 
     @FXML
@@ -36,7 +42,7 @@ public class LoginController {
 
         if (this.platformManager.getEmail().equals(emailValue))
             if (this.platformManager.getPassword().equals(passwordValue)) {
-                this.currentUser = this.platformManager;
+                currentUser = this.platformManager;
                 Node node = (Node) event.getSource();
                 Stage stage = (Stage) node.getScene().getWindow();
 
@@ -46,5 +52,33 @@ public class LoginController {
                 stage.setScene(scene);
                 stage.show();
             }
+
+        // Ottieni l'utente corrispondente dalla lista di utenti del comune
+        User user = this.platformManager.getResidence().getUsers().stream()
+                .filter(u -> u.getEmail().equals(emailValue) && u.getPassword().equals(passwordValue))
+                .findFirst()
+                .orElse(null);
+
+        if (user != null) {
+            currentUser = user;
+            Node node = (Node) event.getSource();
+            Stage stage = (Stage) node.getScene().getWindow();
+            Parent root = null;
+
+            // Controlla la classe dell'utente e apri il file fxml corrispondente
+            switch (user) {
+                case Contributor contributor -> root = FXMLLoader.load(getClass().getResource("/Contributor.fxml"));
+                case Tourist tourist -> root = FXMLLoader.load(getClass().getResource("/Tourist.fxml"));
+                case Animator animator -> root = FXMLLoader.load(getClass().getResource("/Animator.fxml"));
+                default -> {
+                }
+            }
+
+            if (root != null) {
+                Scene scene = new Scene(root, 800, 600);
+                stage.setScene(scene);
+                stage.show();
+            }
+        }
     }
 }

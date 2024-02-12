@@ -43,7 +43,12 @@ public class Controller {
     private PasswordField psw;
 
     private MunicipalTerritory municipalTerritory;
-    private final PlatformManager platformManager;
+    private static PlatformManager platformManager = null;
+
+    public static PlatformManager getPlatformManager() {
+        return platformManager;
+    }
+
     private Scanner scanner = new Scanner(System.in);
     private User currentUser;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -61,7 +66,7 @@ public class Controller {
      */
     public Controller() {
         this.municipalTerritory = new MunicipalTerritory("Camerino");
-        this.platformManager = new PlatformManager("Elia", "Toma", "elia.toma@progetto.ids", "brodoCovid", this.municipalTerritory, "cf");
+        platformManager = new PlatformManager("Elia", "Toma", "elia.toma@progetto.ids", "brodoCovid", this.municipalTerritory, "cf");
     }
 
     /**
@@ -92,23 +97,29 @@ public class Controller {
             String roleValue = Roles.getValue();
             switch (roleValue) {
                 case "Animator":
-                    platformManager.addPendingUser(nameValue, surnameValue, emailValue, passwordValue, residenceValue, fiscalCodeValue, "ANIMATOR");
+                    User u1 = new User(nameValue, surnameValue, emailValue, passwordValue, new MunicipalTerritory(residenceValue), fiscalCodeValue);
+                    platformManager.addPendingUser(u1, "ANIMATOR");
                     break;
                 case "Curator":
-                    platformManager.addPendingUser(nameValue, surnameValue, emailValue, passwordValue, residenceValue, fiscalCodeValue, "CURATOR");
+                    User u2 = new User(nameValue, surnameValue, emailValue, passwordValue, new MunicipalTerritory(residenceValue), fiscalCodeValue);
+                    platformManager.addPendingUser(u2, "CURATOR");
                     break;
                 case "Platform Manager":
-                    platformManager.addPendingUser(nameValue, surnameValue, emailValue, passwordValue, residenceValue, fiscalCodeValue, "PLATFORM_MANAGER");
+                    User u3 = new User(nameValue, surnameValue, emailValue, passwordValue, new MunicipalTerritory(residenceValue), fiscalCodeValue);
+                    platformManager.addPendingUser(u3, "PLATFORM_MANAGER");
                     break;
                 case "Contributor":
-                    platformManager.addPendingUser(nameValue, surnameValue, emailValue, passwordValue, residenceValue, fiscalCodeValue, "CONTRIBUTOR");
+                    User u4 = new User(nameValue, surnameValue, emailValue, passwordValue, new MunicipalTerritory(residenceValue), fiscalCodeValue);
+                    platformManager.addPendingUser(u4, "CONTRIBUTOR");
                     break;
                 case "Tourist":
-                    platformManager.addPendingUser(nameValue, surnameValue, emailValue, passwordValue, residenceValue, fiscalCodeValue, "TOURIST");
+                    User u5 = new User(nameValue, surnameValue, emailValue, passwordValue, new MunicipalTerritory(residenceValue), fiscalCodeValue);
+                    platformManager.addPendingUser(u5, "TOURIST");
                     break;
             }
         } else {
-            platformManager.addPendingUser(nameValue, surnameValue, emailValue, passwordValue, residenceValue, fiscalCodeValue, "TOURIST");
+            User u = new User(nameValue, surnameValue, emailValue, passwordValue, new MunicipalTerritory(residenceValue), fiscalCodeValue);
+            platformManager.addPendingUser(u, "TOURIST");
         }
     }
 

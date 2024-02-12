@@ -56,7 +56,10 @@ public class Contest {
     @Override
     public String toString() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        return "Concorso creato il " + sdf.format(startDate) + ".\nTitolo: " + title + "\nObiettivo: " + objective + "\nData di fine: " + sdf.format(endDate) + "\n";
+        return "Concorso creato il " + sdf.format(startDate) +
+                ".\nTitolo: " + title +
+                "\nObiettivo: " + objective +
+                "\nData di fine: " + sdf.format(endDate) + "\n";
     }
 
 }

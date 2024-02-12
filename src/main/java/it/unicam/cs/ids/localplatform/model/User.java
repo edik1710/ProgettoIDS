@@ -84,4 +84,14 @@ public class User {
     public void setCf(String cf) {
         this.cf = cf;
     }
+
+    @Override
+    public String toString() {
+        return "name=" + name +
+                ", surname=" + surname +
+                ", email=" + email +
+                ", password=" + password +
+                ", residence=" + residence.getMunicipalName() +
+                ", cf=" + cf;
+    }
 }

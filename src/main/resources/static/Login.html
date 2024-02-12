@@ -92,14 +92,13 @@
             .then(response => response.text())
             .then(data => {
                 console.log('User logged in', data);
+                role();
             })
             .catch((error) => {
                 console.error('Login failed', error);
             });
-
         document.getElementById("login").addEventListener("submit", function (event) {
             event.preventDefault()
-            role();
         });
     }
 

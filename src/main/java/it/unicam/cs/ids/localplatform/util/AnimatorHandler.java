@@ -1,61 +1,60 @@
 package it.unicam.cs.ids.localplatform.util;
 
 import it.unicam.cs.ids.localplatform.model.Animator;
+import it.unicam.cs.ids.localplatform.model.Contest;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Scanner;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * This class represents an animator handler.
  */
 public class AnimatorHandler {
-    private Animator animator;
-    private Scanner scanner = new Scanner(System.in);
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    @FXML
+    public TextField ContestObjective;
+    @FXML
+    public TextField ContestTitle;
+    @FXML
+    public DatePicker ContestStartDate;
+    @FXML
+    public DatePicker ContestEndDate;
+    @FXML
+    private ListView<String> ContestList;
 
-    public AnimatorHandler(Animator animator) {
-        this.animator = animator;
+    private final Animator animator;
+
+    public AnimatorHandler() {
+        this.animator = (Animator) LoginController.getCurrentUser();
     }
 
     /**
      * This method allows the animator to create a contest.
      */
-    public void createContest() {
-        System.out.println("Inserisci l'obiettivo del contest:");
-        String objective = scanner.nextLine();
-        System.out.println("Inserisci il titolo del contest:");
-        String title = scanner.nextLine();
-        System.out.println("Inserisci la data di inizio del contest nel formato dd-MM-yyyy:");
-        String startDate = scanner.nextLine();
-        System.out.println("Inserisci la data di fine del contest nel formato dd-MM-yyyy:");
-        String endDate = scanner.nextLine();
+    public void createContest(ActionEvent actionEvent) {
+        String title = ContestTitle.getText();
+        String objective = ContestObjective.getText();
 
-        try {
-            animator.proposeContest(objective, title, dateFormat.parse(startDate), dateFormat.parse(endDate));
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+        Date startDate = Date.from(ContestStartDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date endDate = Date.from(ContestEndDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        this.animator.proposeContest(objective, title, startDate, endDate);
     }
 
-    /**
-     * This method allows the animator to view the next content to be validated.
-     * The animator can then choose whether to authorize or reject the content.
-     */
-    public void retrieveNextContestContent() {
-        animator.viewNextContestContent();
-        System.out.println("Contenuto da validare:");
-        System.out.println(Animator.getValidatingContent());
-        System.out.println("Vuoi autorizzare il contenuto? (S/N)");
-        String choice = scanner.nextLine();
-        if (choice.equalsIgnoreCase("S")) {
-            animator.authorizeContent();
-            System.out.println("Contenuto autorizzato.");
-        } else if (choice.equalsIgnoreCase("N")) {
-            animator.rejectContent();
-            System.out.println("Contenuto non autorizzato.");
-        } else {
-            System.out.println("Scelta non valida.");
-        }
+    public void getContests(ActionEvent actionEvent) {
+        ContestList.getItems().clear();
+        // Converti l'insieme di contest in una lista di stringhe
+        List<String> contests = this.animator.getResidence().getContests().stream()
+                .map(Contest::toString)
+                .collect(Collectors.toList());
+
+        // Aggiungi tutti i contest alla lista ContestList
+        ContestList.getItems().addAll(contests);
     }
 }

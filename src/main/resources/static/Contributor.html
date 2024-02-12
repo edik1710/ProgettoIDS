@@ -247,17 +247,26 @@
     }
 
     function PendingPOI() {
-        fetch(`${baseUrl}/AggiungiPOIAListaItinerario`)
-            .then(response => response.json())  // Modifica qui per ricevere un array
+        const title = document.getElementById("title").value;
+        const POILatitude = parseFloat(document.getElementById("POILatitude").value);
+        const POILongitude = parseFloat(document.getElementById("POILongitude").value);
+
+        const POIArray = [title, POILatitude, POILongitude];
+
+        fetch(`${baseUrl}/AddPOIToTempList`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(POIArray),
+        })
+            .then(response => response.text())
             .then(data => {
-                const list = document.getElementById("POIlist");
-                data.forEach(item => {
-                    const li = document.createElement('li');
-                    li.textContent = item;  // Modifica qui per stampare la stringa
-                    list.appendChild(li);
-                });
+                console.log('POI creato con successo:', data);
             })
-            .catch(error => console.error('Error', error));
+            .catch((error) => {
+                console.error('POI non creato:', error);
+            });
     }
 
     function getItineraries() {
