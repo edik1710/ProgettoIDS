@@ -1,6 +1,8 @@
 package it.unicam.cs.ids.localplatform;
 
 import it.unicam.cs.ids.localplatform.model.*;
+import it.unicam.cs.ids.localplatform.web.POITable;
+import it.unicam.cs.ids.localplatform.web.POITableRepoitory;
 import it.unicam.cs.ids.localplatform.web.UserListRepository;
 import it.unicam.cs.ids.localplatform.web.UserTable;
 import javafx.scene.control.Alert;
@@ -34,12 +36,14 @@ public class MunicipalServiceController {
     private final MunicipalTerritory municipalTerritory = new MunicipalTerritory("Camerino");
 
     private final UserListRepository userRepository;
+    private final POITableRepoitory poiRepository;
 
     private User currentUser;
 
     @Autowired
-    public MunicipalServiceController(UserListRepository userRepository, FileService fileService) {
+    public MunicipalServiceController(UserListRepository userRepository, POITableRepoitory poiRepository, FileService fileService) {
         this.userRepository = userRepository;
+        this.poiRepository = poiRepository;
         this.fileService = fileService;
         UserTable userTable1 = new UserTable();
         userTable1.setName("Edoardo");
@@ -201,6 +205,17 @@ public class MunicipalServiceController {
             return new ResponseEntity<>("User not found", HttpStatus.BAD_REQUEST);
         }
     }
+    @PostMapping("/AcceptPoi")
+    public ResponseEntity<Object> acceptPoi(@RequestBody String[] array) {
+        POITable poiTable = poiRepository.findById(array[0]).orElse(null);
+        if (poiTable != null) {
+            poiTable.setPending(false);
+            poiRepository.save(poiTable);
+            return new ResponseEntity<>("POI authorized", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("POI not found", HttpStatus.BAD_REQUEST);
+        }
+    }
 
     /**
      * This method is used to authorize the contributor or the tourist.
@@ -221,14 +236,6 @@ public class MunicipalServiceController {
         } else {
             return new ResponseEntity<>("User not found", HttpStatus.BAD_REQUEST);
         }
-    }
-    @PostMapping("/AcceptPoi")
-    public ResponseEntity<Object> acceptPoi(@RequestBody String[] array) {
-        Map<Coordinates, POI> allPoi = municipalTerritory.getPOIs();
-        for (POI p : allPoi.values())
-            if (p.getTitle().equals(array[0]))
-                p.setPending(false);
-        return new ResponseEntity<>("POI authorized", HttpStatus.OK);
     }
 
     /**
@@ -359,10 +366,20 @@ public class MunicipalServiceController {
      * @return Result of the operation.
      */
     @PostMapping("/AggiungiPOIAListaItinerario")
-    public ResponseEntity<Object> addPOIToTempList(@RequestBody String[] array) {
-        Coordinates coordinates = new Coordinates(Double.parseDouble(array[0]), Double.parseDouble(array[1]));
-        tempPOIList.add(coordinates);
+    public ResponseEntity<Object> addPOIToTempList(@RequestBody String[] array) {-
+        POITable poiTable = new POITable();
+        poiTable.setTitle(array[0]);
+        poiTable.setPublicationDate(array[1]);
+        poiTable.setAuthor(array[2]);
+        poiTable.setContents(array[3]);
+        poiTable.setCoordinates(array[4]);
+        poiTable.setDescription(array[5]);
+        poiRepository.save(poiTable);
         return new ResponseEntity<>("Punto d'Interesse aggiunto correttamente", HttpStatus.OK);
+
+
+
+
     }
 
     /**
