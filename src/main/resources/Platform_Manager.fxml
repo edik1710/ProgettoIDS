@@ -5,12 +5,12 @@
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="it.unicam.cs.ids.localplatform.util.Controller"
+      fx:controller="it.unicam.cs.ids.localplatform.util.PlatformManagerHandler"
       prefHeight="400.0" prefWidth="600.0">
 
     <Label text="Lista degli utenti in attesa"/>
     <ListView fx:id="PendingUserList"/>
-    <!--<Button text="Lista degli utenti in attesa" onAction="#PendingUserList"/>-->
+    <Button text="Lista degli utenti in attesa" onAction="#PendingUserList"/>
 
     <Label text="Accetta o Rifiuta l'utente un utente"/>
     <Label text="Email:"/>

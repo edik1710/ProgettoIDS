@@ -7,60 +7,10 @@ import jakarta.persistence.Id;
 public class POITable {
     @Id
     private String title;
-    private String publicationDate;
-    private String author;
-    private String contents;
-    private String coordinates;
-    private String description;
+    private String POILatitude;
+    private String POILongitude;
     private boolean pending;
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getPublicationDate() {
-        return publicationDate;
-    }
-
-    public void setPublicationDate(String publicationDate) {
-        this.publicationDate = publicationDate;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public String getContents() {
-        return contents;
-    }
-
-    public void setContents(String contents) {
-        this.contents = contents;
-    }
-
-    public String getCoordinates() {
-        return coordinates;
-    }
-
-    public void setCoordinates(String coordinates) {
-        this.coordinates = coordinates;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public boolean isPending() {
         return pending;
@@ -70,13 +20,30 @@ public class POITable {
         this.pending = pending;
     }
 
+    public String getPOILatitude() {
+        return POILatitude;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setPOILatitude(String POILatitude) {
+        this.POILatitude = POILatitude;
+    }
+
+    public String getPOILongitude() {
+        return POILongitude;
+    }
+
+    public void setPOILongitude(String POILongitude) {
+        this.POILongitude = POILongitude;
+    }
+
     public String toString() {
         return "title=" + title +
-                ", publicationDate=" + publicationDate +
-                ", author=" + author +
-                ", contents=" + contents +
-                ", coordinates=" + coordinates +
-                ", description=" + description +
+                ", POILatitude=" + POILatitude +
+                ", POILongitude=" + POILongitude +
                 ", pending=" + pending;
     }
 

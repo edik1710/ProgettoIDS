@@ -89,6 +89,7 @@
 
 <h1>Valorizzazione del territorio Comunale</h1>
 
+<a href="Login.html">Ritrorna alla homepage</a>
 <h2>Lista Punti d'Interesse</h2>
 <ul id="POIlist"></ul>
 <button onclick="getPOIs(); createOrUpdatePOI()"> Lista dei POI</button>
@@ -245,8 +246,8 @@
             .catch(error => console.error('Error', error));
     }
 
-    function PendingPOI(){
-fetch(`${baseUrl}/PendingPOI`)
+    function PendingPOI() {
+        fetch(`${baseUrl}/AggiungiPOIAListaItinerario`)
             .then(response => response.json())  // Modifica qui per ricevere un array
             .then(data => {
                 const list = document.getElementById("POIlist");
@@ -312,10 +313,12 @@ fetch(`${baseUrl}/PendingPOI`)
     }
 
     function addPOIToTempList() {
-        const POILatitude = parseFloat(document.getElementById("TempLatitude").value);
-        const POILongitude = parseFloat(document.getElementById("TempLongitude").value);
+        const title = document.getElementById("title").value;
+        const description = document.getElementById("description").value;
+        const POILatitude = parseFloat(document.getElementById("POILatitude").value);
+        const POILongitude = parseFloat(document.getElementById("POILongitude").value);
 
-        const tempArray = [POILatitude, POILongitude];
+        const tempArray = [title, description, POILatitude, POILongitude];
 
         fetch(`${baseUrl}/AggiungiPOIAListaItinerario`, {
             method: 'POST',
@@ -508,7 +511,7 @@ fetch(`${baseUrl}/PendingPOI`)
     }
 
 
-    document.getElementById("POIlist").addEventListener("submit", function(event) {
+    document.getElementById("POIlist").addEventListener("submit", function (event) {
         event.preventDefault(); // Prevent form submission
 
         const title = document.getElementById("title").value;

@@ -93,7 +93,7 @@
 <button onclick="RejectUser(); clearInput()">Rifiuta Utente</button>
 
 
-<p>Don't have an account? <a href="index.html">Ritrorna alla homepage</a></p>
+<p>Don't have an account? <a href="Login.html">Ritrorna alla homepage</a></p>
 
 <h2>Lista dei contributori e turisti</h2>
 <ul id="ContributorsAndTouristsList"></ul>
@@ -115,19 +115,6 @@
             .then(response => response.json())
             .then(data => {
                 const list = document.getElementById("PendingUserList");
-                data.forEach(item => {
-                    const li = document.createElement('li');
-                    li.textContent = item;  // Modifica qui per stampare la stringa
-                    list.appendChild(li);
-                });
-            })
-            .catch(error => console.error('Error', error));
-    }
-    function PendingPOIList() {
-        fetch(`${baseUrl}/PendingPOIList`)
-            .then(response => response.json())
-            .then(data => {
-                const list = document.getElementById("PendingPOIList");
                 data.forEach(item => {
                     const li = document.createElement('li');
                     li.textContent = item;  // Modifica qui per stampare la stringa

@@ -40,8 +40,8 @@
         </items>
     </ComboBox>
 
-    <!--<Button text="Registrati" onAction="#Register"/>-->
-    <Button text="Sei già registrato? Clicca qui!" onAction="#Login"/>
+    <Button text="Registrati" onAction="#Register"/>
+    <Button text="Sei già registrato? Clicca qui!" onAction="#LoginView"/>
 
     <CheckBox text="Remember me"/>
 

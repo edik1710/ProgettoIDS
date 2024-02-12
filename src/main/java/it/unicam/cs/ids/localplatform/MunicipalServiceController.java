@@ -15,12 +15,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -155,18 +152,18 @@ public class MunicipalServiceController {
 
     @RequestMapping("/PendingPOIList")
     public ResponseEntity<Object> getPendingPOI() {
-        Map<Coordinates, POI> allPoi = municipalTerritory.getPOIs();
-        List<POI> pendingPOI = new ArrayList<>();
-        for (POI p : allPoi.values())
+        List<POITable> allPoi = new ArrayList<>();
+        allPoi = (ArrayList<POITable>) this.poiRepository.findAll();
+        List<POITable> pendingPOI = new ArrayList<>();
+        for (POITable p : allPoi)
             if (p.isPending())
                 pendingPOI.add(p);
         String[] pendingPOIArray = new String[pendingPOI.size()];
-        for (POI p : pendingPOI)
+        for (POITable p : pendingPOI)
             pendingPOIArray[pendingPOI.indexOf(p)] = p.toString();
         return new ResponseEntity<>(pendingPOIArray, HttpStatus.OK);
 
     }
-
 
 
     /**
@@ -205,16 +202,14 @@ public class MunicipalServiceController {
             return new ResponseEntity<>("User not found", HttpStatus.BAD_REQUEST);
         }
     }
+
     @PostMapping("/AcceptPoi")
     public ResponseEntity<Object> acceptPoi(@RequestBody String[] array) {
         POITable poiTable = poiRepository.findById(array[0]).orElse(null);
-        if (poiTable != null) {
-            poiTable.setPending(false);
-            poiRepository.save(poiTable);
-            return new ResponseEntity<>("POI authorized", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("POI not found", HttpStatus.BAD_REQUEST);
-        }
+        assert poiTable != null;
+        poiTable.setPending(false);
+        poiRepository.save(poiTable);
+        return new ResponseEntity<>("POI authorized", HttpStatus.OK);
     }
 
     /**
@@ -263,7 +258,7 @@ public class MunicipalServiceController {
     @RequestMapping("/POIs")
     public ResponseEntity<Object> getPOIs() {
         // Recupera la mappa dei POI da MunicipalTerritory
-        if(municipalTerritory.getPOIs() == null){
+        if (municipalTerritory.getPOIs() == null) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Information");
             alert.setHeaderText("No POI present");
@@ -366,20 +361,13 @@ public class MunicipalServiceController {
      * @return Result of the operation.
      */
     @PostMapping("/AggiungiPOIAListaItinerario")
-    public ResponseEntity<Object> addPOIToTempList(@RequestBody String[] array) {-
+    public ResponseEntity<Object> addPOIToTempList(@RequestBody String[] array) {
         POITable poiTable = new POITable();
         poiTable.setTitle(array[0]);
-        poiTable.setPublicationDate(array[1]);
-        poiTable.setAuthor(array[2]);
-        poiTable.setContents(array[3]);
-        poiTable.setCoordinates(array[4]);
-        poiTable.setDescription(array[5]);
+        poiTable.setPOILatitude(array[1]);
+        poiTable.setPOILongitude(array[2]);
         poiRepository.save(poiTable);
         return new ResponseEntity<>("Punto d'Interesse aggiunto correttamente", HttpStatus.OK);
-
-
-
-
     }
 
     /**
@@ -575,12 +563,13 @@ public class MunicipalServiceController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
     private final FileService fileService;
+
     @PostMapping(value = "/createOrUpdatePOI", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createOrUpdatePOI(@RequestBody POI poi) {
         fileService.saveToFile(poi);
     }
-
 
 
 }
