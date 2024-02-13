@@ -1,20 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- Controller da cambiare -->
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="it.unicam.cs.ids.localplatform.util.Controller"
+      fx:controller="it.unicam.cs.ids.localplatform.util.AuthorizedTouristHandler"
       prefHeight="400.0" prefWidth="600.0">
 
-    <Label text="Vedere tutte le informazion per future visite"/>
+    <Label text="Lista delle informazioni salvate"/>
     <ListView fx:id="saveList"/>
-    <!--<Button text="Lista delle Informazioni" onAction="#infoList"/>-->
+    <Button text="Lista delle Informazioni" onAction="#infoList"/>
 
-    <Label text="Save all info"/>
+
+    <Label text="Lista Dei Contenuti Generali"/>
+    <ListView fx:id="GeneralContentsList"/>
+    <Button text="Lista dei contenuti generali" onAction="#getGeneralContents"/>
+
+    <Label text="Lista Dei Punti D'Interesse"/>
+    <ListView fx:id="POIlist"/>
+    <Button text="Lista dei POI" onAction="#getPOIs"/>
+
+    <Label text="Lista Dei Itinerari"/>
+    <ListView fx:id="ItinerariesList"/>
+    <Button text="Lista degli itinerari" onAction="#getItineraries"/>
+
+
+    <Label text="Inserisci il titolo di un'informazione per salvarla"/>
     <TextField fx:id="saveInfo"/>
-    <!--<Button text="Save" onAction="#saveInfo"/>-->
+    <Button text="Save" onAction="#saveInfo"/>
 </VBox>

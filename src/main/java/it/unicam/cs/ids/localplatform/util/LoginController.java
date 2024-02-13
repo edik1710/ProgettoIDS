@@ -30,7 +30,7 @@ public class LoginController {
         this.platformManager = Controller.getPlatformManager();
 
         // per testare l'utente più velocemente
-        Tourist a = new Tourist("diosignore", "cagnaccio", "email", "password", this.platformManager.getResidence(), "cf");
+        AuthorizedTourist a = new AuthorizedTourist("diosignore", "cagnaccio", "email", "password", this.platformManager.getResidence(), "cf");
         this.platformManager.getResidence().getUsers().add(a);
     }
 
