@@ -30,7 +30,7 @@ public class Tourist extends User {
     }
 
     /*
-    Methods used for testing purposes only.
+    Method used for testing purposes only.
      */
     public void setNumReports(int numReports) {
         this.numReports = numReports;

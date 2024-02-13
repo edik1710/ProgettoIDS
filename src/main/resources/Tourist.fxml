@@ -1,33 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- Controller da cambiare -->
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.VBox?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="it.unicam.cs.ids.localplatform.util.Controller"
+      fx:controller="it.unicam.cs.ids.localplatform.util.TouristHandler"
       prefHeight="400.0" prefWidth="600.0">
 
     <Label text="Lista Dei Contenuti Generali"/>
     <ListView fx:id="GeneralContentsList"/>
-    <!--<Button text="Lista dei contenuti generali" onAction="#getGeneralContents"/>-->
+    <Button text="Lista dei contenuti generali" onAction="#getGeneralContents"/>
 
     <Label text="Lista Dei Punti D'Interesse"/>
     <ListView fx:id="POIlist"/>
-    <!--<Button text="Lista dei POI" onAction="#getPOIs"/>-->
+    <Button text="Lista dei POI" onAction="#getPOIs"/>
 
     <Label text="Lista Dei Itinerari"/>
     <ListView fx:id="ItinerariesList"/>
-    <!--<Button text="Lista degli itinerari" onAction="#getItineraries"/>-->
+    <Button text="Lista degli itinerari" onAction="#getItineraries"/>
 
     <Label text="Lista Contest"/>
     <ListView fx:id="ContestList"/>
-    <!--<Button text="Lista dei contest" onAction="#getContests"/>-->
+    <Button text="Lista dei contest" onAction="#getContests"/>
 
-    <Label text="Report"/>
-    <Label text="Report"/>
-    <TextField fx:id="Report"/>
-    <Label text="Titolo Contenuto"/>
+    <Label text="Segnala un contenuto"/>
+    <Label text="Testo del Contenuto"/>
     <TextField fx:id="Contenuto"/>
-    <!--<Button text="Report" onAction="#Report"/>-->
+    <Button text="Report" onAction="#Report"/>
 </VBox>

@@ -1,38 +1,79 @@
 package it.unicam.cs.ids.localplatform.util;
 
-import it.unicam.cs.ids.localplatform.model.Tourist;
+import it.unicam.cs.ids.localplatform.model.*;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 
-import java.text.SimpleDateFormat;
-import java.util.Scanner;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * This class represents a tourist handler.
  */
 public class TouristHandler {
-    private Tourist tourist;
-    private Scanner scanner = new Scanner(System.in);
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-    private int counter = 0;
+    @FXML
+    public ListView<String> GeneralContentsList;
+    @FXML
+    public ListView<String> POIlist;
+    @FXML
+    public ListView<String> ItinerariesList;
+    @FXML
+    public ListView<String> ContestList;
+    private final Tourist tourist;
+    @FXML
+    public TextField Contenuto;
 
-    public TouristHandler(Tourist tourist) {
-        this.tourist = tourist;
+
+    public TouristHandler() {
+        this.tourist = (Tourist) LoginController.getCurrentUser();
     }
 
-    /*
-    Il campo curatorHandler non viene mai inizializzato, quindi è sempre null.
-    Non credo sia concettualmente corretto inserire un handler all'interno di un altro handler.
-     */
-    /*
-    private CuratorHandler curatorHandler;
-    public void reportContent() {
-        System.out.println("Inserisci l'ID del contenuto da segnalare:");
-        String id = scanner.nextLine();
-        System.out.println("Inserisci il motivo della segnalazione:");
-        String reason = scanner.nextLine();
-        counter ++;
-        if (counter == 10) {
-            curatorHandler.removeReportedContents();
+    @FXML
+    public void getGeneralContents(ActionEvent actionEvent) {
+        GeneralContentsList.getItems().clear();
+        List<String> contents = this.tourist.getResidence().getGeneralContents().stream()
+                .map(Content::toString)
+                .collect(Collectors.toList());
+        GeneralContentsList.getItems().addAll(contents);
+    }
+
+    @FXML
+    public void getPOIs(ActionEvent actionEvent) {
+        POIlist.getItems().clear();
+        List<String> pois = this.tourist.getResidence().getPOIs().values().stream()
+                .map(POI::toString)
+                .collect(Collectors.toList());
+        POIlist.getItems().addAll(pois);
+    }
+
+    @FXML
+    public void getItineraries(ActionEvent actionEvent) {
+        ItinerariesList.getItems().clear();
+        List<String> itineraries = this.tourist.getResidence().getItineraries().stream()
+                .map(Itinerary::toString)
+                .collect(Collectors.toList());
+        ItinerariesList.getItems().addAll(itineraries);
+    }
+
+    @FXML
+    public void getContests(ActionEvent actionEvent) {
+        ContestList.getItems().clear();
+        List<String> contests = this.tourist.getResidence().getContests().stream()
+                .map(Contest::toString)
+                .collect(Collectors.toList());
+        ContestList.getItems().addAll(contests);
+    }
+
+    @FXML
+    public void Report(ActionEvent actionEvent) {
+        Content content = this.tourist.getResidence().getGeneralContents().stream()
+                .filter(c -> c.getText().equals(Contenuto.getText()))
+                .findFirst()
+                .orElse(null);
+        if (content != null) {
+            this.tourist.reportContent(content);
         }
     }
-    */
 }

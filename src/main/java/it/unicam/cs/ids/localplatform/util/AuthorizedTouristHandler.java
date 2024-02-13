@@ -2,20 +2,14 @@ package it.unicam.cs.ids.localplatform.util;
 
 import it.unicam.cs.ids.localplatform.model.AuthorizedTourist;
 
-import java.text.SimpleDateFormat;
-import java.util.Scanner;
-
 /**
  * This class represents a handler for an authorized tourist.
  */
-public class AuthorizedTouristHandler extends TouristHandler {
-    private AuthorizedTourist authorizedTourist;
-    private Scanner scanner = new Scanner(System.in);
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+public class AuthorizedTouristHandler {
+    private final AuthorizedTourist authorizedTourist;
 
     public AuthorizedTouristHandler(AuthorizedTourist authorizedTourist) {
-        super(authorizedTourist);
-        this.authorizedTourist = authorizedTourist;
+        this.authorizedTourist = (AuthorizedTourist) LoginController.getCurrentUser();
     }
 
     /**

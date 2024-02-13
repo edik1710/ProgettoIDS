@@ -1,6 +1,5 @@
 package it.unicam.cs.ids.localplatform.util;
 
-import it.unicam.cs.ids.localplatform.MunicipalTerritory;
 import it.unicam.cs.ids.localplatform.model.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,7 +30,7 @@ public class LoginController {
         this.platformManager = Controller.getPlatformManager();
 
         // per testare l'utente più velocemente
-        Animator a = new Animator("diosignore", "cagnaccio", "email", "password", new MunicipalTerritory("Camerino"), "cf");
+        Tourist a = new Tourist("diosignore", "cagnaccio", "email", "password", this.platformManager.getResidence(), "cf");
         this.platformManager.getResidence().getUsers().add(a);
     }
 
@@ -68,8 +67,13 @@ public class LoginController {
             // Controlla la classe dell'utente e apri il file fxml corrispondente
             switch (user) {
                 case Contributor contributor -> root = FXMLLoader.load(getClass().getResource("/Contributor.fxml"));
+                case AuthorizedTourist authorizedTourist ->
+                        root = FXMLLoader.load(getClass().getResource("/Auth_Tourist.fxml"));
                 case Tourist tourist -> root = FXMLLoader.load(getClass().getResource("/Tourist.fxml"));
                 case Animator animator -> root = FXMLLoader.load(getClass().getResource("/Animator.fxml"));
+                case Curator curator -> root = FXMLLoader.load(getClass().getResource("/Curator.fxml"));
+                case AuthorizedContributor authorizedContributor ->
+                        root = FXMLLoader.load(getClass().getResource("/Auth_Contributor.fxml"));
                 default -> {
                 }
             }
