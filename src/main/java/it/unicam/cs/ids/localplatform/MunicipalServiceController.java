@@ -72,7 +72,7 @@ public class MunicipalServiceController {
         userTable3.setPassword("g");
         userTable3.setResidence("Camerino");
         userTable3.setCf("ggggggggggggggg");
-        userTable3.setRole("Turista");
+        userTable3.setRole("Animatore");
         userTable3.setPending(false);
         this.userRepository.save(userTable3);
         // per testing
@@ -144,29 +144,7 @@ public class MunicipalServiceController {
         return new ResponseEntity<>(userTable.getRole(), HttpStatus.OK);
     }
 
-    @RequestMapping("/PendingPOIList")
-    public ResponseEntity<Object> getPendingPOI() {
-        List<POITable> allPoi = new ArrayList<>();
-        allPoi = (ArrayList<POITable>) this.poiRepository.findAll();
-        List<POITable> pendingPOI = new ArrayList<>();
-        for (POITable p : allPoi)
-            if (p.isPending())
-                pendingPOI.add(p);
-        String[] pendingPOIArray = new String[pendingPOI.size()];
-        for (POITable p : pendingPOI)
-            pendingPOIArray[pendingPOI.indexOf(p)] = p.toString();
-        return new ResponseEntity<>(pendingPOIArray, HttpStatus.OK);
-
-    }
-
-    @PostMapping("/AcceptPoi")
-    public ResponseEntity<Object> acceptPoi(@RequestBody String[] array) {
-        POITable poiTable = poiRepository.findById(array[0]).orElse(null);
-        assert poiTable != null;
-        poiTable.setPending(false);
-        poiRepository.save(poiTable);
-        return new ResponseEntity<>("POI authorized", HttpStatus.OK);
-    }
+    // Getter methods for the lists of the POIs, the itineraries, the general contents and the contests
 
     /**
      * This method is used to get the list of the POIs.
@@ -241,13 +219,62 @@ public class MunicipalServiceController {
     @RequestMapping("/Contests")
     public ResponseEntity<Object> getContests() {
         List<Contest> contests = municipalTerritory.getContests();
-        Contest[] contestsArray = contests.toArray(new Contest[0]);
-        String[] contestsStringArray = new String[contestsArray.length];
-        for (int i = 0; i < contestsArray.length; i++) {
-            contestsStringArray[i] = contestsArray[i].toString();
-        }
-
+        String[] contestsStringArray = contests.stream()
+                .map(Contest::toString)
+                .toArray(String[]::new);
         return new ResponseEntity<>(contestsStringArray, HttpStatus.OK);
+    }
+
+    // Animator method
+
+    /**
+     * This method is used to add a contest.
+     *
+     * @param array The information of the contest.
+     * @return Result of the operation.
+     */
+    @PostMapping("/AggiungiContest")
+    public ResponseEntity<String> addContest(@RequestBody String[] array) {
+        try {
+            Date startDate = dateFormat.parse(array[2]);
+            Date endDate = dateFormat.parse(array[3]);
+            Contest contest = new Contest(array[0], array[1], startDate, endDate);
+
+            if (this.municipalTerritory.getContests().stream().noneMatch(c -> c.equals(contest))) {
+                this.municipalTerritory.addContest(contest);
+                return new ResponseEntity<>("Concorso aggiunto correttamente", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Concorso già Esistente", HttpStatus.BAD_REQUEST);
+            }
+        } catch (ParseException e) {
+            return new ResponseEntity<>("Data non valida", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    //
+
+    @RequestMapping("/PendingPOIList")
+    public ResponseEntity<Object> getPendingPOI() {
+        List<POITable> allPoi = new ArrayList<>();
+        allPoi = (ArrayList<POITable>) this.poiRepository.findAll();
+        List<POITable> pendingPOI = new ArrayList<>();
+        for (POITable p : allPoi)
+            if (p.isPending())
+                pendingPOI.add(p);
+        String[] pendingPOIArray = new String[pendingPOI.size()];
+        for (POITable p : pendingPOI)
+            pendingPOIArray[pendingPOI.indexOf(p)] = p.toString();
+        return new ResponseEntity<>(pendingPOIArray, HttpStatus.OK);
+
+    }
+
+    @PostMapping("/AcceptPoi")
+    public ResponseEntity<Object> acceptPoi(@RequestBody String[] array) {
+        POITable poiTable = poiRepository.findById(array[0]).orElse(null);
+        assert poiTable != null;
+        poiTable.setPending(false);
+        poiRepository.save(poiTable);
+        return new ResponseEntity<>("POI authorized", HttpStatus.OK);
     }
 
     /**
@@ -327,27 +354,6 @@ public class MunicipalServiceController {
             return new ResponseEntity<>("Contenuto aggiunto correttamente", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Contenuto già Esistente", HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    /**
-     * This method is used to add a contest.
-     *
-     * @param array The information of the contest.
-     * @return Result of the operation.
-     * @throws ParseException If the date is not valid.
-     */
-    @PostMapping("/AggiungiContest")
-    public ResponseEntity<Object> addContest(@RequestBody String[] array) throws ParseException {
-        Date startDate = dateFormat.parse(array[2]);
-        Date endDate = dateFormat.parse(array[3]);
-        Contest contest = new Contest(array[0], array[1], startDate, endDate);
-
-        if (!this.municipalTerritory.getContests().contains(contest)) {
-            this.municipalTerritory.addContest(contest);
-            return new ResponseEntity<>("Concorso aggiunto correttamente", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Concorso già Esistente", HttpStatus.BAD_REQUEST);
         }
     }
 

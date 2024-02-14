@@ -22,6 +22,4 @@
     <DatePicker fx:id="ContestEndDate"/>
     <Button text="Crea Contest" onAction="#createContest"/>
 
-    <!-- Aggiungere validazione contenuti contest -->
-
 </VBox>

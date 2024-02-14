@@ -2,10 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valorizzazione Territorio Comunale: Pagina Animatore</title>
-    <h1>Valorizzazione del territorio Comunale</h1>
-
+    <title>Animatore</title>
 </head>
 
 <style>
@@ -82,11 +79,12 @@
     }
 </style>
 
+<body>
+<h1>Animatore</h1>
 
 <h2>Lista Contest</h2>
 <ul id="ContestList"></ul>
 <button onclick="getContests()"> Lista dei contest</button>
-
 
 <h2>Proponi Contest</h2>
 <label for="ContestObjective">Obiettivo</label>
@@ -99,7 +97,10 @@
 <input type="date" id="ContestEndDate">
 <button onclick="createContest()">Crea Contest</button>
 
-<!-- Aggiungere validazione contenuti contest -->
+<p>Clicca qui per tornare alla homepage --> <a href="index.html">Ritorna alla homepage</a></p>
+
+</body>
+</html>
 
 <script>
     const baseUrl = 'http://localhost:8080';
@@ -142,4 +143,3 @@
             });
     }
 </script>
-</html>
