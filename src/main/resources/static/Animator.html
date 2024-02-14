@@ -81,12 +81,11 @@
         display: none;
     }
 </style>
-<form>
 
-    <h2>Lista Contest</h2>
-    <ul id="ContestList"></ul>
-    <button onclick="getContests()"> Lista dei contest</button>
-</form>
+
+<h2>Lista Contest</h2>
+<ul id="ContestList"></ul>
+<button onclick="getContests()"> Lista dei contest</button>
 
 
 <h2>Proponi Contest</h2>
@@ -99,6 +98,8 @@
 <label for="ContestEndDate">Data di fine</label>
 <input type="date" id="ContestEndDate">
 <button onclick="createContest()">Crea Contest</button>
+
+<!-- Aggiungere validazione contenuti contest -->
 
 <script>
     const baseUrl = 'http://localhost:8080';

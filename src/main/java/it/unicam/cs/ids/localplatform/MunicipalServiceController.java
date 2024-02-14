@@ -63,6 +63,19 @@ public class MunicipalServiceController {
         userTable2.setRole("Platform_Manager");
         userTable2.setPending(false);
         this.userRepository.save(userTable2);
+
+        // per testing
+        UserTable userTable3 = new UserTable();
+        userTable3.setName("Giovanni");
+        userTable3.setSurname("Bianchi");
+        userTable3.setEmail("g@g");
+        userTable3.setPassword("g");
+        userTable3.setResidence("Camerino");
+        userTable3.setCf("ggggggggggggggg");
+        userTable3.setRole("Turista");
+        userTable3.setPending(false);
+        this.userRepository.save(userTable3);
+        // per testing
     }
 
     public void setCurrentUser(User currentUser) {
@@ -131,25 +144,6 @@ public class MunicipalServiceController {
         return new ResponseEntity<>(userTable.getRole(), HttpStatus.OK);
     }
 
-    /**
-     * This method is used to get the list of the pending users.
-     *
-     * @return The list of the pending users.
-     */
-    @RequestMapping("/PendingUserList")
-    public ResponseEntity<Object> getPendingUserList() {
-        List<UserTable> allUsers = new ArrayList<>();
-        allUsers = (ArrayList<UserTable>) this.userRepository.findAll();
-        List<UserTable> pendingUsers = new ArrayList<>();
-        for (UserTable u : allUsers)
-            if (u.isPending())
-                pendingUsers.add(u);
-        String[] pendingUsersArray = new String[pendingUsers.size()];
-        for (UserTable u : pendingUsers)
-            pendingUsersArray[pendingUsers.indexOf(u)] = u.toString();
-        return new ResponseEntity<>(pendingUsersArray, HttpStatus.OK);
-    }
-
     @RequestMapping("/PendingPOIList")
     public ResponseEntity<Object> getPendingPOI() {
         List<POITable> allPoi = new ArrayList<>();
@@ -165,44 +159,6 @@ public class MunicipalServiceController {
 
     }
 
-
-    /**
-     * This method is used to get the list of the contributors and the tourists.
-     *
-     * @return The list of the contributors and the tourists.
-     */
-    @RequestMapping("/ContributorsAndTouristsList")
-    public ResponseEntity<Object> getContributorsAndTouristsList() {
-        List<UserTable> allUsers = new ArrayList<>();
-        allUsers = (ArrayList<UserTable>) this.userRepository.findAll();
-        List<UserTable> contributorsAndTouristsUsers = new ArrayList<>();
-        for (UserTable u : allUsers)
-            if (u.getRole().equals("Contributor") || u.getRole().equals("Turista"))
-                contributorsAndTouristsUsers.add(u);
-        String[] contributorsAndTouristsUsersArray = new String[contributorsAndTouristsUsers.size()];
-        for (UserTable u : contributorsAndTouristsUsers)
-            contributorsAndTouristsUsersArray[contributorsAndTouristsUsers.indexOf(u)] = u.toString();
-        return new ResponseEntity<>(contributorsAndTouristsUsersArray, HttpStatus.OK);
-    }
-
-    /**
-     * This method is used to authorize the user.
-     *
-     * @param array The email of the user.
-     * @return Result of the operation.
-     */
-    @PostMapping("/AcceptUser")
-    public ResponseEntity<Object> authorizeUser(@RequestBody String[] array) {
-        UserTable userTable = userRepository.findById(array[0]).orElse(null);
-        if (userTable != null) {
-            userTable.setPending(false);
-            userRepository.save(userTable);
-            return new ResponseEntity<>("User authorized", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("User not found", HttpStatus.BAD_REQUEST);
-        }
-    }
-
     @PostMapping("/AcceptPoi")
     public ResponseEntity<Object> acceptPoi(@RequestBody String[] array) {
         POITable poiTable = poiRepository.findById(array[0]).orElse(null);
@@ -210,44 +166,6 @@ public class MunicipalServiceController {
         poiTable.setPending(false);
         poiRepository.save(poiTable);
         return new ResponseEntity<>("POI authorized", HttpStatus.OK);
-    }
-
-    /**
-     * This method is used to authorize the contributor or the tourist.
-     *
-     * @param array The email of the user.
-     * @return Result of the operation.
-     */
-    @PostMapping("/autorized")
-    public ResponseEntity<Object> autorized(@RequestBody String[] array) {
-        UserTable userTable = userRepository.findById(array[0]).orElse(null);
-        if (userTable != null) {
-            if (userTable.getRole().equals("Contributor"))
-                userTable.setRole("Authorized_Contributor");
-            if (userTable.getRole().equals("Turista"))
-                userTable.setRole("Authorized_Tourist");
-            userRepository.save(userTable);
-            return new ResponseEntity<>("User authorized", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("User not found", HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    /**
-     * This method is used to deny the user.
-     *
-     * @param array The email of the user.
-     * @return Result of the operation.
-     */
-    @PostMapping("/DeleteUser")
-    public ResponseEntity<Object> deleteUser(@RequestBody String[] array) {
-        UserTable userTable = userRepository.findById(array[0]).orElse(null);
-        if (userTable != null) {
-            userRepository.delete(userTable);
-            return new ResponseEntity<>("User deleted", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("User not found", HttpStatus.BAD_REQUEST);
-        }
     }
 
     /**
@@ -572,5 +490,89 @@ public class MunicipalServiceController {
         fileService.saveToFile(poi);
     }
 
+    // Platform Manager methods
 
+    /**
+     * This method is used to get the list of the pending users.
+     *
+     * @return The list of the pending users.
+     */
+    @RequestMapping("/PendingUserList")
+    public ResponseEntity<Object> getPendingUserList() {
+        List<UserTable> allUsers = (ArrayList<UserTable>) this.userRepository.findAll();
+        String[] pendingUsersArray = allUsers.stream()
+                .filter(UserTable::isPending)
+                .map(UserTable::toString)
+                .toArray(String[]::new);
+        return new ResponseEntity<>(pendingUsersArray, HttpStatus.OK);
+    }
+
+    /**
+     * This method is used to authorize the user.
+     *
+     * @param array The email of the user.
+     * @return Result of the operation.
+     */
+    @PostMapping("/AcceptUser")
+    public ResponseEntity<String> authorizeUser(@RequestBody String[] array) {
+        return userRepository.findById(array[0])
+                .map(userTable -> {
+                    userTable.setPending(false);
+                    userRepository.save(userTable);
+                    return new ResponseEntity<>("User authorized", HttpStatus.OK);
+                })
+                .orElseGet(() -> new ResponseEntity<>("User not found", HttpStatus.BAD_REQUEST));
+    }
+
+    /**
+     * This method is used to deny the user.
+     *
+     * @param array The email of the user.
+     * @return Result of the operation.
+     */
+    @PostMapping("/DeleteUser")
+    public ResponseEntity<String> deleteUser(@RequestBody String[] array) {
+        return userRepository.findById(array[0])
+                .map(userTable -> {
+                    userRepository.delete(userTable);
+                    return new ResponseEntity<>("User deleted", HttpStatus.OK);
+                })
+                .orElseGet(() -> new ResponseEntity<>("User not found", HttpStatus.BAD_REQUEST));
+    }
+
+    /**
+     * This method is used to get the list of the contributors and the tourists.
+     *
+     * @return The list of the contributors and the tourists.
+     */
+    @RequestMapping("/ContributorsAndTouristsList")
+    public ResponseEntity<Object> getContributorsAndTouristsList() {
+        List<UserTable> allUsers = (ArrayList<UserTable>) this.userRepository.findAll();
+        String[] contributorsAndTouristsUsersArray = allUsers.stream()
+                .filter(u -> u.getRole().equals("Contributor") || u.getRole().equals("Turista"))
+                .map(UserTable::toString)
+                .toArray(String[]::new);
+        return new ResponseEntity<>(contributorsAndTouristsUsersArray, HttpStatus.OK);
+    }
+
+    /**
+     * This method is used to authorize the contributor or the tourist.
+     *
+     * @param array The email of the user.
+     * @return Result of the operation.
+     */
+    @PostMapping("/authorize")
+    public ResponseEntity<String> authorize(@RequestBody String[] array) {
+        return userRepository.findById(array[0])
+                .map(userTable -> {
+                    if (userTable.getRole().equals("Contributor")) {
+                        userTable.setRole("Authorized_Contributor");
+                    } else if (userTable.getRole().equals("Turista")) {
+                        userTable.setRole("Authorized_Tourist");
+                    }
+                    userRepository.save(userTable);
+                    return new ResponseEntity<>("User authorized", HttpStatus.OK);
+                })
+                .orElseGet(() -> new ResponseEntity<>("User not found", HttpStatus.BAD_REQUEST));
+    }
 }

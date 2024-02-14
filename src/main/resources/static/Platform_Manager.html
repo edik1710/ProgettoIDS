@@ -92,17 +92,15 @@
 <ul id="DeleteUser"></ul>
 <button onclick="RejectUser(); clearInput()">Rifiuta Utente</button>
 
-
-<p>Don't have an account? <a href="Login.html">Ritrorna alla homepage</a></p>
-
 <h2>Lista dei contributori e turisti</h2>
 <ul id="ContributorsAndTouristsList"></ul>
 <button onclick="ContributorsAndTouristsList()">Lista dei contributori e turisti</button>
 
-<label for="getUserList">Seleziona un Contributor o un Turista</label>
+<label for="getUserList">Inserisci la mail di un Contributor o un Turista</label>
 <input type="text" id="getUserList" name="getUserList">
-<button onclick="autorized()">Autorizza</button>
+<button onclick="authorize()">Autorizza</button>
 
+<p>Clicca qui per tornare alla homepage --> <a href="index.html">Ritorna alla homepage</a></p>
 
 </body>
 </html>
@@ -183,10 +181,10 @@
             .catch(error => console.error('Error', error));
     }
 
-    function autorized() {
+    function authorize() {
         const email = document.getElementById("getUserList").value;
         const dataArray = [email];
-        fetch(`${baseUrl}/autorized`, {
+        fetch(`${baseUrl}/authorize`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -205,7 +203,6 @@
                 console.error('Error:', error);
             });
     }
-
 
     function clearInput() {
         // Get the input element
