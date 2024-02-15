@@ -109,7 +109,7 @@
             .then(response => response.text())
             .then(data => {
                 switch (data) {
-                    case "Animatore":
+                    case "Animator":
                         window.location.href = '/Animator.html';
                         break;
                     case "Contributor":
@@ -121,8 +121,14 @@
                     case "Curator":
                         window.location.href = '/Curator.html';
                         break;
-                    case "Turista":
+                    case "Tourist":
                         window.location.href = '/Tourist.html';
+                        break;
+                    case "Authorized_Contributor":
+                        window.location.href = '/Auth_Contributor.html';
+                        break;
+                    case "Authorized_Tourist":
+                        window.location.href = '/Auth_Tourist.html';
                         break;
                 }
             })
