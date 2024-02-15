@@ -50,95 +50,65 @@
         </script>
         <button type="submit" onclick="Register()">Registrati</button>
         <button type="submit" onclick="Login()">Sei già registrato? Clicca qui!</button>
-        <label>
-            <input type="checkbox" checked="checked" name="remember"> Remember me
-        </label>
-    </div>
-
-    <div class="container" style="background-color:#f1f1f1">
-        <button type="button" class="cancelbtn">Cancel</button>
-        <span class="psw">Forgot <a href="#">password?</a></span>
     </div>
 </form>
 
-<head>
-    <style>
-        form {
-            border: 3px solid #f1f1f1;
-        }
+<style>
+    form {
+        border: 3px solid #f1f1f1;
+    }
 
-        /* Full-width inputs */
-        input[type=text], input[type=password], input[type=email] {
-            width: 100%;
-            padding: 12px 20px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-        }
+    /* Full-width inputs */
+    input[type=text], input[type=password], input[type=email] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
 
-        select {
-            width: 100%;
-            padding: 12px 20px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-        }
+    select {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
 
-        /* Set a style for all buttons */
-        button {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px 30px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
-            border-radius: 6px;
-            color: #3D3D3D;
-            background: #fff;
-            border: none;
-            box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.1);
-            user-select: none;
-            -webkit-user-select: none;
-            touch-action: manipulation;
-        }
+    /* Set a style for all buttons */
+    button {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 30px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+        border-radius: 6px;
+        color: #3D3D3D;
+        background: #fff;
+        border: none;
+        box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.1);
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+    }
 
-        /* Add a hover effect for buttons */
-        button:hover {
-            opacity: 0.8;
-        }
+    /* Add a hover effect for buttons */
+    button:hover {
+        opacity: 0.8;
+    }
 
-        /* Extra style for the cancel button (red) */
-        .cancelbtn {
-            width: auto;
-            padding: 10px 18px;
-            background-color: #f44336;
-        }
+    /* Add padding to containers */
+    .container {
+        padding: 16px;
+    }
 
-        /* Add padding to containers */
-        .container {
-            padding: 16px;
-        }
+    /* Change styles for span and cancel button on extra small screens */
+    @media screen and (max-width: 300px) {
 
-        /* The "Forgot password" text */
-        span.psw {
-            float: right;
-            padding-top: 16px;
-        }
-
-        /* Change styles for span and cancel button on extra small screens */
-        @media screen and (max-width: 300px) {
-            span.psw {
-                display: block;
-                float: none;
-            }
-
-            .cancelbtn {
-                width: 100%;
-            }
-        }
-    </style>
-</head>
+    }
+</style>
 <script>
     const baseUrl = 'http://localhost:8080';
 

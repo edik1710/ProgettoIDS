@@ -86,6 +86,8 @@ public class MunicipalServiceController {
         return currentUser;
     }
 
+    // Register method
+
     /**
      * This method is used to get the login information.
      *
@@ -114,6 +116,8 @@ public class MunicipalServiceController {
         }
     }
 
+    // Login methods
+
     /**
      * This method is used to access the platform.
      *
@@ -121,14 +125,18 @@ public class MunicipalServiceController {
      * @return Result of the operation.
      */
     @PostMapping("/Login")
-    public ResponseEntity<Object> accessPlatform(@RequestBody String[] array) {
-        UserTable userTable = userRepository.findById(array[0]).orElse(null);
-        if (userTable != null && userTable.getPassword().equals(array[1])) {
-            this.currentUser = new User(userTable.getName(), userTable.getSurname(), userTable.getEmail(), userTable.getPassword(), new MunicipalTerritory(userTable.getResidence()), userTable.getCf());
-            return new ResponseEntity<>("User logged in", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("User not found", HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<String> accessPlatform(@RequestBody String[] array) {
+        return userRepository.findById(array[0])
+                .map(userTable -> {
+                    if (userTable.getPassword().equals(array[1])) {
+                        this.currentUser = new User(userTable.getName(), userTable.getSurname(), userTable.getEmail(),
+                                userTable.getPassword(), new MunicipalTerritory(userTable.getResidence()), userTable.getCf());
+                        return new ResponseEntity<>("User logged in", HttpStatus.OK);
+                    } else {
+                        return new ResponseEntity<>("Invalid password", HttpStatus.BAD_REQUEST);
+                    }
+                })
+                .orElse(new ResponseEntity<>("User not found", HttpStatus.BAD_REQUEST));
     }
 
     /**
@@ -137,11 +145,12 @@ public class MunicipalServiceController {
      * @return The role of the user.
      */
     @RequestMapping("/Role")
-    public ResponseEntity<Object> getRole() {
+    public ResponseEntity<String> getRole() {
         String email = this.currentUser.getEmail();
-        UserTable userTable = userRepository.findById(email).orElse(null);
-        assert userTable != null;
-        return new ResponseEntity<>(userTable.getRole(), HttpStatus.OK);
+        Optional<UserTable> userTableOptional = userRepository.findById(email);
+        return userTableOptional
+                .map(userTable -> new ResponseEntity<>(userTable.getRole(), HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>("User not found", HttpStatus.BAD_REQUEST));
     }
 
     // Getter methods for the lists of the POIs, the itineraries, the general contents and the contests
