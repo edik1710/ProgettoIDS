@@ -443,6 +443,28 @@ public class MunicipalServiceController {
         }
     }
 
+    // Tourist method
+
+    /**
+     * This method is used to report a content.
+     *
+     * @param reportData The text of the content.
+     * @return Result of the operation.
+     */
+    @PostMapping("/Report")
+    public ResponseEntity<String> handleReport(@RequestBody String[] reportData) {
+        String text = reportData[0];
+
+        return this.municipalTerritory.getGeneralContents().stream()
+                .filter(c -> c.getText().equals(text))
+                .findFirst()
+                .map(c -> {
+                    c.reportContent();
+                    return new ResponseEntity<>("Report received", HttpStatus.OK);
+                })
+                .orElseGet(() -> new ResponseEntity<>("Content not found", HttpStatus.BAD_REQUEST));
+    }
+
     //
 
     @RequestMapping("/PendingPOIList")

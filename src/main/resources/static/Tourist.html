@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Turista</title>
-    <h1>Pagina del Turista</h1>
 </head>
 <style>
     form {
@@ -78,12 +77,15 @@
         display: none;
     }
 </style>
+
+<h1>Turista</h1>
+
 <h2>Lista Dei Contenuti Generali</h2>
 <ul id="GeneralContentsList"></ul>
 <button onclick="getGeneralContents()"> Lista dei contenuti generali</button>
 
 <h2>Lista Dei Punti D'Interesse</h2>
-<ul id="POIlist"></ul>
+<ul id="POIList"></ul>
 <button onclick="getPOIs()"> Lista dei POI</button>
 
 <h2>Lista Dei Itinerari</h2>
@@ -98,6 +100,8 @@
 <label for="Contenuto">Segnala un contenuto</label>
 <input type="text" id="Contenuto" name="Contenuto" placeholder="Testo del Contenuto">
 <button type="submit" onclick="Report()">Report</button>
+
+<p>Clicca qui per tornare alla homepage --> <a href="index.html">Ritorna alla homepage</a></p>
 
 <script>
     const baseUrl = 'http://localhost:8080';
@@ -120,7 +124,7 @@
         fetch(`${baseUrl}/POIs`)
             .then(response => response.json())  // Modifica qui per ricevere un array
             .then(data => {
-                const list = document.getElementById("POIlist");
+                const list = document.getElementById("POIList");
                 data.forEach(item => {
                     const li = document.createElement('li');
                     li.textContent = item;  // Modifica qui per stampare la stringa
@@ -129,7 +133,6 @@
             })
             .catch(error => console.error('Error', error));
     }
-
 
     function getItineraries() {
         fetch(`${baseUrl}/Itineraries`)
@@ -160,7 +163,7 @@
     }
 
     function Report() {
-        const Report = document.getElementById("Report").value;
+        const Report = document.getElementById("Contenuto").value;
 
         const ReportArray = [Report];
 
