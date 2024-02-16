@@ -11,7 +11,6 @@
     <ListView fx:id="saveList"/>
     <Button text="Lista delle Informazioni" onAction="#infoList"/>
 
-
     <Label text="Lista Dei Contenuti Generali"/>
     <ListView fx:id="GeneralContentsList"/>
     <Button text="Lista dei contenuti generali" onAction="#getGeneralContents"/>
@@ -23,7 +22,6 @@
     <Label text="Lista Dei Itinerari"/>
     <ListView fx:id="ItinerariesList"/>
     <Button text="Lista degli itinerari" onAction="#getItineraries"/>
-
 
     <Label text="Inserisci il titolo di un'informazione per salvarla"/>
     <TextField fx:id="saveInfo"/>

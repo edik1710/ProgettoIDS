@@ -75,6 +75,17 @@ public class MunicipalServiceController {
         userTable3.setRole("Authorized_Contributor");
         userTable3.setPending(false);
         this.userRepository.save(userTable3);
+
+        UserTable userTable4 = new UserTable();
+        userTable4.setName("Francesco");
+        userTable4.setSurname("Pizzuto");
+        userTable4.setEmail("f@f");
+        userTable4.setPassword("f");
+        userTable4.setResidence("Pescara");
+        userTable4.setCf("fffffffffffffffff");
+        userTable4.setRole("Authorized_Tourist");
+        userTable4.setPending(false);
+        this.userRepository.save(userTable4);
         // per testing
     }
 
@@ -129,8 +140,12 @@ public class MunicipalServiceController {
         return userRepository.findById(array[0])
                 .map(userTable -> {
                     if (userTable.getPassword().equals(array[1])) {
-                        this.currentUser = new User(userTable.getName(), userTable.getSurname(), userTable.getEmail(),
-                                userTable.getPassword(), new MunicipalTerritory(userTable.getResidence()), userTable.getCf());
+                        if (userTable.getRole().equals("Authorized_Tourist"))
+                            this.currentUser = new AuthorizedTourist(userTable.getName(), userTable.getSurname(), userTable.getEmail(),
+                                    userTable.getPassword(), new MunicipalTerritory(userTable.getResidence()), userTable.getCf());
+                        else
+                            this.currentUser = new User(userTable.getName(), userTable.getSurname(), userTable.getEmail(),
+                                    userTable.getPassword(), new MunicipalTerritory(userTable.getResidence()), userTable.getCf());
                         return new ResponseEntity<>("User logged in", HttpStatus.OK);
                     } else {
                         return new ResponseEntity<>("Invalid password", HttpStatus.BAD_REQUEST);
@@ -463,6 +478,81 @@ public class MunicipalServiceController {
                     return new ResponseEntity<>("Report received", HttpStatus.OK);
                 })
                 .orElseGet(() -> new ResponseEntity<>("Content not found", HttpStatus.BAD_REQUEST));
+    }
+
+    // Authorized Tourist methods
+
+    /**
+     * This method is used to retrieve the list of the saved information.
+     *
+     * @return The list of the saved information.
+     */
+    @RequestMapping("/savedInfoList")
+    public ResponseEntity<Object> getSavedInfoList() {
+        // Recupera l'utente corrente
+        User currentUser = getCurrentUser();
+
+        // Ottieni la lista di informazioni salvate se l'utente corrente è un AuthorizedTourist, altrimenti restituisci una lista vuota
+        List<Info> savedInfoList = (currentUser instanceof AuthorizedTourist) ? ((AuthorizedTourist) currentUser).getSavedInfo() : Collections.emptyList();
+
+        String[] savedInfoListArray = savedInfoList.stream()
+                .map(Info::toString)
+                .toArray(String[]::new);
+
+        return new ResponseEntity<>(savedInfoListArray, HttpStatus.OK);
+    }
+
+    /**
+     * This method is used to save an information for future visits.
+     *
+     * @param payload The information to be saved.
+     * @return Result of the operation.
+     */
+    @PostMapping("/saveInfo")
+    public ResponseEntity<String> handleSaveInfo(@RequestBody String[] payload) {
+        String infoToSave = payload[0];
+
+        // Verifica se l'utente corrente è un AuthorizedTourist
+        if (currentUser instanceof AuthorizedTourist) {
+            // Cerca il contenuto tra i contenuti generali
+            Optional<Content> content = municipalTerritory.getGeneralContents().stream()
+                    .filter(c -> c.getText().equals(infoToSave))
+                    .findFirst();
+
+            // Se non è stato trovato tra i contenuti generali, cerca tra i POI
+            if (content.isEmpty()) {
+                Optional<POI> poi = municipalTerritory.getPOIs().values().stream()
+                        .filter(p -> p.getTitle().equals(infoToSave))
+                        .findFirst();
+
+                // Se è stato trovato un POI, lo aggiunge alla lista di contenuti salvati
+                if (poi.isPresent()) {
+                    ((AuthorizedTourist) currentUser).saveInfo(poi.get());
+                    return new ResponseEntity<>("Information saved", HttpStatus.OK);
+                }
+
+                // Se non è stato trovato tra i POI, cerca tra gli itinerari
+                Optional<Itinerary> itinerary = municipalTerritory.getItineraries().stream()
+                        .filter(i -> i.getTitle().equals(infoToSave))
+                        .findFirst();
+
+                // Se è stato trovato un itinerario, lo aggiunge alla lista di contenuti salvati
+                if (itinerary.isPresent()) {
+                    ((AuthorizedTourist) currentUser).saveInfo(itinerary.get());
+                    return new ResponseEntity<>("Information saved", HttpStatus.OK);
+                }
+
+                // Se non è stato trovato né tra i contenuti generali, né tra i POI, né tra gli itinerari
+                return new ResponseEntity<>("Information not found", HttpStatus.BAD_REQUEST);
+            }
+
+            // Se è stato trovato un contenuto generale, lo aggiunge alla lista di contenuti salvati
+            ((AuthorizedTourist) currentUser).saveInfo(content.get());
+            return new ResponseEntity<>("Information saved", HttpStatus.OK);
+        } else {
+            // L'utente corrente non è un AuthorizedTourist
+            return new ResponseEntity<>("User is not an AuthorizedTourist", HttpStatus.BAD_REQUEST);
+        }
     }
 
     //

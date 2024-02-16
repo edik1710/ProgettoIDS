@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Turista Autenticato</title>
-    <h1>Pagina del Turista Autenticato</h1>
 </head>
 <style>
     form {
@@ -79,15 +78,32 @@
     }
 </style>
 <body>
-<form id="AuthTourist" method="post">
-    <h2>Vedere tutte le informazioni per future visite</h2>
-    <ul id="saveList"></ul>
-    <button onclick="infoList()">Lista delle Informazioni</button>
 
-    <h2>Save all info</h2>
-    <input type="text" id="saveInfo" name="saveInfo" placeholder="Save Info">
-    <button onclick="saveInfo()">Save</button>
-</form>
+<h1>Turista Autenticato</h1>
+
+<h2>Lista delle informazioni salvate</h2>
+<ul id="saveList"></ul>
+<button onclick="infoList()">Lista delle Informazioni</button>
+
+<h2>Lista Dei Contenuti Generali</h2>
+<ul id="GeneralContentsList"></ul>
+<button onclick="getGeneralContents()"> Lista dei contenuti generali</button>
+
+<h2>Lista Dei Punti D'Interesse</h2>
+<ul id="POIList"></ul>
+<button onclick="getPOIs()"> Lista dei POI</button>
+
+<h2>Lista Dei Itinerari</h2>
+<ul id="ItinerariesList"></ul>
+<button onclick="getItineraries()"> Lista degli itinerari</button>
+
+<h2>Salva un'informazione</h2>
+<h3>Inserisci il titolo di un'informazione per salvarla</h3>
+<label for="saveInfo"></label>
+<input type="text" id="saveInfo" name="saveInfo" placeholder="Text">
+<button onclick="saveInfo()">Salva</button>
+
+<p>Clicca qui per tornare alla homepage --> <a href="index.html">Ritorna alla homepage</a></p>
 
 </body>
 
@@ -95,7 +111,7 @@
     const baseUrl = 'http://localhost:8080';
 
     function infoList() {
-        fetch(`${baseUrl}/POIs`)
+        fetch(`${baseUrl}/savedInfoList`)
             .then(response => response.json())
             .then(data => {
                 console.log(data);
@@ -109,18 +125,66 @@
             });
     }
 
+    function getGeneralContents() {
+        fetch(`${baseUrl}/GeneralContents`)
+            .then(response => response.json())  // Modifica qui per ricevere un array
+            .then(data => {
+                const list = document.getElementById("GeneralContentsList");
+                data.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;  // Modifica qui per stampare la stringa
+                    list.appendChild(li);
+                });
+            })
+            .catch(error => console.error('Error', error));
+    }
+
+    function getPOIs() {
+        fetch(`${baseUrl}/POIs`)
+            .then(response => response.json())  // Modifica qui per ricevere un array
+            .then(data => {
+                const list = document.getElementById("POIList");
+                data.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;  // Modifica qui per stampare la stringa
+                    list.appendChild(li);
+                });
+            })
+            .catch(error => console.error('Error', error));
+    }
+
+    function getItineraries() {
+        fetch(`${baseUrl}/Itineraries`)
+            .then(response => response.json())  // Modifica qui per ricevere un array
+            .then(data => {
+                const list = document.getElementById("ItinerariesList");
+                data.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;  // Modifica qui per stampare la stringa
+                    list.appendChild(li);
+                });
+            })
+            .catch(error => console.error('Error', error));
+    }
+
     function saveInfo() {
-        const saveInfo = document.getElementById('saveInfo').value;
+        const Title = document.getElementById("saveInfo").value;
+
+        const SaveArray = [Title];
+
         fetch(`${baseUrl}/saveInfo`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({saveInfo})
+            body: JSON.stringify(SaveArray),
         })
-            .then(response => response.json())
+            .then(response => response.text())
             .then(data => {
-                console.log(data);
+                console.log('Contenuto salvato con successo:', data);
+            })
+            .catch((error) => {
+                console.error('Contenuto non salvato:', error);
             });
     }
 
