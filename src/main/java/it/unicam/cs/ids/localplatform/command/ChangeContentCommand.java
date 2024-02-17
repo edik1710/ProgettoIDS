@@ -21,4 +21,12 @@ public class ChangeContentCommand implements Command {
     public void execute() {
         this.content.setText(this.text);
     }
+
+    @Override
+    public String toString() {
+        return "ChangeContentCommand{" +
+                "vecchio testo=" + content.getText() +
+                ", nuovo testo=" + text +
+                '}';
+    }
 }

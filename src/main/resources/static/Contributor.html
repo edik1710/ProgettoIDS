@@ -3,12 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valorizzazione Territorio Comunale: Pagina Contributore</title>
-    <style>
-        #preview {
-            border: 1px solid black;
-        }
-    </style>
+    <title>Contributore</title>
 </head>
 
 <style>
@@ -86,13 +81,11 @@
 </style>
 <body>
 
+<h1>Contributore</h1>
 
-<h1>Valorizzazione del territorio Comunale</h1>
-
-<a href="Login.html">Ritrorna alla homepage</a>
 <h2>Lista Punti d'Interesse</h2>
-<ul id="POIlist"></ul>
-<button onclick="getPOIs(); createOrUpdatePOI()"> Lista dei POI</button>
+<ul id="POIList"></ul>
+<button onclick="getPOIs()"> Lista dei POI</button>
 
 <h2>Lista Itinerari</h2>
 <ul id="ItinerariesList"></ul>
@@ -110,14 +103,6 @@
 <!-- HTML container for the map -->
 <body>
 <!-- HTML container for the map -->
-
-<!-- Input field for latitude -->
-<label for="latitude">Latitude:</label>
-<input type="text" id="latitude" placeholder="Enter latitude">
-
-<!-- Input field for longitude -->
-<label for="longitude">Longitude:</label>
-<input type="text" id="longitude" placeholder="Enter longitude">
 <div id="map" style="width: 50%; height: 350px;"></div>
 
 <!-- Leaflet library -->
@@ -148,6 +133,7 @@
 </script>
 </body>
 
+<h3>Ogni operazione da qui in poi dovrà essere approvata dal Curatore della piattaforma</h3>
 
 <h2>Creazione POI</h2>
 <label for="title">Titolo</label>
@@ -155,12 +141,12 @@
 <label for="description">Descrizione</label>
 <input type="text" id="description">
 
-<label for="latitude">Latitude:</label>
+<label for="POILatitude">Latitude:</label>
 <input type="text" id="POILatitude" placeholder="Enter latitude">
 
-<label for="longitude">Longitude:</label>
+<label for="POILongitude">Longitude:</label>
 <input type="text" id="POILongitude" placeholder="Enter longitude">
-<button onclick="createPOI();setMarker();PendingPOI()">Crea POI</button>
+<button onclick="createPOI();setMarker();">Crea POI</button>
 
 <h2>Creazione Itinerario</h2>
 
@@ -223,11 +209,7 @@
 <input type="text" id="ToDeleteGeneralContentText">
 <button onclick="deleteGeneralContent()">Cancella Contenuto Generale</button>
 
-<h2>Download File</h2>
-<p>Enter the filename to download:</p>
-<label for="downloadFilename">File da scaricare</label>
-<input type="text" id="downloadFilename" placeholder="Filename">
-<button type="button" onclick="downloadFile()"> Download File</button>
+<p>Clicca qui per tornare alla homepage --> <a href="index.html">Ritorna alla homepage</a></p>
 
 <script>
     const baseUrl = 'http://localhost:8080';
@@ -236,7 +218,7 @@
         fetch(`${baseUrl}/POIs`)
             .then(response => response.json())  // Modifica qui per ricevere un array
             .then(data => {
-                const list = document.getElementById("POIlist");
+                const list = document.getElementById("POIList");
                 data.forEach(item => {
                     const li = document.createElement('li');
                     li.textContent = item;  // Modifica qui per stampare la stringa
@@ -244,29 +226,6 @@
                 });
             })
             .catch(error => console.error('Error', error));
-    }
-
-    function PendingPOI() {
-        const title = document.getElementById("title").value;
-        const POILatitude = parseFloat(document.getElementById("POILatitude").value);
-        const POILongitude = parseFloat(document.getElementById("POILongitude").value);
-
-        const POIArray = [title, POILatitude, POILongitude];
-
-        fetch(`${baseUrl}/AddPOIToTempList`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(POIArray),
-        })
-            .then(response => response.text())
-            .then(data => {
-                console.log('POI creato con successo:', data);
-            })
-            .catch((error) => {
-                console.error('POI non creato:', error);
-            });
     }
 
     function getItineraries() {
@@ -305,7 +264,7 @@
 
         const POIArray = [title, description, POILatitude, POILongitude];
 
-        fetch(`${baseUrl}/AggiungiPOI`, {
+        fetch(`${baseUrl}/AggiungiPendingPOI`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -322,12 +281,10 @@
     }
 
     function addPOIToTempList() {
-        const title = document.getElementById("title").value;
-        const description = document.getElementById("description").value;
-        const POILatitude = parseFloat(document.getElementById("POILatitude").value);
-        const POILongitude = parseFloat(document.getElementById("POILongitude").value);
+        const POILatitude = parseFloat(document.getElementById("TempLatitude").value);
+        const POILongitude = parseFloat(document.getElementById("TempLongitude").value);
 
-        const tempArray = [title, description, POILatitude, POILongitude];
+        const tempArray = [POILatitude, POILongitude];
 
         fetch(`${baseUrl}/AggiungiPOIAListaItinerario`, {
             method: 'POST',
@@ -351,7 +308,7 @@
 
         const ItineraryArray = [ItineraryTitle, ItineraryDescription];
 
-        fetch(`${baseUrl}/AggiungiItinerario`, {
+        fetch(`${baseUrl}/AggiungiPendingItinerario`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -370,12 +327,14 @@
     function createGeneralContent() {
         const GeneralContentText = document.getElementById("GeneralContentText").value;
 
-        fetch(`${baseUrl}/AggiungiContenutoGenerale`, {
+        const GeneralContentTextArray = [GeneralContentText];
+
+        fetch(`${baseUrl}/AggiungiPendingContenutoGenerale`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(GeneralContentText),
+            body: JSON.stringify(GeneralContentTextArray),
         })
             .then(response => response.text())
             .then(data => {
@@ -393,7 +352,7 @@
 
         const POIUpdateArray = [UpdateLatitude, UpdateLongitude, NewPOITitle];
 
-        fetch(`${baseUrl}/ModificaPOI`, {
+        fetch(`${baseUrl}/PendingModificaPOI`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -415,7 +374,7 @@
 
         const ItineraryUpdateArray = [CurrentItineraryTitle, NewItineraryDescription];
 
-        fetch(`${baseUrl}/ModificaItinerario`, {
+        fetch(`${baseUrl}/PendingModificaItinerario`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -437,7 +396,7 @@
 
         const GeneralContentUpdateArray = [CurrentText, NewText];
 
-        fetch(`${baseUrl}/ModificaContenutoGenerale`, {
+        fetch(`${baseUrl}/PendingModificaContenutoGenerale`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -459,7 +418,7 @@
 
         const ToDeleteCoordinatesArray = [ToDeleteLatitude, ToDeleteLongitude];
 
-        fetch(`${baseUrl}/CancellaPOI`, {
+        fetch(`${baseUrl}/PendingCancellaPOI`, {
             method: 'DELETE',
 
             headers: {
@@ -482,7 +441,7 @@
 
         const ToDeleteItineraryTitleArray = [ToDeleteItineraryTitle];
 
-        fetch(`${baseUrl}/CancellaItinerario`, {
+        fetch(`${baseUrl}/PendingCancellaItinerario`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -503,7 +462,7 @@
 
         const ToDeleteGeneralContentTextArray = [ToDeleteGeneralContentText];
 
-        fetch(`${baseUrl}/CancellaContenutoGenerale`, {
+        fetch(`${baseUrl}/PendingCancellaContenutoGenerale`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -517,55 +476,5 @@
             .catch((error) => {
                 console.error('Contenuto generale non cancellato:', error);
             });
-    }
-
-
-    document.getElementById("POIlist").addEventListener("submit", function (event) {
-        event.preventDefault(); // Prevent form submission
-
-        const title = document.getElementById("title").value;
-        const description = document.getElementById("description").value;
-        const POILatitude = parseFloat(document.getElementById("POILatitude").value);
-        const POILongitude = parseFloat(document.getElementById("POILongitude").value);
-
-        // Check if latitude and longitude are valid numbers
-        if (isNaN(POILatitude) || isNaN(POILongitude)) {
-            alert("Latitude and longitude must be valid numbers");
-            return;
-        }
-
-        const poiData = {
-            title: title,
-            description: description,
-            POILatitude: POILatitude,
-            POILongitude: POILongitude
-        };
-
-        // Send the data to the backend
-        createOrUpdatePOI(poiData);
-    });
-
-    function createOrUpdatePOI(poiData) {
-        fetch(`${baseUrl}/createOrUpdatePOI`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(poiData),
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-    }
-
-
-    function downloadFile() {
-        const filenameInput = document.getElementById('downloadFilename');
-        const filename = filenameInput.value;
-        window.location.href = `${baseUrl}/download/` + filename;
     }
 </script>

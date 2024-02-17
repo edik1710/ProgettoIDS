@@ -22,4 +22,11 @@ public class DeleteItineraryCommand implements Command {
     public void execute() {
         this.municipality.deleteItinerary(this.itinerary);
     }
+
+    @Override
+    public String toString() {
+        return "DeleteItineraryCommand{" +
+                itinerary +
+                '}';
+    }
 }

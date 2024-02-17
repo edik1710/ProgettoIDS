@@ -20,4 +20,12 @@ public class ChangeItineraryCommand implements Command {
     public void execute() {
         this.itinerary.setTitle(this.title);
     }
+
+    @Override
+    public String toString() {
+        return "ChangeItineraryCommand{" +
+                "vecchio titolo=" + itinerary.getTitle() +
+                ", nuovo titolo=" + title +
+                '}';
+    }
 }

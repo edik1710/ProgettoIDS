@@ -21,4 +21,11 @@ public class CreatePOICommand implements Command {
     public void execute() {
         this.municipality.addPOI(this.poi);
     }
+
+    @Override
+    public String toString() {
+        return "CreatePOICommand{" +
+                poi +
+                '}';
+    }
 }

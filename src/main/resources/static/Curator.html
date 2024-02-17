@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valorizzazione Territorio Comunale: Pagina Curatore</title>
+    <title>Curatore</title>
 </head>
 
 <style>
@@ -81,12 +81,10 @@
 </style>
 <body>
 
-
-<h1>Pagina del Curatore</h1>
-<a href="Login.html">Ritrorna alla homepage</a>
+<h1>Curatore</h1>
 
 <h2>Lista Punti d'Interesse</h2>
-<ul id="POIlist"></ul>
+<ul id="POIList"></ul>
 <button onclick="getPOIs()"> Lista dei POI</button>
 
 <h2>Lista Itinerari</h2>
@@ -170,15 +168,13 @@
 <input type="text" id="ToDeleteGeneralContentText">
 <button onclick="deleteGeneralContent()">Cancella Contenuto Generale</button>
 
+<h2>Visualizza il prossimo elemento da validare</h2>
+<ul id="nextElement"></ul>
+<button onclick="viewNextElement()">Vedi prossimo elemento</button>
+<button onclick="acceptElement()">Accetta</button>
+<button onclick="rejectElement()">Rifiuta</button>
 
-<h2>Lista Dei punti di interesse in attessa di approvazione</h2>
-<ul id="PendingPOIList"></ul>
-<button onclick="PendingPOIList(); getPOIs()">Lista Punti Interesse</button>
-<h2>Accettre il Poi </h2>
-<ul id="AcceptPoi"></ul>
-<label for="titlePOI">Titolo:</label>
-<input type="text" id="titlePOI" placeholder="Enter title">
-<button onclick="AcceptPoi(); clearInput()">Accetta Poi</button>
+<p>Clicca qui per tornare alla homepage --> <a href="index.html">Ritorna alla homepage</a></p>
 
 <script>
     const baseUrl = 'http://localhost:8080';
@@ -187,7 +183,7 @@
         fetch(`${baseUrl}/POIs`)
             .then(response => response.json())  // Modifica qui per ricevere un array
             .then(data => {
-                const list = document.getElementById("POIlist");
+                const list = document.getElementById("POIList");
                 data.forEach(item => {
                     const li = document.createElement('li');
                     li.textContent = item;  // Modifica qui per stampare la stringa
@@ -220,37 +216,6 @@
                     const li = document.createElement('li');
                     li.textContent = item;  // Modifica qui per stampare la stringa
                     list.appendChild(li);
-                });
-            })
-            .catch(error => console.error('Error', error));
-    }
-</script>
-<h3>Scegli Se Rifiutare o Approvare L'itinerario</h3>
-<button onclick="reject()">Rifiuta</button>
-<button onclick="approved()">Approva</button>
-
-<script>
-    function reject() {
-        fetch('http://localhost:8080/itineraries/reject')
-            .then(response => response.json())  // Modifica qui per ricevere un array
-            .then(data => {
-                const list = document.getElementById("ItinerariesList");
-                data.forEach(item => {
-                    alert("L'itinerario non è stato approvato" + list);
-                    list.textContent = item;
-
-                });
-            })
-            .catch(error => console.error('Error', error));
-    }
-
-    function approved() {
-        fetch('http://localhost:8080/itineraries/approved')
-            .then(response => response.json())  // Modifica qui per ricevere un array
-            .then(data => {
-                const list = document.getElementById("ItinerariesList");
-                data.forEach(item => {
-                    alert("L'itinerario è stato approvato" + item)
                 });
             })
             .catch(error => console.error('Error', error));
@@ -327,12 +292,14 @@
     function createGeneralContent() {
         const GeneralContentText = document.getElementById("GeneralContentText").value;
 
+        const GeneralContentTextArray = [GeneralContentText];
+
         fetch(`${baseUrl}/AggiungiContenutoGenerale`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(GeneralContentText),
+            body: JSON.stringify(GeneralContentTextArray),
         })
             .then(response => response.text())
             .then(data => {
@@ -428,9 +395,6 @@
             .then(response => response.json())
             .then(data => {
                 console.log('POI cancellato con successo:', data)
-                const list = document.getElementById("ToDeleteLatitude");
-                list.removeChild(list.childNodes[0])
-                location.reload();
             })
             .catch((error) => {
                 console.error('POI non cancellato:', error);
@@ -452,9 +416,6 @@
             .then(response => response.json())
             .then(data => {
                 console.log('Itinerario cancellato con successo:', data)
-                const list = document.getElementById("ToDeleteItineraryTitle");
-                list.removeChild(list.childNodes[0])
-                location.reload();
             })
             .catch((error) => {
                 console.error('Itinerario non cancellato:', error);
@@ -476,42 +437,17 @@
             .then(response => response.json())
             .then(data => {
                 console.log('Contenuto generale cancellato con successo:', data)
-                const list = document.getElementById("ToDeleteGeneralContentText");
-                list.removeChild(list.childNodes[0])
-                location.reload();
             })
             .catch((error) => {
                 console.error('Contenuto generale non cancellato:', error);
             });
     }
 
-    function AcceptPoi() {
-        const title = document.getElementById("title").value;
-        const dataArray = [title];
-        fetch(`${baseUrl}/AcceptPoi`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(dataArray),
-        })
-            .then(response => response.text())
+    function viewNextElement() {
+        fetch(`${baseUrl}/nextElement`)
+            .then(response => response.json())  // Modifica qui per ricevere un array
             .then(data => {
-                console.log('Success:', data);
-                const list = document.getElementById("PendingPOIList");
-                list.removeChild(list.childNodes[0])
-                location.reload();
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-    }
-
-    function PendingPOIList() {
-        fetch(`${baseUrl}/PendingPOIList`)
-            .then(response => response.json())
-            .then(data => {
-                const list = document.getElementById("PendingPOIList");
+                const list = document.getElementById("nextElement");
                 data.forEach(item => {
                     const li = document.createElement('li');
                     li.textContent = item;  // Modifica qui per stampare la stringa
@@ -519,6 +455,40 @@
                 });
             })
             .catch(error => console.error('Error', error));
+    }
+
+    function acceptElement() {
+        fetch(`${baseUrl}/acceptElement`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                body: JSON.stringify({}),
+            },
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log('Elemento accettato con successo:', data);
+            })
+            .catch((error) => {
+                console.error('Errore nell\'accettare l\'elemento:', error);
+            });
+    }
+
+    function rejectElement() {
+        fetch(`${baseUrl}/rejectElement`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                body: JSON.stringify({}),
+            },
+        })
+            .then(response => response.text())
+            .then(data => {
+                console.log('Elemento rifiutato con successo:', data);
+            })
+            .catch((error) => {
+                console.error('Errore nel rifiutare l\'elemento:', error);
+            });
     }
 
     function clearInput() {

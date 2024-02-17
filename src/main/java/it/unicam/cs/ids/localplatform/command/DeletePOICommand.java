@@ -22,4 +22,11 @@ public class DeletePOICommand implements Command {
     public void execute() {
         this.municipality.deletePOI(this.coordinates);
     }
+
+    @Override
+    public String toString() {
+        return "DeletePOICommand{" +
+                municipality.getPOIs().get(this.coordinates) +
+                '}';
+    }
 }

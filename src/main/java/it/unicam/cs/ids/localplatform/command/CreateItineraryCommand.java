@@ -22,4 +22,11 @@ public class CreateItineraryCommand implements Command {
     public void execute() {
         this.municipality.addItinerary(this.itinerary);
     }
+
+    @Override
+    public String toString() {
+        return "CreateItineraryCommand{" +
+                itinerary +
+                '}';
+    }
 }

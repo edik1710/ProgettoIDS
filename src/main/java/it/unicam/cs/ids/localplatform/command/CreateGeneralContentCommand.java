@@ -22,4 +22,11 @@ public class CreateGeneralContentCommand implements Command {
     public void execute() {
         this.municipality.addGeneralContent(this.content);
     }
+
+    @Override
+    public String toString() {
+        return "CreateGeneralContentCommand{" +
+                content +
+                '}';
+    }
 }

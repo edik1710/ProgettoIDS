@@ -20,4 +20,12 @@ public class ChangePOICommand implements Command {
     public void execute() {
         this.poi.setTitle(this.title);
     }
+
+    @Override
+    public String toString() {
+        return "ChangePOICommand{" +
+                "vecchio titolo=" + poi.getTitle() +
+                ", nuovo titolo=" + title +
+                '}';
+    }
 }
