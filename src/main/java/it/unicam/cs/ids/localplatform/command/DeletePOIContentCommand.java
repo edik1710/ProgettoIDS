@@ -3,6 +3,9 @@ package it.unicam.cs.ids.localplatform.command;
 import it.unicam.cs.ids.localplatform.model.Content;
 import it.unicam.cs.ids.localplatform.model.POI;
 
+/**
+ * This class implements the command pattern and is used to delete a POI content.
+ */
 public class DeletePOIContentCommand implements Command {
     private final POI poi;
     private final Content content;

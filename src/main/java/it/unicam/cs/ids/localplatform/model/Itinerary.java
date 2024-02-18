@@ -28,6 +28,10 @@ public class Itinerary implements Info {
         return title;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -36,14 +40,9 @@ public class Itinerary implements Info {
         return this.title.equals(that.title); //
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     @Override
     public String toString() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         return "Itinerario creato il " + sdf.format(publicationDate) + " da " + author.getName() + " " + author.getSurname() + ".\nTitolo: " + title + "\nDescrizione: " + description + "\nNumero di punti di interesse: " + POIs.size() + "\n";
     }
-
 }

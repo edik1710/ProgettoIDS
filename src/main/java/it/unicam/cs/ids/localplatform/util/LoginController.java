@@ -13,6 +13,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * This class represents a login controller.
+ */
 public class LoginController {
     private final PlatformManager platformManager;
 
@@ -22,18 +25,16 @@ public class LoginController {
     private PasswordField psw;
     private static User currentUser;
 
-    public static User getCurrentUser() {
-        return currentUser;
-    }
-
     public LoginController() {
         this.platformManager = Controller.getPlatformManager();
-
-        // per testare l'utente più velocemente
-        Curator a = new Curator("diosignore", "cagnaccio", "email", "password", this.platformManager.getResidence(), "cf");
-        this.platformManager.getResidence().getUsers().add(a);
     }
 
+    /**
+     * This method is called when the user clicks the login button.
+     *
+     * @param event the event representing the action of the user
+     * @throws IOException
+     */
     @FXML
     private void Login(ActionEvent event) throws IOException {
         String emailValue = email.getText();
@@ -52,7 +53,7 @@ public class LoginController {
                 stage.show();
             }
 
-        // Ottieni l'utente corrispondente dalla lista di utenti del comune
+        // Retrieve the corresponding user from the municipality's user list.
         User user = this.platformManager.getResidence().getUsers().stream()
                 .filter(u -> u.getEmail().equals(emailValue) && u.getPassword().equals(passwordValue))
                 .findFirst()
@@ -64,7 +65,7 @@ public class LoginController {
             Stage stage = (Stage) node.getScene().getWindow();
             Parent root = null;
 
-            // Controlla la classe dell'utente e apri il file fxml corrispondente
+            // Check the user's class and open the corresponding fxml file.
             switch (user) {
                 case Contributor contributor -> root = FXMLLoader.load(getClass().getResource("/Contributor.fxml"));
                 case AuthorizedTourist authorizedTourist ->
@@ -84,5 +85,9 @@ public class LoginController {
                 stage.show();
             }
         }
+    }
+
+    public static User getCurrentUser() {
+        return currentUser;
     }
 }

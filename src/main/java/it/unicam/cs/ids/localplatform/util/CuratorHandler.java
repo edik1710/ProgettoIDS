@@ -2,7 +2,6 @@ package it.unicam.cs.ids.localplatform.util;
 
 import it.unicam.cs.ids.localplatform.command.Command;
 import it.unicam.cs.ids.localplatform.model.*;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -10,7 +9,6 @@ import javafx.scene.control.TextField;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * This class represents a curator handler.
@@ -20,7 +18,7 @@ public class CuratorHandler {
     @FXML
     public ListView<String> GeneralContentsList;
     @FXML
-    public ListView<String> POIlist;
+    public ListView<String> POIList;
     @FXML
     public ListView<String> ItinerariesList;
     @FXML
@@ -70,42 +68,57 @@ public class CuratorHandler {
         this.curator = (Curator) LoginController.getCurrentUser();
     }
 
+    /**
+     * This method allows the curator to get the general contents of the residence.
+     */
     @FXML
-    public void getGeneralContents(ActionEvent actionEvent) {
+    public void getGeneralContents() {
         GeneralContentsList.getItems().clear();
         List<String> contents = this.curator.getResidence().getGeneralContents().stream()
                 .map(Content::toString)
-                .collect(Collectors.toList());
+                .toList();
         GeneralContentsList.getItems().addAll(contents);
     }
 
+    /**
+     * This method allows the curator to get the POIs of the residence.
+     */
     @FXML
-    public void getPOIs(ActionEvent actionEvent) {
-        POIlist.getItems().clear();
+    public void getPOIs() {
+        POIList.getItems().clear();
         List<String> pois = this.curator.getResidence().getPOIs().values().stream()
                 .map(POI::toString)
-                .collect(Collectors.toList());
-        POIlist.getItems().addAll(pois);
+                .toList();
+        POIList.getItems().addAll(pois);
     }
 
+    /**
+     * This method allows the curator to get the itineraries of the residence.
+     */
     @FXML
-    public void getItineraries(ActionEvent actionEvent) {
+    public void getItineraries() {
         ItinerariesList.getItems().clear();
         List<String> itineraries = this.curator.getResidence().getItineraries().stream()
                 .map(Itinerary::toString)
-                .collect(Collectors.toList());
+                .toList();
         ItinerariesList.getItems().addAll(itineraries);
     }
 
+    /**
+     * This method allows the curator to create a POI.
+     */
     @FXML
-    public void createPOI(ActionEvent actionEvent) {
+    public void createPOI() {
         this.curator.publishPOI(title.getText(), new Coordinates(Double.parseDouble(POILatitude.getText()), Double.parseDouble(POILongitude.getText())), description.getText());
     }
 
-    private static List<POI> tempPOIList = new ArrayList<>();
+    private static final List<POI> tempPOIList = new ArrayList<>();
 
+    /**
+     * This method adds a POI to the temporary list.
+     */
     @FXML
-    public void addPOIToTempList(ActionEvent actionEvent) {
+    public void addPOIToTempList() {
         Coordinates coordinates = new Coordinates(Double.parseDouble(TempLatitude.getText()), Double.parseDouble(TempLongitude.getText()));
         POI poi = findPOIByCoordinates(coordinates);
         if (poi != null) {
@@ -113,18 +126,27 @@ public class CuratorHandler {
         }
     }
 
+    /**
+     * This method allows the curator to create an itinerary.
+     */
     @FXML
-    public void createItinerary(ActionEvent actionEvent) {
+    public void createItinerary() {
         this.curator.publishItinerary(ItineraryTitle.getText(), tempPOIList, ItineraryDescription.getText());
     }
 
+    /**
+     * This method allows the curator to create a general content.
+     */
     @FXML
-    public void createGeneralContent(ActionEvent actionEvent) {
+    public void createGeneralContent() {
         this.curator.publishGeneralContent(new Content(new Date(), this.curator, GeneralContentText.getText()));
     }
 
+    /**
+     * This method allows the curator to update a POI.
+     */
     @FXML
-    public void updatePOI(ActionEvent actionEvent) {
+    public void updatePOI() {
         Coordinates coordinates = new Coordinates(Double.parseDouble(UpdateLatitude.getText()), Double.parseDouble(UpdateLongitude.getText()));
         POI poi = findPOIByCoordinates(coordinates);
         if (poi != null) {
@@ -132,24 +154,33 @@ public class CuratorHandler {
         }
     }
 
+    /**
+     * This method allows the curator to update an itinerary.
+     */
     @FXML
-    public void updateItinerary(ActionEvent actionEvent) {
+    public void updateItinerary() {
         Itinerary itinerary = findItineraryByTitle(CurrentItineraryTitle.getText());
         if (itinerary != null) {
             this.curator.publishChangesToItinerary(itinerary, NewItineraryTitle.getText());
         }
     }
 
+    /**
+     * This method allows the curator to update a general content.
+     */
     @FXML
-    public void updateGeneralContent(ActionEvent actionEvent) {
+    public void updateGeneralContent() {
         Content content = findContentByText(CurrentText.getText());
         if (content != null) {
             this.curator.publishChangesToExistingContent(content, NewText.getText());
         }
     }
 
+    /**
+     * This method allows the curator to delete a POI.
+     */
     @FXML
-    public void deletePOI(ActionEvent actionEvent) {
+    public void deletePOI() {
         Coordinates coordinates = new Coordinates(Double.parseDouble(ToDeleteLatitude.getText()), Double.parseDouble(ToDeleteLongitude.getText()));
         POI poi = findPOIByCoordinates(coordinates);
         if (poi != null) {
@@ -157,16 +188,22 @@ public class CuratorHandler {
         }
     }
 
+    /**
+     * This method allows the curator to delete an itinerary.
+     */
     @FXML
-    public void deleteItinerary(ActionEvent actionEvent) {
+    public void deleteItinerary() {
         Itinerary itinerary = findItineraryByTitle(ToDeleteItineraryTitle.getText());
         if (itinerary != null) {
             this.curator.deleteItinerary(itinerary);
         }
     }
 
+    /**
+     * This method allows the curator to delete a general content.
+     */
     @FXML
-    public void deleteGeneralContent(ActionEvent actionEvent) {
+    public void deleteGeneralContent() {
         Content content = findContentByText(ToDeleteGeneralContentText.getText());
         if (content != null) {
             this.curator.deleteGeneralContent(content);
@@ -194,20 +231,29 @@ public class CuratorHandler {
                 .orElse(null);
     }
 
+    /**
+     * This method allows the curator to view the next command.
+     */
     @FXML
-    public void viewNextCommand(ActionEvent actionEvent) {
+    public void viewNextCommand() {
         this.curator.viewNextCommand();
         ToApprove.getItems().clear();
         ToApprove.getItems().add(Curator.getValidatingCommand());
     }
 
+    /**
+     * This method allows the curator to reject a command.
+     */
     @FXML
-    public void reject(ActionEvent actionEvent) {
+    public void reject() {
         this.curator.rejectCommandExecution();
     }
 
+    /**
+     * This method allows the curator to approve a command.
+     */
     @FXML
-    public void approved(ActionEvent actionEvent) {
+    public void approved() {
         this.curator.authorizeCommandExecution();
     }
 }

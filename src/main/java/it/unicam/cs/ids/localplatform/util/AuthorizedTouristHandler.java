@@ -1,13 +1,11 @@
 package it.unicam.cs.ids.localplatform.util;
 
 import it.unicam.cs.ids.localplatform.model.*;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * This class represents a handler for an authorized tourist.
@@ -17,7 +15,7 @@ public class AuthorizedTouristHandler {
     @FXML
     public ListView<String> GeneralContentsList;
     @FXML
-    public ListView<String> POIlist;
+    public ListView<String> POIList;
     @FXML
     public ListView<String> ItinerariesList;
 
@@ -31,39 +29,47 @@ public class AuthorizedTouristHandler {
         this.authorizedTourist = (AuthorizedTourist) LoginController.getCurrentUser();
     }
 
-
+    /**
+     * This method allows the authorized tourist to get the general contents of the residence.
+     */
     @FXML
-    public void getGeneralContents(ActionEvent actionEvent) {
+    public void getGeneralContents() {
         GeneralContentsList.getItems().clear();
         List<String> contents = this.authorizedTourist.getResidence().getGeneralContents().stream()
                 .map(Content::toString)
-                .collect(Collectors.toList());
+                .toList();
         GeneralContentsList.getItems().addAll(contents);
     }
 
+    /**
+     * This method allows the authorized tourist to get the POIs of the residence.
+     */
     @FXML
-    public void getPOIs(ActionEvent actionEvent) {
-        POIlist.getItems().clear();
+    public void getPOIs() {
+        POIList.getItems().clear();
         List<String> pois = this.authorizedTourist.getResidence().getPOIs().values().stream()
                 .map(POI::toString)
-                .collect(Collectors.toList());
-        POIlist.getItems().addAll(pois);
+                .toList();
+        POIList.getItems().addAll(pois);
     }
 
+    /**
+     * This method allows the authorized tourist to get the itineraries of the residence.
+     */
     @FXML
-    public void getItineraries(ActionEvent actionEvent) {
+    public void getItineraries() {
         ItinerariesList.getItems().clear();
         List<String> itineraries = this.authorizedTourist.getResidence().getItineraries().stream()
                 .map(Itinerary::toString)
-                .collect(Collectors.toList());
+                .toList();
         ItinerariesList.getItems().addAll(itineraries);
     }
-
 
     /**
      * This method allows the authorized tourist to save an information for future visits.
      */
-    public void saveInfo(ActionEvent actionEvent) {
+    @FXML
+    public void saveInfo() {
         Info info = this.authorizedTourist.getResidence().getGeneralContents().stream()
                 .filter(content -> content.getText().equals(saveInfo.getText()))
                 .findFirst()
@@ -83,10 +89,14 @@ public class AuthorizedTouristHandler {
         if (info != null) {
             this.authorizedTourist.saveInfo(info);
         }
-        infoList(actionEvent);
+        infoList();
     }
 
-    public void infoList(ActionEvent actionEvent) {
+    /**
+     * This method allows the authorized tourist to get the saved information.
+     */
+    @FXML
+    public void infoList() {
         saveList.getItems().clear();
         saveList.getItems().addAll(authorizedTourist.getSavedInfo().stream()
                 .map(Object::toString)

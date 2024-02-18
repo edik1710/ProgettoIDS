@@ -16,7 +16,7 @@
     <Button text="Lista dei contenuti generali" onAction="#getGeneralContents"/>
 
     <Label text="Lista Dei Punti D'Interesse"/>
-    <ListView fx:id="POIlist"/>
+    <ListView fx:id="POIList"/>
     <Button text="Lista dei POI" onAction="#getPOIs"/>
 
     <Label text="Lista Dei Itinerari"/>

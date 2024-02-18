@@ -8,7 +8,7 @@
       prefHeight="400.0" prefWidth="600.0">
 
     <Label text="Lista Punti d'Interesse"/>
-    <ListView fx:id="POIlist"/>
+    <ListView fx:id="POIList"/>
     <Button text="Lista dei POI" onAction="#getPOIs"/>
 
     <Label text="Lista Itinerari"/>

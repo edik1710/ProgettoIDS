@@ -1,13 +1,11 @@
 package it.unicam.cs.ids.localplatform.util;
 
 import it.unicam.cs.ids.localplatform.model.*;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * This class represents a tourist handler.
@@ -16,7 +14,7 @@ public class TouristHandler {
     @FXML
     public ListView<String> GeneralContentsList;
     @FXML
-    public ListView<String> POIlist;
+    public ListView<String> POIList;
     @FXML
     public ListView<String> ItinerariesList;
     @FXML
@@ -25,55 +23,65 @@ public class TouristHandler {
     @FXML
     public TextField Contenuto;
 
-
     public TouristHandler() {
         this.tourist = (Tourist) LoginController.getCurrentUser();
     }
 
+    /**
+     * This method allows the tourist to get the general contents of the residence.
+     */
     @FXML
-    public void getGeneralContents(ActionEvent actionEvent) {
+    public void getGeneralContents() {
         GeneralContentsList.getItems().clear();
         List<String> contents = this.tourist.getResidence().getGeneralContents().stream()
                 .map(Content::toString)
-                .collect(Collectors.toList());
+                .toList();
         GeneralContentsList.getItems().addAll(contents);
     }
 
+    /**
+     * This method allows the tourist to get the POIs of the residence.
+     */
     @FXML
-    public void getPOIs(ActionEvent actionEvent) {
-        POIlist.getItems().clear();
+    public void getPOIs() {
+        POIList.getItems().clear();
         List<String> pois = this.tourist.getResidence().getPOIs().values().stream()
                 .map(POI::toString)
-                .collect(Collectors.toList());
-        POIlist.getItems().addAll(pois);
+                .toList();
+        POIList.getItems().addAll(pois);
     }
 
+    /**
+     * This method allows the tourist to get the itineraries of the residence.
+     */
     @FXML
-    public void getItineraries(ActionEvent actionEvent) {
+    public void getItineraries() {
         ItinerariesList.getItems().clear();
         List<String> itineraries = this.tourist.getResidence().getItineraries().stream()
                 .map(Itinerary::toString)
-                .collect(Collectors.toList());
+                .toList();
         ItinerariesList.getItems().addAll(itineraries);
     }
 
+    /**
+     * This method allows the tourist to get the contests of the residence.
+     */
     @FXML
-    public void getContests(ActionEvent actionEvent) {
+    public void getContests() {
         ContestList.getItems().clear();
         List<String> contests = this.tourist.getResidence().getContests().stream()
                 .map(Contest::toString)
-                .collect(Collectors.toList());
+                .toList();
         ContestList.getItems().addAll(contests);
     }
 
+    /**
+     * This method allows the tourist to report a content.
+     */
     @FXML
-    public void Report(ActionEvent actionEvent) {
-        Content content = this.tourist.getResidence().getGeneralContents().stream()
+    public void Report() {
+        this.tourist.getResidence().getGeneralContents().stream()
                 .filter(c -> c.getText().equals(Contenuto.getText()))
-                .findFirst()
-                .orElse(null);
-        if (content != null) {
-            this.tourist.reportContent(content);
-        }
+                .findFirst().ifPresent(this.tourist::reportContent);
     }
 }

@@ -2,7 +2,6 @@ package it.unicam.cs.ids.localplatform.util;
 
 import it.unicam.cs.ids.localplatform.model.Animator;
 import it.unicam.cs.ids.localplatform.model.Contest;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
@@ -11,7 +10,6 @@ import javafx.scene.control.TextField;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * This class represents an animator handler.
@@ -37,7 +35,8 @@ public class AnimatorHandler {
     /**
      * This method allows the animator to create a contest.
      */
-    public void createContest(ActionEvent actionEvent) {
+    @FXML
+    public void createContest() {
         String title = ContestTitle.getText();
         String objective = ContestObjective.getText();
 
@@ -47,14 +46,18 @@ public class AnimatorHandler {
         this.animator.proposeContest(objective, title, startDate, endDate);
     }
 
-    public void getContests(ActionEvent actionEvent) {
+    /**
+     * This method allows the animator to get all the contests.
+     */
+    @FXML
+    public void getContests() {
         ContestList.getItems().clear();
-        // Converti l'insieme di contest in una lista di stringhe
+        // Convert the set of contests to a list of strings
         List<String> contests = this.animator.getResidence().getContests().stream()
                 .map(Contest::toString)
-                .collect(Collectors.toList());
+                .toList();
 
-        // Aggiungi tutti i contest alla lista ContestList
+        // Add all the contests to the ContestList.
         ContestList.getItems().addAll(contests);
     }
 }

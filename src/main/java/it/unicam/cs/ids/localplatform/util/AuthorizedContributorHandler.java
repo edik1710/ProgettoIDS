@@ -1,7 +1,6 @@
 package it.unicam.cs.ids.localplatform.util;
 
 import it.unicam.cs.ids.localplatform.model.*;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -9,7 +8,6 @@ import javafx.scene.control.TextField;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * This class represents an authorized contributor handler.
@@ -19,7 +17,7 @@ public class AuthorizedContributorHandler {
     @FXML
     public ListView<String> GeneralContentsList;
     @FXML
-    public ListView<String> POIlist;
+    public ListView<String> POIList;
     @FXML
     public ListView<String> ItinerariesList;
     @FXML
@@ -67,42 +65,57 @@ public class AuthorizedContributorHandler {
         this.authorizedContributor = (AuthorizedContributor) LoginController.getCurrentUser();
     }
 
+    /**
+     * This method gets the general contents of the residence.
+     */
     @FXML
-    public void getGeneralContents(ActionEvent actionEvent) {
+    public void getGeneralContents() {
         GeneralContentsList.getItems().clear();
         List<String> contents = this.authorizedContributor.getResidence().getGeneralContents().stream()
                 .map(Content::toString)
-                .collect(Collectors.toList());
+                .toList();
         GeneralContentsList.getItems().addAll(contents);
     }
 
+    /**
+     * This method gets the POIs of the residence.
+     */
     @FXML
-    public void getPOIs(ActionEvent actionEvent) {
-        POIlist.getItems().clear();
+    public void getPOIs() {
+        POIList.getItems().clear();
         List<String> pois = this.authorizedContributor.getResidence().getPOIs().values().stream()
                 .map(POI::toString)
-                .collect(Collectors.toList());
-        POIlist.getItems().addAll(pois);
+                .toList();
+        POIList.getItems().addAll(pois);
     }
 
+    /**
+     * This method gets the itineraries of the residence.
+     */
     @FXML
-    public void getItineraries(ActionEvent actionEvent) {
+    public void getItineraries() {
         ItinerariesList.getItems().clear();
         List<String> itineraries = this.authorizedContributor.getResidence().getItineraries().stream()
                 .map(Itinerary::toString)
-                .collect(Collectors.toList());
+                .toList();
         ItinerariesList.getItems().addAll(itineraries);
     }
 
+    /**
+     * This method creates a POI.
+     */
     @FXML
-    public void createPOI(ActionEvent actionEvent) {
+    public void createPOI() {
         this.authorizedContributor.publishPOI(title.getText(), new Coordinates(Double.parseDouble(POILatitude.getText()), Double.parseDouble(POILongitude.getText())), description.getText());
     }
 
-    private static List<POI> tempPOIList = new ArrayList<>();
+    private static final List<POI> tempPOIList = new ArrayList<>();
 
+    /**
+     * This method adds a POI to the temporary list.
+     */
     @FXML
-    public void addPOIToTempList(ActionEvent actionEvent) {
+    public void addPOIToTempList() {
         Coordinates coordinates = new Coordinates(Double.parseDouble(TempLatitude.getText()), Double.parseDouble(TempLongitude.getText()));
         POI poi = findPOIByCoordinates(coordinates);
         if (poi != null) {
@@ -110,18 +123,27 @@ public class AuthorizedContributorHandler {
         }
     }
 
+    /**
+     * This method creates an itinerary.
+     */
     @FXML
-    public void createItinerary(ActionEvent actionEvent) {
+    public void createItinerary() {
         this.authorizedContributor.publishItinerary(ItineraryTitle.getText(), tempPOIList, ItineraryDescription.getText());
     }
 
+    /**
+     * This method creates a general content.
+     */
     @FXML
-    public void createGeneralContent(ActionEvent actionEvent) {
+    public void createGeneralContent() {
         this.authorizedContributor.publishGeneralContent(new Content(new Date(), this.authorizedContributor, GeneralContentText.getText()));
     }
 
+    /**
+     * This method updates a POI.
+     */
     @FXML
-    public void updatePOI(ActionEvent actionEvent) {
+    public void updatePOI() {
         Coordinates coordinates = new Coordinates(Double.parseDouble(UpdateLatitude.getText()), Double.parseDouble(UpdateLongitude.getText()));
         POI poi = findPOIByCoordinates(coordinates);
         if (poi != null) {
@@ -129,24 +151,33 @@ public class AuthorizedContributorHandler {
         }
     }
 
+    /**
+     * This method updates an itinerary.
+     */
     @FXML
-    public void updateItinerary(ActionEvent actionEvent) {
+    public void updateItinerary() {
         Itinerary itinerary = findItineraryByTitle(CurrentItineraryTitle.getText());
         if (itinerary != null) {
             this.authorizedContributor.publishChangesToItinerary(itinerary, NewItineraryTitle.getText());
         }
     }
 
+    /**
+     * This method updates a general content.
+     */
     @FXML
-    public void updateGeneralContent(ActionEvent actionEvent) {
+    public void updateGeneralContent() {
         Content content = findContentByText(CurrentText.getText());
         if (content != null) {
             this.authorizedContributor.publishChangesToExistingContent(content, NewText.getText());
         }
     }
 
+    /**
+     * This method deletes a POI.
+     */
     @FXML
-    public void deletePOI(ActionEvent actionEvent) {
+    public void deletePOI() {
         Coordinates coordinates = new Coordinates(Double.parseDouble(ToDeleteLatitude.getText()), Double.parseDouble(ToDeleteLongitude.getText()));
         POI poi = findPOIByCoordinates(coordinates);
         if (poi != null) {
@@ -154,16 +185,22 @@ public class AuthorizedContributorHandler {
         }
     }
 
+    /**
+     * This method deletes an itinerary.
+     */
     @FXML
-    public void deleteItinerary(ActionEvent actionEvent) {
+    public void deleteItinerary() {
         Itinerary itinerary = findItineraryByTitle(ToDeleteItineraryTitle.getText());
         if (itinerary != null) {
             this.authorizedContributor.deleteItinerary(itinerary);
         }
     }
 
+    /**
+     * This method deletes a general content.
+     */
     @FXML
-    public void deleteGeneralContent(ActionEvent actionEvent) {
+    public void deleteGeneralContent() {
         Content content = findContentByText(ToDeleteGeneralContentText.getText());
         if (content != null) {
             this.authorizedContributor.deleteGeneralContent(content);

@@ -4,7 +4,7 @@ import it.unicam.cs.ids.localplatform.MunicipalTerritory;
 import it.unicam.cs.ids.localplatform.model.Itinerary;
 
 /**
- * This class implements the command pattern and it is used to delete an itinerary.
+ * This class implements the command pattern and is used to delete an itinerary.
  */
 public class DeleteItineraryCommand implements Command {
     private final MunicipalTerritory municipality;

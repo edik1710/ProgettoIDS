@@ -48,19 +48,6 @@ public class User {
         return cf;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return email.equals(user.email) && password.equals(user.password);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(email, password);
-    }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -83,6 +70,19 @@ public class User {
 
     public void setCf(String cf) {
         this.cf = cf;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return email.equals(user.email) && password.equals(user.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email, password);
     }
 
     @Override

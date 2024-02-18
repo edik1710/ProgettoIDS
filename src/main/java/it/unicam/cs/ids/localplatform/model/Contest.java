@@ -37,20 +37,20 @@ public class Contest {
         this.contents.add(content);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Contest that = (Contest) o;
-        return this.title.equals(that.title) && this.objective.equals(that.objective);
-    }
-
     public Date getEndDate() {
         return endDate;
     }
 
     public List<Content> getContents() {
         return contents;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Contest that = (Contest) o;
+        return this.title.equals(that.title) && this.objective.equals(that.objective);
     }
 
     @Override

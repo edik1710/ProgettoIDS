@@ -85,10 +85,6 @@ public class PlatformManager extends User {
         }
     }
 
-    public Map<User, Roles> getPendingUsers() {
-        return pendingUsers;
-    }
-
     /**
      * This method allows the platform manager to add a pending user.
      *
@@ -98,5 +94,9 @@ public class PlatformManager extends User {
     public void addPendingUser(User user, String role) {
         Roles roles = Roles.valueOf(role);
         pendingUsers.put(user, roles);
+    }
+
+    public Map<User, Roles> getPendingUsers() {
+        return pendingUsers;
     }
 }

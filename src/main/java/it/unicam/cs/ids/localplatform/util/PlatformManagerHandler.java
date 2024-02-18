@@ -1,18 +1,18 @@
 package it.unicam.cs.ids.localplatform.util;
 
-import it.unicam.cs.ids.localplatform.MunicipalTerritory;
 import it.unicam.cs.ids.localplatform.model.Contributor;
 import it.unicam.cs.ids.localplatform.model.PlatformManager;
 import it.unicam.cs.ids.localplatform.model.Tourist;
 import it.unicam.cs.ids.localplatform.model.User;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
+/**
+ * This class represents a platform manager handler.
+ */
 public class PlatformManagerHandler {
 
     @FXML
@@ -25,66 +25,81 @@ public class PlatformManagerHandler {
 
     public PlatformManagerHandler() {
         this.platformManager = Controller.getPlatformManager();
-
-        // per testare la lista di utenti in attesa
-        User u = new User("diosignore", "cagnaccio", "email", "password", new MunicipalTerritory("Camerino"), "cf");
-        this.platformManager.addPendingUser(u, "CONTRIBUTOR");
-
     }
 
-    public void PendingUserList(ActionEvent actionEvent) {
+    /**
+     * Mostra la lista degli utenti in attesa.
+     */
+    @FXML
+    public void PendingUserList() {
         PendingUserList.getItems().clear();
-        // Converti l'insieme di utenti in attesa in una lista di stringhe
+        // Convert the set of waiting users into a list of strings.
         List<String> pendingUsers = this.platformManager.getPendingUsers().keySet().stream()
                 .map(User::toString)
-                .collect(Collectors.toList());
+                .toList();
 
-        // Aggiungi tutti gli utenti in attesa alla lista PendingUserList
+        // Add all the users on hold to the PendingUserList.
         PendingUserList.getItems().addAll(pendingUsers);
     }
 
-    public void AcceptUsers(ActionEvent actionEvent) {
+    /**
+     * Accetta gli utenti in attesa.
+     */
+    @FXML
+    public void AcceptUsers() {
         this.platformManager.assignRoles();
         this.platformManager.getPendingUsers().clear();
 
-        PendingUserList(actionEvent);
+        PendingUserList();
     }
 
-    public void RejectUsers(ActionEvent actionEvent) {
+    /**
+     * Rifiuta gli utenti in attesa.
+     */
+    @FXML
+    public void RejectUsers() {
         this.platformManager.getPendingUsers().clear();
     }
 
-    public void ContributorsAndTouristsList(ActionEvent actionEvent) {
+    /**
+     * Mostra la lista degli utenti che sono Contributor o Tourist.
+     */
+    @FXML
+    public void ContributorsAndTouristsList() {
         ContributorsAndTouristsList.getItems().clear();
 
-        // Filtra gli utenti che sono Contributor o Tourist e convertili in una lista di stringhe
+        // Filter the users who are Contributors or Tourists and convert them into a list of strings.
         List<String> contributorsAndTourists = this.platformManager.getResidence().getUsers().stream()
                 .filter(u -> u instanceof Contributor || u instanceof Tourist)
                 .map(User::toString)
-                .collect(Collectors.toList());
+                .toList();
 
-        // Aggiungi tutti gli utenti che sono Contributor o Tourist alla lista ContributorsAndTouristsList
+        // Add all the users who are Contributors or Tourists to the ContributorsAndTouristsList.
         ContributorsAndTouristsList.getItems().addAll(contributorsAndTourists);
     }
 
-    public void autorize(ActionEvent actionEvent) {
+    /**
+     * Autorizza gli utenti.
+     */
+    @FXML
+    public void authorize() {
         String email = getUserList.getText();
         User user = this.platformManager.getResidence().getUsers().stream()
                 .filter(u -> u.getEmail().equals(email))
                 .findFirst()
                 .orElse(null);
 
-        if (user != null && user instanceof Tourist) {
+        if (user instanceof Tourist) {
             System.out.println("Autorizzo il turista");
 
             this.platformManager.authorizeTourist((Tourist) user);
         }
-        if (user != null && user instanceof Contributor) {
+        if (user instanceof Contributor) {
             System.out.println("Autorizzo il contributor");
 
             this.platformManager.authorizeContributor((Contributor) user);
         }
 
-        ContributorsAndTouristsList(actionEvent);
+        ContributorsAndTouristsList();
     }
 }

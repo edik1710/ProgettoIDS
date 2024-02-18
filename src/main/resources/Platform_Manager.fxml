@@ -26,5 +26,5 @@
 
     <Label text="Inserisci la mail di un Contributor o un Turista"/>
     <TextField fx:id="getUserList"/>
-    <Button text="Autorizza" onAction="#autorize"/>
+    <Button text="Autorizza" onAction="#authorize"/>
 </VBox>

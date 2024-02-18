@@ -1,7 +1,8 @@
 package it.unicam.cs.ids.localplatform.util;
 
 import it.unicam.cs.ids.localplatform.MunicipalTerritory;
-import it.unicam.cs.ids.localplatform.model.*;
+import it.unicam.cs.ids.localplatform.model.PlatformManager;
+import it.unicam.cs.ids.localplatform.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,11 +16,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
 
 /**
  * The Controller class is responsible for managing the interactions between the user and the application.
@@ -44,16 +40,12 @@ public class Controller {
     @FXML
     private PasswordField psw;
 
-    private MunicipalTerritory municipalTerritory;
+    private final MunicipalTerritory municipalTerritory;
     private static PlatformManager platformManager = null;
 
     public static PlatformManager getPlatformManager() {
         return platformManager;
     }
-
-    private Scanner scanner = new Scanner(System.in);
-    private User currentUser;
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     @FXML
     private Label RolesLabel;
@@ -68,26 +60,6 @@ public class Controller {
      */
     public Controller() {
         this.municipalTerritory = new MunicipalTerritory("Camerino");
-
-        // per testing
-        User u = new User("diosignore", "cagnaccio", "email", "password", new MunicipalTerritory("Camerino"), "cf");
-        Coordinates c1 = new Coordinates(1, 1);
-        Coordinates c2 = new Coordinates(2, 2);
-        POI poi1 = new POI("POI1", new Date(), u, c1, "descrizione");
-        POI poi2 = new POI("POI2", new Date(), u, c2, "descrizione");
-        List<POI> pois = new ArrayList<>();
-        pois.add(poi1);
-        pois.add(poi2);
-        this.municipalTerritory.addPOI(poi1);
-        this.municipalTerritory.addPOI(poi2);
-        Itinerary i = new Itinerary("Itinerario1", new Date(), u, pois, "descrizione");
-        this.municipalTerritory.addItinerary(i);
-        Date startDate = new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24); // 1 day from now
-        Date endDate = new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 48); // 2 days from now
-        Contest c = new Contest("Contest1", "Titolo", startDate, endDate);
-        this.municipalTerritory.addContest(c);
-        this.municipalTerritory.addGeneralContent(new Content(new Date(), u, "descrizione"));
-        // per testing
 
         platformManager = new PlatformManager("Elia", "Toma", "elia.toma@progetto.ids", "brodoCovid", this.municipalTerritory, "cf");
     }
@@ -107,8 +79,11 @@ public class Controller {
         });
     }
 
+    /**
+     * This method allows the user to register to the platform.
+     */
     @FXML
-    private void Register(ActionEvent event) throws IOException {
+    private void Register() {
         String nameValue = name.getText();
         String surnameValue = Cognome.getText();
         String fiscalCodeValue = Cf.getText();
@@ -146,6 +121,12 @@ public class Controller {
         }
     }
 
+    /**
+     * This method allows the user to login to the platform.
+     *
+     * @param event the event
+     * @throws IOException
+     */
     @FXML
     private void LoginView(ActionEvent event) throws IOException {
         Node node = (Node) event.getSource();

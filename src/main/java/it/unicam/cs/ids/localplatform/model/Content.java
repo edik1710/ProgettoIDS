@@ -19,6 +19,13 @@ public class Content implements Info {
         this.reports = 0;
     }
 
+    /**
+     * This method allows to report a content.
+     */
+    public void reportContent() {
+        this.reports++;
+    }
+
     public String getText() {
         return text;
     }
@@ -27,23 +34,16 @@ public class Content implements Info {
         this.text = text;
     }
 
+    public int getReports() {
+        return reports;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Content that = (Content) o;
         return this.text.equals(that.text);
-    }
-
-    /**
-     * This method allows to report a content.
-     */
-    public void reportContent() {
-        this.reports++;
-    }
-
-    public int getReports() {
-        return reports;
     }
 
     @Override
