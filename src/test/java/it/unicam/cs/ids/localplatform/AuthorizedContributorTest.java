@@ -79,7 +79,7 @@ public class AuthorizedContributorTest {
     public void publishPOIContentTest() {
         // Create necessary instances for the test
         Coordinates coord = new Coordinates(1, 1);
-        POI poi = new POI("POI", new Date(), ac, coord, "Descrizionesus");
+        POI poi = new POI("POI", new Date(), ac, coord, "Descrizione");
         Content content = new Content(new Date(), ac, "Content");
 
         // Execute the method
@@ -127,8 +127,8 @@ public class AuthorizedContributorTest {
     public void publishChangesToItineraryTest() {
         // Create necessary instances for the test
         List<POI> POIs = new ArrayList<>();
-        POIs.add(new POI("POI1", new Date(), ac, new Coordinates(1, 1), "Descrioione Itinerario 1"));
-        POIs.add(new POI("POI2", new Date(), ac, new Coordinates(2, 2), "Descrione Itinerario 2"));
+        POIs.add(new POI("POI1", new Date(), ac, new Coordinates(1, 1), "Descrizione"));
+        POIs.add(new POI("POI2", new Date(), ac, new Coordinates(2, 2), "Descrizione"));
         Itinerary itinerary = new Itinerary("Itinerary", new Date(), ac, POIs, "Description");
 
         // Execute the method

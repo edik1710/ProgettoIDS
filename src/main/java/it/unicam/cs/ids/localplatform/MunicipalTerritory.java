@@ -8,12 +8,12 @@ import java.util.*;
  * This class represents a municipal territory.
  */
 public class MunicipalTerritory {
-    private String municipalName;
+    private final String municipalName;
     private Map<Coordinates, POI> POIs;
-    private List<Content> generalContents;
+    private final List<Content> generalContents;
     private List<Itinerary> itineraries;
-    private List<Contest> contests;
-    private List<User> users;
+    private final List<Contest> contests;
+    private final List<User> users;
 
     public MunicipalTerritory(String municipalName) {
         this.municipalName = municipalName;
@@ -22,22 +22,6 @@ public class MunicipalTerritory {
         this.itineraries = new ArrayList<>();
         this.contests = new ArrayList<>();
         this.users = new ArrayList<>();
-    }
-
-    public Map<Coordinates, POI> getPOIs() {
-        return POIs;
-    }
-
-    public List<Content> getGeneralContents() {
-        return generalContents;
-    }
-
-    public List<Itinerary> getItineraries() {
-        return itineraries;
-    }
-
-    public String getMunicipalName() {
-        return municipalName;
     }
 
     /**
@@ -129,8 +113,23 @@ public class MunicipalTerritory {
 
     private void removeExpiredContests() {
         Date now = new Date();
-        // contest.contents --> municipality.contents
         this.contests.removeIf(contest -> contest.getEndDate().before(now));
+    }
+
+    public Map<Coordinates, POI> getPOIs() {
+        return POIs;
+    }
+
+    public List<Content> getGeneralContents() {
+        return generalContents;
+    }
+
+    public List<Itinerary> getItineraries() {
+        return itineraries;
+    }
+
+    public String getMunicipalName() {
+        return municipalName;
     }
 
     public List<Contest> getContests() {
@@ -141,35 +140,19 @@ public class MunicipalTerritory {
         return this.users;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        MunicipalTerritory that = (MunicipalTerritory) o;
-        return this.municipalName.equals(that.municipalName);
-    }
-
-    public void setMunicipalName(String municipalName) {
-        this.municipalName = municipalName;
-    }
-
     public void setPOIs(Map<Coordinates, POI> POIs) {
         this.POIs = POIs;
-    }
-
-    public void setGeneralContents(List<Content> generalContents) {
-        this.generalContents = generalContents;
     }
 
     public void setItineraries(List<Itinerary> itineraries) {
         this.itineraries = itineraries;
     }
 
-    public void setContests(List<Contest> contests) {
-        this.contests = contests;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MunicipalTerritory that = (MunicipalTerritory) o;
+        return this.municipalName.equals(that.municipalName);
     }
 }

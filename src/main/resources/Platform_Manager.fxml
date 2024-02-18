@@ -11,12 +11,6 @@
     <ListView fx:id="PendingUserList"/>
     <Button text="Lista degli utenti in attesa" onAction="#PendingUserList"/>
 
-    <!--
-    <Label text="Accetta o Rifiuta l'utente un utente"/>
-    <Label text="Email:"/>
-    <TextField fx:id="email"/>
-    -->
-
     <Button text="Accetta tutti gli utenti" onAction="#AcceptUsers"/>
     <Button text="Rifiuta tutti gli utenti" onAction="#RejectUsers"/>
 

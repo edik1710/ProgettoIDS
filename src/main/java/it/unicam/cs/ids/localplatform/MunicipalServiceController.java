@@ -3,7 +3,6 @@ package it.unicam.cs.ids.localplatform;
 import it.unicam.cs.ids.localplatform.command.*;
 import it.unicam.cs.ids.localplatform.model.*;
 import it.unicam.cs.ids.localplatform.queue.CommandVerificationQueue;
-import it.unicam.cs.ids.localplatform.web.POITableRepoitory;
 import it.unicam.cs.ids.localplatform.web.UserListRepository;
 import it.unicam.cs.ids.localplatform.web.UserTable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,15 +26,12 @@ public class MunicipalServiceController {
     private final MunicipalTerritory municipalTerritory = new MunicipalTerritory("Camerino");
 
     private final UserListRepository userRepository;
-    private final POITableRepoitory poiRepository;
 
     private User currentUser;
 
     @Autowired
-    public MunicipalServiceController(UserListRepository userRepository, POITableRepoitory poiRepository, FileService fileService) {
+    public MunicipalServiceController(UserListRepository userRepository) {
         this.userRepository = userRepository;
-        this.poiRepository = poiRepository;
-        //this.fileService = fileService;
         UserTable userTable1 = new UserTable();
         userTable1.setName("Edoardo");
         userTable1.setSurname("Dottori");
@@ -57,34 +53,6 @@ public class MunicipalServiceController {
         userTable2.setRole("Platform_Manager");
         userTable2.setPending(false);
         this.userRepository.save(userTable2);
-
-        // per testing
-        UserTable userTable3 = new UserTable();
-        userTable3.setName("Giovanni");
-        userTable3.setSurname("Bianchi");
-        userTable3.setEmail("g@g");
-        userTable3.setPassword("g");
-        userTable3.setResidence("Camerino");
-        userTable3.setCf("ggggggggggggggg");
-        userTable3.setRole("Contributor");
-        userTable3.setPending(false);
-        this.userRepository.save(userTable3);
-
-        UserTable userTable4 = new UserTable();
-        userTable4.setName("Francesco");
-        userTable4.setSurname("Pizzuto");
-        userTable4.setEmail("f@f");
-        userTable4.setPassword("f");
-        userTable4.setResidence("Pescara");
-        userTable4.setCf("fffffffffffffffff");
-        userTable4.setRole("Curator");
-        userTable4.setPending(false);
-        this.userRepository.save(userTable4);
-        // per testing
-    }
-
-    public void setCurrentUser(User currentUser) {
-        this.currentUser = currentUser;
     }
 
     public User getCurrentUser() {
@@ -171,15 +139,15 @@ public class MunicipalServiceController {
      */
     @RequestMapping("/POIs")
     public ResponseEntity<Object> getPOIs() {
-        // Recupera la mappa dei POI da MunicipalTerritory
+        // Retrieve the map of POIs from MunicipalTerritory.
         Map<Coordinates, POI> poiMap = municipalTerritory.getPOIs();
 
-        // Converti la lista di POI in un array di stringhe
+        // Convert the list of POIs into an array of strings.
         String[] poiListStringArray = poiMap.values().stream()
                 .map(POI::toString)
                 .toArray(String[]::new);
 
-        // Restituisce la lista di POI
+        // Return the list of POIs.
         return new ResponseEntity<>(poiListStringArray, HttpStatus.OK);
     }
 
@@ -192,12 +160,12 @@ public class MunicipalServiceController {
     public ResponseEntity<Object> getItineraries() {
         List<Itinerary> itineraries = municipalTerritory.getItineraries();
 
-        // Converti la lista di itinerari in un array di stringhe
+        // Convert the list of itineraries into an array of strings.
         String[] itinerariesStringArray = itineraries.stream()
                 .map(Itinerary::toString)
                 .toArray(String[]::new);
 
-        // Restituisci l'array di stringhe
+        // Return the array of strings.
         return new ResponseEntity<>(itinerariesStringArray, HttpStatus.OK);
     }
 
@@ -210,12 +178,12 @@ public class MunicipalServiceController {
     public ResponseEntity<Object> getGeneralContents() {
         List<Content> generalContents = municipalTerritory.getGeneralContents();
 
-        // Converti la lista di contenuti generali in un array di stringhe
+        // Convert the list of general contents into an array of strings.
         String[] generalContentsStringArray = generalContents.stream()
                 .map(Content::toString)
                 .toArray(String[]::new);
 
-        // Restituisci l'array di stringhe
+        // Return the array of strings.
         return new ResponseEntity<>(generalContentsStringArray, HttpStatus.OK);
     }
 
@@ -307,14 +275,14 @@ public class MunicipalServiceController {
      */
     @PostMapping("/AggiungiItinerario")
     public ResponseEntity<String> addItinerary(@RequestBody String[] array) {
-        // Converti la lista temporanea di coordinate in una lista di POI
+        // Convert the temporary list of coordinates into a list of POIs.
         List<POI> POIs = tempPOIList.stream()
                 .map(c -> this.municipalTerritory.getPOIs().get(c))
                 .collect(Collectors.toList());
 
         Itinerary itinerary = new Itinerary(array[0], new Date(), currentUser, POIs, array[1]);
 
-        // Verifica se l'itinerario esiste già
+        // Check if the itinerary already exists.
         if (!this.municipalTerritory.getItineraries().contains(itinerary)) {
             this.municipalTerritory.addItinerary(itinerary);
             tempPOIList.clear();
@@ -483,10 +451,10 @@ public class MunicipalServiceController {
      */
     @RequestMapping("/savedInfoList")
     public ResponseEntity<Object> getSavedInfoList() {
-        // Recupera l'utente corrente
+        // Retrieve the current user.
         User currentUser = getCurrentUser();
 
-        // Ottieni la lista di informazioni salvate se l'utente corrente è un AuthorizedTourist, altrimenti restituisci una lista vuota
+        // Retrieve the list of saved information if the current user is an AuthorizedTourist; otherwise, return an empty list.
         List<Info> savedInfoList = (currentUser instanceof AuthorizedTourist) ? ((AuthorizedTourist) currentUser).getSavedInfo() : Collections.emptyList();
 
         String[] savedInfoListArray = savedInfoList.stream()
@@ -506,45 +474,45 @@ public class MunicipalServiceController {
     public ResponseEntity<String> handleSaveInfo(@RequestBody String[] payload) {
         String infoToSave = payload[0];
 
-        // Verifica se l'utente corrente è un AuthorizedTourist
+        // Check if the current user is an AuthorizedTourist.
         if (currentUser instanceof AuthorizedTourist) {
-            // Cerca il contenuto tra i contenuti generali
+            // Search for the content among the general contents.
             Optional<Content> content = municipalTerritory.getGeneralContents().stream()
                     .filter(c -> c.getText().equals(infoToSave))
                     .findFirst();
 
-            // Se non è stato trovato tra i contenuti generali, cerca tra i POI
+            // If not found among the general contents, search among the POIs.
             if (content.isEmpty()) {
                 Optional<POI> poi = municipalTerritory.getPOIs().values().stream()
                         .filter(p -> p.getTitle().equals(infoToSave))
                         .findFirst();
 
-                // Se è stato trovato un POI, lo aggiunge alla lista di contenuti salvati
+                // If a POI is found, add it to the list of saved contents.
                 if (poi.isPresent()) {
                     ((AuthorizedTourist) currentUser).saveInfo(poi.get());
                     return new ResponseEntity<>("Information saved", HttpStatus.OK);
                 }
 
-                // Se non è stato trovato tra i POI, cerca tra gli itinerari
+                // If not found among the POIs, search among the itineraries.
                 Optional<Itinerary> itinerary = municipalTerritory.getItineraries().stream()
                         .filter(i -> i.getTitle().equals(infoToSave))
                         .findFirst();
 
-                // Se è stato trovato un itinerario, lo aggiunge alla lista di contenuti salvati
+                // If an itinerary is found, add it to the list of saved contents.
                 if (itinerary.isPresent()) {
                     ((AuthorizedTourist) currentUser).saveInfo(itinerary.get());
                     return new ResponseEntity<>("Information saved", HttpStatus.OK);
                 }
 
-                // Se non è stato trovato né tra i contenuti generali, né tra i POI, né tra gli itinerari
+                // If not found among the general contents, POIs, or itineraries.
                 return new ResponseEntity<>("Information not found", HttpStatus.BAD_REQUEST);
             }
 
-            // Se è stato trovato un contenuto generale, lo aggiunge alla lista di contenuti salvati
+            // If a general content is found, add it to the list of saved contents.
             ((AuthorizedTourist) currentUser).saveInfo(content.get());
             return new ResponseEntity<>("Information saved", HttpStatus.OK);
         } else {
-            // L'utente corrente non è un AuthorizedTourist
+            // The current user is not an AuthorizedTourist.
             return new ResponseEntity<>("User is not an AuthorizedTourist", HttpStatus.BAD_REQUEST);
         }
     }
@@ -581,14 +549,14 @@ public class MunicipalServiceController {
      */
     @PostMapping("/AggiungiPendingItinerario")
     public ResponseEntity<String> addPendingItinerary(@RequestBody String[] array) {
-        // Converti la lista temporanea di coordinate in una lista di POI
+        // Convert the temporary list of coordinates into a list of POIs.
         List<POI> POIs = tempPOIList.stream()
                 .map(c -> this.municipalTerritory.getPOIs().get(c))
                 .collect(Collectors.toList());
 
         Itinerary itinerary = new Itinerary(array[0], new Date(), currentUser, POIs, array[1]);
 
-        // Verifica se l'itinerario esiste già
+        // Check if the itinerary already exists.
         if (!this.municipalTerritory.getItineraries().contains(itinerary)) {
 
             Command command = new CreateItineraryCommand(itinerary, this.municipalTerritory);
