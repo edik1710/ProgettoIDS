@@ -21,3 +21,4 @@ Il progetto mira a sviluppare una piattaforma per la valorizzazione e digitalizz
 ## Tecnologie
 	•	Sviluppo in Java, successivamente portato su Spring Boot.
 	•	Strato di presentazione flessibile, con opzione di sviluppo via linea di comando e/o API REST.
+[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=anuraghazra&layout=donut)](https://github.com/anuraghazra/github-readme-stats)
